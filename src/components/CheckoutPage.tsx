@@ -334,10 +334,8 @@ export const CheckoutPage: React.FC = () => {
 
                                 {/* Line items */}
                                 <div className="space-y-2 border-t border-gray-200 pt-4">
-                                    <div className="flex items-start justify-between">
-                                        <div>
-                                            <p className="text-sm font-semibold text-gray-900">Interior Design — 6 Book Collection</p>
-                                        </div>
+                                    <div className="flex items-baseline justify-between">
+                                        <p className="text-sm font-semibold text-gray-900">Interior Design — 6 Book Collection</p>
                                         <p className="text-2xl font-bold text-gray-900">$49.00</p>
                                     </div>
                                 </div>
