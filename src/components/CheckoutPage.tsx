@@ -337,17 +337,16 @@ export const CheckoutPage: React.FC = () => {
                                     <div className="flex items-start justify-between">
                                         <div>
                                             <p className="text-sm font-semibold text-gray-900">Interior Design — 6 Book Collection</p>
-                                            <p className="text-xs text-gray-600 font-medium mt-0.5">800+ pages • Instant PDF download • Monthly free updates</p>
                                         </div>
                                         <p className="text-2xl font-bold text-gray-900">$49.00</p>
                                     </div>
                                 </div>
 
                                 {/* Trust badges */}
-                                <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-gray-600 font-semibold">
-                                    <span className="flex items-center gap-1.5"><Download size={12} /> Instant PDF</span>
-                                    <span className="flex items-center gap-1.5"><Shield size={12} /> Lifetime Access</span>
-                                    <span className="flex items-center gap-1.5"><ShieldCheck size={12} /> 30-Day Guarantee</span>
+                                <div className="flex items-center justify-between mt-3 text-[10px] sm:text-xs text-gray-600 font-semibold gap-1 whitespace-nowrap">
+                                    <span className="flex items-center gap-1"><Download size={12} className="shrink-0" /> Instant PDF</span>
+                                    <span className="flex items-center gap-1 text-blue-600"><Shield size={12} className="shrink-0" /> Lifetime Updates</span>
+                                    <span className="flex items-center gap-1"><ShieldCheck size={12} className="shrink-0" /> 30-Day Guarantee</span>
                                 </div>
                             </div>
                         </div>
