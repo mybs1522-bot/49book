@@ -131,7 +131,7 @@ const App: React.FC = () => {
 
 
                 {/* Trust line */}
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-xs text-gray-600 font-medium">
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-xs text-gray-800 font-semibold">
                   <span className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-emerald-500" /> 30-day money back</span>
                   <span className="flex items-center gap-1.5"><Zap size={14} className="text-orange-400" /> Instant PDF download</span>
                   <span className="flex items-center gap-1.5"><Infinity size={14} className="text-blue-400" /> Free lifetime updates</span>
@@ -565,7 +565,7 @@ const App: React.FC = () => {
                 Get Instant Access <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
               </button>
 
-              <p className="text-xs text-gray-400 mt-4">Secure payment · Instant download · No subscription</p>
+              <p className="text-xs text-gray-500 mt-4">Secure payment · Instant download · No subscription</p>
             </div>
           </div>
         </section>
@@ -605,7 +605,7 @@ const App: React.FC = () => {
           <div className="max-w-2xl mx-auto px-5 text-center relative z-10">
             <div className="reveal">
               <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-5 tracking-tight">Every day you wait is another design decision you might regret.</h2>
-              <p className="text-gray-400 text-lg mb-8">50,000+ designers and homeowners already have these books. The only question is — how many more mistakes will you make before you get them too?</p>
+              <p className="text-gray-500 text-lg mb-8">50,000+ designers and homeowners already have these books. The only question is — how many more mistakes will you make before you get them too?</p>
               <button onClick={navigateToCheckout} className="cta-primary px-10 py-5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
                 Get all 6 books — $49 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
               </button>

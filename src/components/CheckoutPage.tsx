@@ -105,7 +105,8 @@ export const CheckoutPage: React.FC = () => {
                 mode: 'payment',
                 amount: 4900,
                 currency: 'usd',
-                payment_method_types: ['card'], // Explicitly set to card to avoid "unsupported in your country" error for automatic methods
+                payment_method_types: ['card', 'crypto'], // Enabled crypto and card
+
                 appearance: {
                     theme: 'stripe',
                     variables: {
@@ -260,7 +261,7 @@ export const CheckoutPage: React.FC = () => {
                         </div>
                         <span className="font-semibold text-sm text-gray-900">Interior Design Books</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-xs text-gray-400">
+                    <div className="flex items-center gap-1.5 text-xs text-gray-600 font-medium">
                         <Lock size={12} />
                         <span className="hidden sm:inline">Secure Checkout</span>
                     </div>
@@ -268,10 +269,10 @@ export const CheckoutPage: React.FC = () => {
             </header>
 
             {/* === TIMER === */}
-            <div className="flex items-center justify-center gap-1.5 py-1.5 text-gray-400">
+            <div className="flex items-center justify-center gap-1.5 py-1.5 text-gray-600">
                 <Timer size={11} />
-                <span className="text-[11px] font-medium tracking-wide">Offer ends in</span>
-                <span className="font-mono text-[11px] font-semibold text-gray-600">{pad(timeLeft.h)}:{pad(timeLeft.m)}:{pad(timeLeft.s)}</span>
+                <span className="text-[11px] font-semibold tracking-wide">Offer ends in</span>
+                <span className="font-mono text-[11px] font-bold text-gray-900">{pad(timeLeft.h)}:{pad(timeLeft.m)}:{pad(timeLeft.s)}</span>
             </div>
 
             {/* === MAIN CONTENT === */}
@@ -288,7 +289,7 @@ export const CheckoutPage: React.FC = () => {
                         </div>
                         <div>
                             <h3 className="text-2xl font-bold text-gray-900">Payment Successful!</h3>
-                            <p className="text-gray-500 text-sm mt-2">Your interior design collection is ready.</p>
+                            <p className="text-gray-600 text-sm mt-2">Your interior design collection is ready.</p>
                         </div>
                         <button
                             onClick={() => window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc"}
@@ -297,7 +298,7 @@ export const CheckoutPage: React.FC = () => {
                             Download Now <Download size={18} />
                         </button>
                         <a href="https://wa.me/919198747810" target="_blank" rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-gray-500 text-xs font-medium hover:text-gray-700 transition-colors">
+                            className="inline-flex items-center gap-2 text-gray-600 text-xs font-semibold hover:text-gray-900 transition-colors">
                             <MessageSquare size={14} /> Need help? WhatsApp us
                         </a>
                     </div>
@@ -320,14 +321,13 @@ export const CheckoutPage: React.FC = () => {
                                 <div className="book-scroll mb-4">
                                     {BOOK_LABELS.map((book, i) => (
                                         <div key={book.key} className="group">
-                                            <div className="aspect-[3/4] rounded-lg overflow-hidden border border-gray-200 shadow-sm group-hover:shadow-md transition-shadow bg-white">
+                                            <div className="aspect-square rounded-lg overflow-hidden border border-gray-200 shadow-sm group-hover:shadow-md transition-shadow bg-white">
                                                 <img
                                                     src={(BOOK_IMAGES as any)[book.key]}
                                                     alt={book.label}
                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                                 />
                                             </div>
-                                            <p className="text-[10px] text-gray-500 font-medium text-center mt-1.5 leading-tight">{book.label}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -337,14 +337,14 @@ export const CheckoutPage: React.FC = () => {
                                     <div className="flex items-start justify-between">
                                         <div>
                                             <p className="text-sm font-semibold text-gray-900">Interior Design — 6 Book Collection</p>
-                                            <p className="text-xs text-gray-400 mt-0.5">800+ pages • Instant PDF download • Monthly free updates</p>
+                                            <p className="text-xs text-gray-600 font-medium mt-0.5">800+ pages • Instant PDF download • Monthly free updates</p>
                                         </div>
                                         <p className="text-2xl font-bold text-gray-900">$49.00</p>
                                     </div>
                                 </div>
 
                                 {/* Trust badges */}
-                                <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-gray-400 font-medium">
+                                <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-gray-600 font-semibold">
                                     <span className="flex items-center gap-1.5"><Download size={12} /> Instant PDF</span>
                                     <span className="flex items-center gap-1.5"><Shield size={12} /> Lifetime Access</span>
                                     <span className="flex items-center gap-1.5"><ShieldCheck size={12} /> 30-Day Guarantee</span>
@@ -435,7 +435,7 @@ export const CheckoutPage: React.FC = () => {
                                     </form>
 
                                     {/* Powered by Stripe */}
-                                    <div className="flex items-center justify-center gap-2 mt-2 text-xs text-gray-400">
+                                    <div className="flex items-center justify-center gap-2 mt-2 text-xs text-gray-600 font-medium">
                                         <span>Powered by</span>
                                         <span className="font-bold text-gray-500">stripe</span>
                                         <span className="mx-1">•</span>
@@ -447,7 +447,7 @@ export const CheckoutPage: React.FC = () => {
                             </div>
 
                             {/* Security note */}
-                            <div className="flex items-center justify-center gap-2 mt-2 text-xs text-gray-400">
+                            <div className="flex items-center justify-center gap-2 mt-2 text-xs text-gray-600 font-medium">
                                 <Lock size={11} />
                                 <span>256-bit SSL encrypted • Your payment info is secure</span>
                             </div>
