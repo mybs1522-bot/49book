@@ -97,7 +97,15 @@ const App: React.FC = () => {
             </div>
           </header>
 
-          <div className="max-w-6xl mx-auto px-5 relative z-10 pt-8 md:pt-20 pb-10 md:pb-24">
+          <div className="max-w-6xl mx-auto px-5 relative z-10 pt-8 md:pt-12 pb-10 md:pb-24">
+            {/* Top Collage Image */}
+            <div className="reveal mb-12 md:mb-20">
+              <img
+                src="/images/design-collage.png"
+                alt="Interior & Exterior Design Books Collage"
+                className="w-full h-auto shadow-sm"
+              />
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
               {/* Left — Copy */}
@@ -112,10 +120,10 @@ const App: React.FC = () => {
                   <span className="text-xs font-semibold text-orange-700">Join 50,000+ designers who stopped guessing</span>
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-[4.5rem] font-display font-black leading-[0.95] mb-6 text-gray-900 tracking-tightest text-balance max-w-4xl mx-auto lg:mx-0">
+                <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-display font-black leading-[0.95] mb-6 text-gray-900 tracking-tightest text-balance max-w-4xl mx-auto lg:mx-0">
                   The only <span className="font-serif italic font-normal text-orange-600">design resource</span>
                   <br />
-                  you'll ever need.
+                  you'll Refer to Design Best Interiors & Exteriors Possible.
                 </h1>
 
                 <p className="text-lg md:text-xl text-gray-700 font-medium mb-4 leading-relaxed max-w-xl mx-auto lg:mx-0">
@@ -125,7 +133,7 @@ const App: React.FC = () => {
                 {/* Author line */}
                 <p className="text-sm text-gray-600 mb-8 flex items-center justify-center lg:justify-start gap-2">
                   <span className="w-1 h-1 bg-orange-400 rounded-full" />
-                  Created by a firm with 1,000+ completed projects and 20 years of real-world experience
+                  Created by Architects and Designers for <span className="font-serif italic text-orange-600">Future Architects and Designers</span>
                 </p>
 
 
@@ -165,7 +173,7 @@ const App: React.FC = () => {
             <div className="reveal relative overflow-hidden" style={{ paddingBottom: '56.25%' }}>
               <iframe
                 title="Book flip-through preview"
-                src="https://iframe.mediadelivery.net/embed/494628/0c78b16a-d584-41b9-8f5e-12c341817f72?autoplay=true&loop=true&muted=true&preload=true&responsive=true"
+                src="https://iframe.mediadelivery.net/embed/494628/223e3dd8-1052-49ec-99f4-c326b50108e6?autoplay=true&loop=true&muted=true&preload=true&responsive=true"
                 loading="lazy"
                 style={{ border: 'none', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
                 allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
@@ -206,6 +214,29 @@ const App: React.FC = () => {
             </div>
           </div>
         </section>
+        <section className="py-8 md:py-12 bg-white">
+          <div className="max-w-3xl mx-auto px-5">
+            <div className="reveal">
+              <h2 className="text-2xl md:text-3xl font-display font-black text-gray-900 tracking-tight mb-6 text-center">
+                This Is For You <span className="font-serif italic font-normal text-orange-600">If...</span>
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {[
+                  { text: 'You want to stay 10 steps ahead of your contractor', icon: '✅' },
+                  { text: "You're designing for a client and want to deliver flawlessly", icon: '✅' },
+                  { text: 'You love designs that function beautifully and look amazing', icon: '✅' },
+                  { text: 'You believe in smart, intuitive design with purpose', icon: '✅' }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 px-4 py-3 bg-gray-50 rounded-xl border border-gray-100 hover:border-orange-100 transition-colors">
+                    <span className="text-base shrink-0">{item.icon}</span>
+                    <p className="text-gray-800 text-sm font-medium leading-snug">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ═══════════════════════════════════════════════
            SECTION 3C: SOUND FAMILIAR? — Pain Points
            ═══════════════════════════════════════════════ */}
@@ -334,59 +365,6 @@ const App: React.FC = () => {
         {/* ═══════════════════════════════════════════════
            SECTION 5: YOU NEED / YOU DON'T NEED
            ═══════════════════════════════════════════════ */}
-        <section className="py-8 md:py-24">
-          <div className="max-w-5xl mx-auto px-5">
-            <div className="reveal text-center mb-12">
-              <p className="text-orange-500 text-xs font-mono uppercase tracking-widest mb-3 font-semibold">Be honest with yourself</p>
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-gray-900 tracking-tight mb-3">This isn't for <span className="text-orange-500">everyone.</span></h2>
-              <p className="text-gray-600 text-lg max-w-2xl mx-auto">We'd rather be upfront. These books will transform how you design — but only if you're serious about it.</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* You NEED these books */}
-              <div className="reveal bg-gradient-to-br from-emerald-50 to-green-50 border-2 border-emerald-200 rounded-3xl p-8 relative overflow-hidden">
-                <div className="absolute top-4 right-4 bg-emerald-500 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">This is you?</div>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center"><CheckCircle2 size={20} className="text-emerald-500" /></div>
-                  <h3 className="text-xl font-bold text-gray-800">You'll wish you had these sooner…</h3>
-                </div>
-                <div className="space-y-3">
-                  {[
-                    `You're building or renovating and can't afford a single costly mistake — these books pay for themselves with the first decision they save you from`,
-                    `You're a designer who wants clients to see you as the expert who always has the right answer — instantly`,
-                    `You're tired of Googling dimensions every time and never being 100% sure if the source is reliable`,
-                    `You want the confidence that comes from knowing more than 95% of designers in the room`
-                  ].map((point, i) => (
-                    <div key={i} className="flex items-start gap-3 py-2">
-                      <CheckCircle2 size={16} className="text-emerald-500 mt-0.5 shrink-0" />
-                      <span className="text-gray-700 text-sm leading-relaxed">{point}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* You DON'T need these books */}
-              <div className="reveal bg-red-50/60 border border-red-100 rounded-3xl p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center"><X size={20} className="text-red-500" /></div>
-                  <h3 className="text-xl font-bold text-gray-800">Skip this if…</h3>
-                </div>
-                <div className="space-y-3">
-                  {[
-                    `You're comfortable spending $5,000–$15,000 fixing design mistakes later (most people are, until they get the bill)`,
-                    `You think watching a few YouTube videos makes you as qualified as someone with 20 years of experience`,
-                    `You don't mind your clients finding out you've been eyeballing clearances this whole time`,
-                    `You believe good design is just about "how it looks" — and not about how it functions every day for the next 30 years`
-                  ].map((point, i) => (
-                    <div key={i} className="flex items-start gap-3 py-2">
-                      <X size={16} className="text-red-400 mt-0.5 shrink-0" />
-                      <span className="text-gray-700 text-sm leading-relaxed">{point}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* ═══════════════════════════════════════════════
            SECTION 5B: WHO THIS IS FOR
