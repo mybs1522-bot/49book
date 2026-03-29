@@ -85,10 +85,10 @@ export const BOOK_THUMBNAILS = [
 ];
 
 export const PROBLEM_POINTS = [
-  { emoji: "😩", text: "You spend hours searching for the right dimensions — and still end up with rooms that feel 'off.' Something's always wrong but you can't figure out what." },
-  { emoji: "💸", text: "You bought expensive furniture that looked stunning in the store… but at home it blocks walkways, clashes with the wall, and now you live with the regret every single day." },
-  { emoji: "😶", text: "You've tried hiring designers, watching videos, reading blogs — but nobody gives you the actual numbers. Just vibes and mood boards that don't work in real life." },
-  { emoji: "🤯", text: "Deep down, you know your home could look incredible. You have the taste. What's missing isn't inspiration — it's the precise knowledge that separates amateurs from professionals." },
+  { emoji: "😩", text: "You spend hours searching for dimensions... and the room still feels 'off.' You know something's wrong but can't figure out what." },
+  { emoji: "💸", text: "That expensive furniture looked perfect in the store. At home? It blocks the walkway. Now you live with the regret every single day." },
+  { emoji: "😶", text: "Designers, YouTube, blogs — nobody gives you the actual numbers. Just vibes and mood boards that don't translate to real life." },
+  { emoji: "🤯", text: "You have the taste. What's missing is the precise knowledge that separates pros from amateurs. The handmade diagrams that show what's right and what's wrong." },
 ];
 
 export const TRANSFORMATION_STORIES = [
@@ -131,7 +131,7 @@ export const Logo = () => (
       <BookOpen size={20} className="text-white" />
     </div>
     <div>
-      <span className="font-display font-bold text-base tracking-tight leading-none text-gray-900 whitespace-nowrap block">Interior Design System</span>
+      <span className="font-display font-bold text-base tracking-tight leading-none text-gray-900 whitespace-nowrap block">Home Design Books</span>
       <span className="text-[9px] font-bold uppercase tracking-widest text-gray-600 whitespace-nowrap">6 Books · 800+ Pages</span>
     </div>
   </div>

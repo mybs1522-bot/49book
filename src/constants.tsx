@@ -190,24 +190,24 @@ export const TESTIMONIALS: Testimonial[] = [
 
 export const FAQ_ITEMS: FaqItem[] = [
   {
-    question: "Can't I just learn interior design from YouTube for free?",
-    answer: "You can find individual tips—but nobody teaches the full system. These books cover clearances, services, materials, lighting, and dimensions for every room type. It's 800+ pages of structured, practical knowledge you won't find in scattered videos."
+    question: "Can't I just learn this from YouTube for free?",
+    answer: "Sure, you can find scattered tips. But nobody teaches the complete system. These books give you 800+ pages of clearances, dimensions, materials, and layouts—all in one place. No more hunting through 50 videos to find one measurement."
   },
   {
-    question: "Do I need any architecture or design background?",
-    answer: "Not at all. These books are written for absolute beginners. Every concept is explained with diagrams, dimensions, and real examples."
+    question: "Do I need a design background to understand this?",
+    answer: "Not at all. These are written for complete beginners. Every concept has handmade diagrams, exact dimensions, and real examples. If you can read, you can use these."
   },
   {
-    question: "Are the designs relevant to modern apartments and homes?",
-    answer: "Yes—the books cover standard home sizes, modern layout principles, climate considerations, and space optimization techniques specifically for contemporary living."
+    question: "Will this work for modern homes and apartments?",
+    answer: "Yes. These cover standard home sizes, modern layouts, climate considerations, and space optimization for contemporary living. Whether you're in a 500 sqft apartment or a 3000 sqft house—it's all here."
   },
   {
-    question: "Will I get updates if new content is added?",
-    answer: "Absolutely. You get free lifetime updates. As design trends evolve and new materials become available, we update the books and you receive the new versions at no extra cost."
+    question: "What if the content gets outdated?",
+    answer: "You get free lifetime updates. When we add new content or update dimensions, you get the new version at no extra cost. Buy once, benefit forever."
   },
   {
-    question: "Can I use these books for commercial projects?",
-    answer: "Yes. Architecture students, developers, and design consultants all use these as practical references. The clearance charts, dimension guides, and material recommendations apply to both residential and commercial interiors."
+    question: "Can I use this for client projects?",
+    answer: "Absolutely. Architecture students, developers, and design consultants use these as their reference library. The clearance charts and dimension guides work for both residential and commercial projects."
   }
 ];
 

@@ -101,8 +101,8 @@ const App: React.FC = () => {
             {/* Top Collage Image */}
             <div className="reveal mb-12 md:mb-20">
               <img
-                src="/images/design-collage.png"
-                alt="Interior & Exterior Design Books Collage"
+                src="/images/hero-collage.png"
+                alt="6 Books For Interior/Exterior Designing"
                 className="w-full h-auto shadow-sm"
               />
             </div>
@@ -120,23 +120,23 @@ const App: React.FC = () => {
                   <span className="text-xs font-semibold text-orange-700">Join 50,000+ designers who stopped guessing</span>
                 </div>
 
+                <p className="text-base md:text-lg text-gray-600 mb-3 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                  If you're an <span className="font-semibold text-gray-900">Architect, Interior Designer, or Homeowner</span> who wants to design the best homes possible...
+                </p>
+
                 <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-display font-black leading-[0.95] mb-6 text-gray-900 tracking-tightest text-balance max-w-4xl mx-auto lg:mx-0">
-                  The only <span className="font-serif italic font-normal text-orange-600">design resource</span>
-                  <br />
-                  you'll Refer to Design Best Interiors & Exteriors Possible.
+                  You don't need to <span className="font-serif italic font-normal text-orange-600">waste time</span> searching anymore.
                 </h1>
 
                 <p className="text-lg md:text-xl text-gray-700 font-medium mb-4 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                  6 books. 800+ pages. Every dimension, every clearance, every layout secret that top designers charge thousands to know — now in your hands for less than a dinner out.
+                  We've done the heavy lifting. <span className="font-bold text-gray-900">6 books. 800+ pages.</span> Every dimension, every clearance, every layout — all the <span className="font-serif italic text-orange-600">handmade diagrams</span> that show you what's <span className="font-bold text-emerald-600">right</span> and what goes <span className="font-bold text-red-600">wrong</span>.
                 </p>
 
                 {/* Author line */}
                 <p className="text-sm text-gray-600 mb-8 flex items-center justify-center lg:justify-start gap-2">
                   <span className="w-1 h-1 bg-orange-400 rounded-full" />
-                  Created by Architects and Designers for <span className="font-serif italic text-orange-600">Future Architects and Designers</span>
+                  Created by Architects who've seen <span className="font-serif italic text-orange-600">every mistake possible</span> — so you don't make them
                 </p>
-
-
 
                 {/* Trust line */}
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-xs text-gray-800 font-semibold">
@@ -169,8 +169,7 @@ const App: React.FC = () => {
            ═══════════════════════════════════════════════ */}
         <section className="py-8 md:py-24">
           <div className="max-w-4xl mx-auto px-5">
-
-            <div className="reveal relative overflow-hidden" style={{ paddingBottom: '56.25%' }}>
+            <div className="reveal relative overflow-hidden rounded-2xl shadow-2xl" style={{ paddingBottom: '56.25%' }}>
               <iframe
                 title="Book flip-through preview"
                 src="https://iframe.mediadelivery.net/embed/494628/223e3dd8-1052-49ec-99f4-c326b50108e6?autoplay=true&loop=true&muted=true&preload=true&responsive=true"
@@ -194,31 +193,34 @@ const App: React.FC = () => {
         <section className="py-8 md:py-20">
           <div className="max-w-3xl mx-auto px-5">
             <div className="reveal text-center space-y-6">
-              <h2 className="text-3xl md:text-5xl font-display font-black text-gray-900 tracking-tightest leading-[1] text-balance">
-                What if you never made <span className="font-serif italic font-normal text-orange-600">another design mistake?</span>
+              <p className="text-gray-600 text-base md:text-lg mb-2 italic">
+                In our business of Architecture and Design, <span className="font-bold text-gray-900 not-italic">knowing the right dimensions and clearances</span> matters the most.
+              </p>
+              <p className="text-gray-700 text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-4">
+                And now, the question is no longer <span className="font-serif italic">how</span> to learn it. The real question is...
+              </p>
+              <h2 className="text-4xl md:text-6xl font-display font-black text-orange-600 tracking-tightest leading-[1] text-balance mb-8">
+                How to learn it WITHOUT making expensive mistakes?
               </h2>
-              <p className="text-gray-700 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-                Most people don't realize how much money they waste on bad design decisions — wrong furniture sizes, awkward layouts, wasted space. One kitchen redo alone costs more than these 6 books combined.
-              </p>
-              <p className="text-gray-600 text-base md:text-lg leading-relaxed max-w-2xl mx-auto font-medium">
-                These aren't ordinary books. They contain <strong className="text-gray-900">hand-made diagrams with exact measurements</strong> — the same knowledge that professional firms guard closely and charge thousands of dollars for.
-              </p>
-              <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-100 rounded-2xl p-6 md:p-8 max-w-2xl mx-auto">
-                <p className="text-gray-600 text-sm md:text-base leading-relaxed italic">
-                  "If after reading these books you still need to look anywhere else for interior design knowledge — we'll refund you. No questions asked."
-                </p>
-                <p className="text-gray-900 font-bold text-sm mt-3">
-                  That's how certain we are. Nobody else in this industry makes that promise.
-                </p>
+              <div className="bg-gradient-to-r from-orange-50 to-amber-50 border-l-4 border-orange-500 rounded-2xl p-6 md:p-8 max-w-2xl mx-auto">
+                <div className="flex items-start gap-4">
+                  <span className="text-3xl shrink-0">�</span>
+                  <div>
+                    <p className="text-gray-800 text-base md:text-lg leading-relaxed">
+                      That's <span className="font-bold text-orange-600">exactly why</span> we created these 6 books. <span className="font-bold text-orange-600">800+ pages of handmade diagrams</span> showing you every dimension, every clearance, every layout — what works and what fails. <span className="font-serif italic text-gray-900">Learn in hours what took us 20 years to master.</span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
+
         <section className="py-8 md:py-12 bg-white">
           <div className="max-w-3xl mx-auto px-5">
             <div className="reveal">
               <h2 className="text-2xl md:text-3xl font-display font-black text-gray-900 tracking-tight mb-6 text-center">
-                This Is For You <span className="font-serif italic font-normal text-orange-600">If...</span>
+                Here's the thing — <span className="font-serif italic font-normal text-orange-600">this is for you if...</span>
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {[
@@ -244,7 +246,8 @@ const App: React.FC = () => {
           <div className="max-w-4xl mx-auto px-5">
             <div className="reveal text-center mb-12">
               <p className="text-orange-600 text-xs font-bold uppercase tracking-[0.2em] mb-4 font-display">Sound familiar?</p>
-              <h2 className="text-3xl md:text-6xl font-display font-black text-gray-900 tracking-tightest">The <span className="font-serif italic font-normal text-orange-600">expensive trap</span> nobody warns you about</h2>
+              <h2 className="text-3xl md:text-6xl font-display font-black text-gray-900 tracking-tightest">You know what <span className="font-serif italic font-normal text-orange-600">really hurts?</span></h2>
+              <p className="text-gray-600 text-lg mt-4 mb-8">It's not that you don't care about design. You do. But...</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {PROBLEM_POINTS.map((p, i) => (
@@ -264,9 +267,12 @@ const App: React.FC = () => {
           <div className="max-w-3xl mx-auto px-5">
             <div className="reveal">
               <div className="border-t-[6px] border-orange-500 pt-10">
-                <h2 className="text-3xl md:text-5xl font-display font-black text-gray-900 tracking-tightest text-center mb-12">
-                  Why designers call this <span className="font-serif italic font-normal text-orange-600">a career-changer</span>
+                <h2 className="text-3xl md:text-5xl font-display font-black text-gray-900 tracking-tightest text-center mb-6">
+                  But here's what makes these books <span className="font-serif italic font-normal text-orange-600">different</span>
                 </h2>
+                <p className="text-center text-gray-600 text-lg mb-12 max-w-2xl mx-auto">
+                  They're not just theory. They're <span className="font-bold text-gray-900">handmade diagrams</span> that show you <span className="font-bold text-emerald-600">exactly what works</span> and <span className="font-bold text-red-600">exactly what fails</span>.
+                </p>
                 <div className="space-y-4 max-w-xl mx-auto">
                   {[
                     { emoji: '💡', bold: "Instantly look more professional", rest: ' — clients notice when you know exact dimensions without checking your phone' },
@@ -295,7 +301,8 @@ const App: React.FC = () => {
           <div className="max-w-5xl mx-auto px-5">
             <div className="reveal text-center mb-10">
               <p className="text-orange-600 text-xs font-bold uppercase tracking-[0.2em] mb-4 font-display">What's inside</p>
-              <h2 className="text-3xl md:text-6xl font-display font-black text-gray-900 tracking-tightest">800+ pages of <span className="font-serif italic font-normal text-orange-600">pure gold</span></h2>
+              <h2 className="text-3xl md:text-6xl font-display font-black text-gray-900 tracking-tightest">800+ pages that cover <span className="font-serif italic font-normal text-orange-600">everything</span></h2>
+              <p className="text-gray-600 text-lg mt-4">Every clearance. Every dimension. Every mistake you could possibly make — <span className="font-bold text-gray-900">and how to avoid it</span>.</p>
             </div>
 
             {/* Book tabs */}
@@ -339,25 +346,23 @@ const App: React.FC = () => {
         </section>
 
         {/* ═══════════════════════════════════════════════
-           SECTION 3: SOCIAL PROOF STATS BAR
-           ═══════════════════════════════════════════════ */}
-
-        {/* ═══════════════════════════════════════════════
            SECTION 4: THE BACKSTORY — Build Trust
            ═══════════════════════════════════════════════ */}
         <section className="py-8 md:py-24 bg-gray-50">
           <div className="max-w-3xl mx-auto px-5">
             <div className="reveal text-center mb-12">
-              <p className="text-orange-600 text-xs font-bold uppercase tracking-[0.2em] mb-4 font-display">The real story</p>
+              <p className="text-orange-600 text-xs font-bold uppercase tracking-[0.2em] mb-4 font-display">Here's the truth</p>
               <h2 className="text-3xl md:text-5xl font-serif italic text-gray-900 mb-8 leading-[1.1] tracking-tight text-balance">
-                "We got tired of watching people destroy their dream homes with one bad decision."
+                "We got tired of watching people waste money on mistakes that could've been avoided."
               </h2>
             </div>
             <div className="reveal space-y-5 text-gray-700 text-base md:text-lg leading-relaxed">
-              <p>After 20 years and 1,000+ projects, we've seen it all. Beautiful homes ruined by <strong className="text-gray-800">one wrong measurement. One forgotten clearance. One layout that looked great on paper but was a nightmare to live in.</strong> And every single time, the homeowner says the same thing: "I wish someone had just told me."</p>
-              <p>Here's what nobody tells you: hiring a designer doesn't guarantee you'll avoid these mistakes. Most designers <strong className="text-gray-900">don't share their dimensional knowledge</strong> — because that's their competitive edge. And YouTube? It teaches you trends. Trends expire. <strong className="text-gray-800">Dimensions don't.</strong></p>
-              <p>So we did something no architectural firm has done before — we took <strong className="text-gray-900">every measurement, every clearance, every layout principle</strong> we've learned across two decades and put it into 6 beautifully illustrated books. This isn't theory. This is the exact knowledge that has saved our clients hundreds of thousands of dollars in renovation mistakes.</p>
-              <p className="text-gray-900 font-semibold text-lg md:text-xl pt-4 border-l-4 border-orange-400 pl-5">800+ pages of proprietary knowledge that took 20 years to accumulate — yours in minutes. This is the shortcut that didn't exist until now.</p>
+              <p>After 20 years and 1,000+ projects, we've seen it all. Beautiful homes ruined by <strong className="text-gray-800">one wrong measurement.</strong> One forgotten clearance. One layout that looked perfect on paper but felt <span className="font-serif italic">completely wrong</span> in real life.</p>
+              <p>And every single time, the homeowner says: <span className="font-serif italic text-gray-900">"I wish someone had just told me."</span></p>
+              <p>Look, here's what nobody tells you: <strong className="text-gray-900">hiring a designer doesn't guarantee you'll avoid these mistakes.</strong> Most designers keep their dimensional knowledge secret — it's their competitive edge.</p>
+              <p>And YouTube? It teaches you trends. <span className="font-bold text-gray-900">Trends expire. Dimensions don't.</span></p>
+              <p>So we did something different. We took <strong className="text-gray-900">every measurement, every clearance, every layout principle</strong> we've learned and put it into 6 books with <span className="font-bold text-orange-600">handmade diagrams</span> that show you what's right and what's wrong.</p>
+              <p className="text-gray-900 font-semibold text-lg md:text-xl pt-4 border-l-4 border-orange-400 pl-5">20 years of knowledge — yours in hours. No guessing. No mistakes. Just <span className="font-serif italic">clarity</span>.</p>
             </div>
           </div>
         </section>
@@ -380,7 +385,7 @@ const App: React.FC = () => {
                 const IconComp = ICON_MAP[ind.icon] || Home;
                 return (
                   <div key={i} className="reveal text-center bg-white border border-gray-100 rounded-2xl p-5 hover:border-orange-200 hover:shadow-lg transition-all group">
-                    <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-orange-50 flex items-center justify-center group-hover:bg-orange-100 transition-colors">
+                    <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-orange-50 flex items-center justify-center">
                       <IconComp size={22} className="text-orange-500" />
                     </div>
                     <p className="text-xs font-semibold text-gray-700">{ind.label}</p>
@@ -390,7 +395,6 @@ const App: React.FC = () => {
             </div>
           </div>
         </section>
-
 
         {/* ═══════════════════════════════════════════════
            SECTION 6B: WHAT YOU GET — Features
@@ -416,7 +420,6 @@ const App: React.FC = () => {
           </div>
         </section>
 
-
         {/* ═══════════════════════════════════════════════
            SECTION 7B: HOW TO USE IT — Business Modules
            ═══════════════════════════════════════════════ */}
@@ -424,7 +427,7 @@ const App: React.FC = () => {
           <div className="max-w-5xl mx-auto px-5">
             <div className="reveal text-center mb-12">
               <p className="text-orange-600 text-xs font-bold uppercase tracking-[0.2em] mb-4 font-display">Start using them today</p>
-              <h2 className="text-3xl md:text-5xl font-display font-black text-gray-900 tracking-tightest">4 ways this <span className="font-serif italic font-normal text-orange-600">pays for itself</span> immediately</h2>
+              <h2 className="text-3xl md:text-5xl font-display font-black text-gray-900 tracking-tightest">Here's how this <span className="font-serif italic font-normal text-orange-600">pays for itself</span> instantly</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {BUSINESS_MODULES.map((mod, i) => {
@@ -451,8 +454,8 @@ const App: React.FC = () => {
         <section className="py-16 md:py-24 overflow-hidden">
           <div className="px-5 mb-12 text-center">
             <div className="reveal">
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-gray-900 tracking-tight mb-3">50,000+ readers <span className="text-orange-500">can't be wrong</span></h2>
-              <p className="text-gray-600 text-lg">See why people call this the best design investment they've ever made.</p>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-gray-900 tracking-tight mb-3">Don't just take <span className="text-orange-500">our word for it</span></h2>
+              <p className="text-gray-600 text-lg">50,000+ designers and homeowners already have these books. Here's what they're saying:</p>
             </div>
           </div>
 
@@ -469,7 +472,7 @@ const App: React.FC = () => {
                     <div className="w-9 h-9 rounded-full bg-orange-100 flex items-center justify-center font-bold text-sm text-orange-600">{t.name[0]}</div>
                     <div>
                       <p className="text-sm font-semibold text-gray-800 flex items-center gap-1">{t.name} <CheckCircle2 size={12} className="text-emerald-500" /></p>
-                      <p className="text-[10px] text-gray-400 uppercase tracking-widest">{t.role} • {t.location}</p>
+                      <p className="text-[10px] text-gray-600 uppercase tracking-widest">{t.role} • {t.location}</p>
                     </div>
                   </div>
                 </div>
@@ -507,9 +510,9 @@ const App: React.FC = () => {
               <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-emerald-50 mb-6">
                 <ShieldCheck size={36} className="text-emerald-500" />
               </div>
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4 tracking-tight">You're protected. Completely.</h2>
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4 tracking-tight">And yes, you're <span className="text-emerald-600">completely protected</span></h2>
               <p className="text-gray-700 text-lg leading-relaxed max-w-xl mx-auto">
-                Try the books for a full 30 days. If they don't change how you approach design, we'll refund every rupee. No questions, no forms — just an email. We take the risk so you don't have to.
+                Try the books for 30 days. If they don't change how you design — <span className="font-bold text-gray-900">we'll refund every penny.</span> No questions. No forms. Just an email. <span className="font-serif italic">We take the risk, not you.</span>
               </p>
             </div>
 
@@ -554,7 +557,8 @@ const App: React.FC = () => {
         <section className="py-16 md:py-24 bg-gray-50">
           <div className="max-w-3xl mx-auto px-5">
             <div className="reveal text-center mb-12">
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-gray-900 tracking-tight">Still thinking about it?</h2>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-gray-900 tracking-tight">Still have <span className="text-orange-500">questions?</span></h2>
+              <p className="text-gray-600 text-lg mt-3">We get it. Here are the answers:</p>
             </div>
             <div className="space-y-3">
               {FAQ_ITEMS.map((faq, i) => (
@@ -582,8 +586,8 @@ const App: React.FC = () => {
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-radial from-orange-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
           <div className="max-w-2xl mx-auto px-5 text-center relative z-10">
             <div className="reveal">
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-5 tracking-tight">Every day you wait is another design decision you might regret.</h2>
-              <p className="text-gray-500 text-lg mb-8">50,000+ designers and homeowners already have these books. The only question is — how many more mistakes will you make before you get them too?</p>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-5 tracking-tight">Look, every day you wait is another <span className="font-serif italic text-orange-400">mistake</span> you might make.</h2>
+              <p className="text-gray-400 text-lg mb-8">50,000+ people already have these books. The only question is — <span className="font-bold text-white">how many more mistakes will you make before you join them?</span></p>
               <button onClick={navigateToCheckout} className="cta-primary px-10 py-5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
                 Get all 6 books — $49 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
               </button>
