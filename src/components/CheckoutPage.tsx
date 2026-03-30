@@ -57,6 +57,7 @@ export const CheckoutPage: React.FC = () => {
     const [viewState, setViewState] = useState<'FORM' | 'PROCESSING' | 'SUCCESS'>('FORM');
     const [timeLeft, setTimeLeft] = useState({ h: 0, m: 0, s: 0 });
     const [isVisible, setIsVisible] = useState(false);
+    const [hidePayPal, setHidePayPal] = useState(false);
 
     const stripeRef = useRef<any>(null);
     const elementsRef = useRef<any>(null);
@@ -130,6 +131,16 @@ export const CheckoutPage: React.FC = () => {
             const peMount = document.getElementById('stripe-payment-element');
             if (peMount) paymentElement.mount('#stripe-payment-element');
 
+            // Hide PayPal when user interacts with card input
+            paymentElement.on('change', (event: any) => {
+                if (event.complete || event.value) {
+                    setHidePayPal(true);
+                }
+            });
+            paymentElement.on('focus', () => {
+                setHidePayPal(true);
+            });
+
             // Link authentication element — captures email and enables Link autofill
             const linkAuth = elementsRef.current.create('linkAuthentication', {});
             const linkMount = document.getElementById('stripe-link-auth');
@@ -196,6 +207,13 @@ export const CheckoutPage: React.FC = () => {
                 confirmParams: {
                     return_url: window.location.origin + '/checkout?success=true',
                     receipt_email: email,
+                    payment_method_data: {
+                        billing_details: {
+                            address: {
+                                country: 'US',
+                            },
+                        },
+                    },
                 },
                 redirect: 'if_required',
             });
@@ -401,13 +419,16 @@ export const CheckoutPage: React.FC = () => {
                                     </button>
 
                                     {/* OR divider */}
-                                    <div className="flex items-center gap-2">
-                                        <div className="flex-1 h-px bg-gray-200" />
-                                        <span className="text-[10px] font-semibold text-gray-400 uppercase">OR</span>
-                                        <div className="flex-1 h-px bg-gray-200" />
-                                    </div>
+                                    {!hidePayPal && (
+                                        <div className="flex items-center gap-2">
+                                            <div className="flex-1 h-px bg-gray-200" />
+                                            <span className="text-[10px] font-semibold text-gray-400 uppercase">OR</span>
+                                            <div className="flex-1 h-px bg-gray-200" />
+                                        </div>
+                                    )}
 
                                     {/* PayPal button */}
+                                    {!hidePayPal && (
                                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" onSubmit={handlePaypalSubmit}>
                                         <input type="hidden" name="cmd" value="_xclick" />
                                         <input type="hidden" name="business" value={PAYPAL_BUSINESS_EMAIL} />
@@ -423,6 +444,7 @@ export const CheckoutPage: React.FC = () => {
                                             Download with <img src={PAYPAL_LOGO_URL} alt="PayPal" className="h-5 object-contain" />
                                         </button>
                                     </form>
+                                    )}
 
                                     {/* Powered by Stripe */}
                                     <div className="flex items-center justify-center gap-2 mt-2 text-xs text-gray-600 font-medium">

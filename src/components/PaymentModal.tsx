@@ -40,6 +40,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
     const [timeLeft, setTimeLeft] = useState({ h: 2, m: 14, s: 30 });
     const [addedBooksCount, setAddedBooksCount] = useState(0);
     const [showBundleDetails, setShowBundleDetails] = useState(false);
+    const [hidePayPalButton, setHidePayPalButton] = useState(false);
 
     const stripeRef = useRef<any>(null);
     const elementsRef = useRef<any>(null);
@@ -193,6 +194,16 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
                 setIsStripeLoaded(true);
             }
 
+            // Hide PayPal button when user interacts with card input
+            paymentElement.on('change', (event: any) => {
+                if (event.complete || event.value) {
+                    setHidePayPalButton(true);
+                }
+            });
+            paymentElement.on('focus', () => {
+                setHidePayPalButton(true);
+            });
+
         } catch (err: any) {
             console.error("Stripe UI Init Failed:", err);
             setErrorMessage("Card gateway unavailable. Please try PayPal.");
@@ -260,6 +271,13 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
                 confirmParams: {
                     return_url: `${window.location.origin}/success?email=${email}&method=stripe`,
                     receipt_email: email,
+                    payment_method_data: {
+                        billing_details: {
+                            address: {
+                                country: 'US',
+                            },
+                        },
+                    },
                 },
                 clientSecret: clientSecret,
                 redirect: 'if_required'
@@ -467,12 +485,14 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
                                         )}
                                     </button>
 
+                                    {!hidePayPalButton && (
                                     <button
                                         onClick={() => setPaymentMethod('paypal')}
                                         className={`flex items-center justify-center gap-2 py-3.5 rounded-xl border transition-all duration-200 whitespace-nowrap ${paymentMethod === 'paypal' ? 'bg-[#0070ba]/5 border-[#0070ba] text-[#0070ba] shadow-sm' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
                                     >
                                         <img src={PAYPAL_LOGO_URL} alt="PayPal" className="h-5 object-contain" />
                                     </button>
+                                    )}
                                 </div>
 
                                 {/* Bundle Contents List - Condensed */}
