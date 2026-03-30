@@ -209,7 +209,11 @@ export const CheckoutPage: React.FC = () => {
                         billing_details: {
                             address: {
                                 country: 'US',
-                                postal_code: '00000',
+                                state: 'CA',
+                                city: 'Los Angeles',
+                                line1: '123 Main St',
+                                line2: '',
+                                postal_code: '90001',
                             },
                         },
                     },

@@ -273,7 +273,11 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
                         billing_details: {
                             address: {
                                 country: 'US',
-                                postal_code: '00000',
+                                state: 'CA',
+                                city: 'Los Angeles',
+                                line1: '123 Main St',
+                                line2: '',
+                                postal_code: '90001',
                             },
                         },
                     },
