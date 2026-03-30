@@ -127,7 +127,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
                 mode: 'payment',
                 amount: 4900,
                 currency: 'usd',
-                paymentMethodTypes: ['card'],
+                automatic_payment_methods: { enabled: true },
                 appearance: {
                     theme: 'flat',
                     labels: 'floating',
@@ -260,18 +260,6 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
                 confirmParams: {
                     return_url: `${window.location.origin}/success?email=${email}&method=stripe`,
                     receipt_email: email,
-                    payment_method_data: {
-                        billing_details: {
-                            email: email,
-                            address: {
-                                country: 'US',
-                                postal_code: '10001',
-                                state: 'NY',
-                                city: 'New York',
-                                line1: '1235 Sixth Ave'
-                            }
-                        }
-                    }
                 },
                 clientSecret: clientSecret,
                 redirect: 'if_required'

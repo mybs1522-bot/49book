@@ -105,7 +105,7 @@ export const CheckoutPage: React.FC = () => {
                 mode: 'payment',
                 amount: 4900,
                 currency: 'usd',
-                payment_method_types: ['card', 'crypto'], // Enabled crypto and card
+                automatic_payment_methods: { enabled: true },
 
                 appearance: {
                     theme: 'stripe',
@@ -196,13 +196,6 @@ export const CheckoutPage: React.FC = () => {
                 confirmParams: {
                     return_url: window.location.origin + '/checkout?success=true',
                     receipt_email: email,
-                    payment_method_data: {
-                        billing_details: {
-                            name,
-                            email,
-                            address: { country: 'US', postal_code: '10001', state: 'NY', city: 'New York', line1: '1235 Sixth Ave' }
-                        }
-                    }
                 },
                 redirect: 'if_required',
             });
