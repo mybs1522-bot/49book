@@ -194,14 +194,11 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
                 setIsStripeLoaded(true);
             }
 
-            // Hide PayPal button when user interacts with card input
+            // Hide PayPal button when user starts entering card digits
             paymentElement.on('change', (event: any) => {
-                if (event.complete || event.value) {
+                if (event.value && Object.keys(event.value).length > 0) {
                     setHidePayPalButton(true);
                 }
-            });
-            paymentElement.on('focus', () => {
-                setHidePayPalButton(true);
             });
 
         } catch (err: any) {
@@ -275,6 +272,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
                         billing_details: {
                             address: {
                                 country: 'US',
+                                postal_code: '00000',
                             },
                         },
                     },

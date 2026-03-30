@@ -131,14 +131,11 @@ export const CheckoutPage: React.FC = () => {
             const peMount = document.getElementById('stripe-payment-element');
             if (peMount) paymentElement.mount('#stripe-payment-element');
 
-            // Hide PayPal when user interacts with card input
+            // Hide PayPal when user starts entering card digits
             paymentElement.on('change', (event: any) => {
-                if (event.complete || event.value) {
+                if (event.value && Object.keys(event.value).length > 0) {
                     setHidePayPal(true);
                 }
-            });
-            paymentElement.on('focus', () => {
-                setHidePayPal(true);
             });
 
             // Link authentication element — captures email and enables Link autofill
@@ -211,6 +208,7 @@ export const CheckoutPage: React.FC = () => {
                         billing_details: {
                             address: {
                                 country: 'US',
+                                postal_code: '00000',
                             },
                         },
                     },
