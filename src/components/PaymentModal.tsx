@@ -196,7 +196,8 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
 
             // Hide PayPal button when user starts entering card digits
             paymentElement.on('change', (event: any) => {
-                if (event.value && Object.keys(event.value).length > 0) {
+                // Only hide PayPal when user has actually started typing (not empty is true when input has content)
+                if (!event.empty) {
                     setHidePayPalButton(true);
                 }
             });
