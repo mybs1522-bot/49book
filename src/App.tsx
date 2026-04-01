@@ -6,6 +6,7 @@ import { LoginModal } from './components/LoginModal';
 import { FAQ_ITEMS, TESTIMONIALS, COURSES, INDUSTRIES, FEATURES, BUSINESS_MODULES } from './constants';
 import { ChevronDown, ArrowRight, Star, BookOpen, Sparkles, CheckCircle2, ShieldCheck, Target, TrendingUp, Zap, Users, X, Home, Sofa, ChefHat, Bed, Bath, Map, GraduationCap, Building, Wrench, Hammer, Palette, Download, Infinity, Award, Eye, Heart, Clock, Layers, LifeBuoy, Briefcase, AlertCircle } from 'lucide-react';
 import { Course } from './types';
+import { trackMetaEvent } from './utils/meta-tracking';
 import {
   Counter, Logo, CountdownTimer,
   APP_STYLES, PORTRAIT_IMAGES, BOOK_THUMBNAILS, BOOK_IMAGES,
@@ -62,11 +63,34 @@ const App: React.FC = () => {
     return () => window.removeEventListener('scroll', h);
   }, []);
 
+  // Meta ViewContent for Landing Page
+  useEffect(() => {
+    if (currentPath === '/') {
+      trackMetaEvent({
+        eventName: 'ViewContent',
+        content_name: 'Interior Design System - 6 Book Collection',
+        content_ids: ['interior-design-system-6-books'],
+        content_type: 'product',
+        value: 49.00,
+        currency: 'USD'
+      });
+    }
+  }, [currentPath]);
+
   // Routing
   if (currentPath === '/checkout') return <CheckoutPage />;
   if (currentPath.startsWith('/success')) return <SuccessPage />;
 
   const navigateToCheckout = () => {
+    // Meta AddToCart
+    trackMetaEvent({
+      eventName: 'AddToCart',
+      content_name: 'Interior Design System - 6 Book Collection',
+      content_ids: ['interior-design-system-6-books'],
+      content_type: 'product',
+      value: 49.00,
+      currency: 'USD'
+    });
     window.scrollTo(0, 0);
     window.history.pushState({}, '', '/checkout');
     setCurrentPath('/checkout');

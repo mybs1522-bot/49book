@@ -43,6 +43,7 @@ export const CheckoutPage: React.FC = () => {
             value: 49.00,
             currency: 'USD',
             content_name: 'Interior Design System - 6 Book Collection',
+            content_ids: ['interior-design-system-6-books'],
             content_type: 'product'
         });
     }, []);
@@ -58,6 +59,7 @@ export const CheckoutPage: React.FC = () => {
     const [timeLeft, setTimeLeft] = useState({ h: 0, m: 0, s: 0 });
     const [isVisible, setIsVisible] = useState(false);
     const [hidePayPal, setHidePayPal] = useState(false);
+    const [hasAddedPaymentInfo, setHasAddedPaymentInfo] = useState(false);
 
     const stripeRef = useRef<any>(null);
     const elementsRef = useRef<any>(null);
@@ -136,6 +138,19 @@ export const CheckoutPage: React.FC = () => {
                 // Only hide PayPal when user has actually started typing (not empty is true when input has content)
                 if (!event.empty) {
                     setHidePayPal(true);
+                    
+                    // Meta AddPaymentInfo (fire only once)
+                    if (!hasAddedPaymentInfo) {
+                        trackMetaEvent({
+                            eventName: 'AddPaymentInfo',
+                            content_name: 'Interior Design System - 6 Book Collection',
+                            content_ids: ['interior-design-system-6-books'],
+                            content_type: 'product',
+                            value: 49.00,
+                            currency: 'USD'
+                        });
+                        setHasAddedPaymentInfo(true);
+                    }
                 }
             });
 
@@ -164,6 +179,21 @@ export const CheckoutPage: React.FC = () => {
             setErrorMessage("Please fill in all fields to receive your books.");
             return;
         }
+
+        // Meta AddPaymentInfo for PayPal
+        if (!hasAddedPaymentInfo) {
+            trackMetaEvent({
+                eventName: 'AddPaymentInfo',
+                content_name: 'Interior Design System - 6 Book Collection',
+                content_ids: ['interior-design-system-6-books'],
+                content_type: 'product',
+                value: 49.00,
+                currency: 'USD',
+                payment_type: 'paypal'
+            });
+            setHasAddedPaymentInfo(true);
+        }
+
         setViewState('PROCESSING');
     };
 
@@ -227,8 +257,13 @@ export const CheckoutPage: React.FC = () => {
             } else if (result.paymentIntent?.status === 'succeeded') {
                 setViewState('SUCCESS');
                 trackMetaEvent({
-                    eventName: 'Purchase', email, value: 49.00, currency: 'USD',
-                    content_name: 'Interior Design System - 6 Book Collection', content_type: 'product',
+                    eventName: 'Purchase',
+                    email,
+                    value: 49.00,
+                    currency: 'USD',
+                    content_name: 'Interior Design System - 6 Book Collection',
+                    content_ids: ['interior-design-system-6-books'],
+                    content_type: 'product',
                     order_id: result.paymentIntent.id
                 });
                 fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-order-email", {
@@ -312,6 +347,7 @@ export const CheckoutPage: React.FC = () => {
                             Download Now <Download size={18} />
                         </button>
                         <a href="https://wa.me/919198747810" target="_blank" rel="noopener noreferrer"
+                            onClick={() => trackMetaEvent({ eventName: 'Contact' })}
                             className="inline-flex items-center gap-2 text-gray-600 text-xs font-semibold hover:text-gray-900 transition-colors">
                             <MessageSquare size={14} /> Need help? WhatsApp us
                         </a>

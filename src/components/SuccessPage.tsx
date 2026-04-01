@@ -20,6 +20,7 @@ export const SuccessPage: React.FC = () => {
                 value: 49.00,
                 currency: 'USD',
                 content_name: 'Interior Design System - 6 Book Collection',
+                content_ids: ['interior-design-system-6-books'],
                 content_type: 'product',
                 order_id: orderId
             });
@@ -84,6 +85,7 @@ export const SuccessPage: React.FC = () => {
                             href="https://wa.me/919198747810"
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => trackMetaEvent({ eventName: 'Contact' })}
                             className="inline-flex items-center gap-2 text-emerald-600 font-bold hover:text-emerald-700 transition-colors bg-emerald-50 px-4 py-2 rounded-full border border-emerald-100"
                         >
                             <MessageSquare size={16} fill="currentColor" stroke="none" />

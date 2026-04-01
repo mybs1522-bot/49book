@@ -41,6 +41,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
     const [addedBooksCount, setAddedBooksCount] = useState(0);
     const [showBundleDetails, setShowBundleDetails] = useState(false);
     const [hidePayPalButton, setHidePayPalButton] = useState(false);
+    const [hasAddedPaymentInfo, setHasAddedPaymentInfo] = useState(false);
 
     const stripeRef = useRef<any>(null);
     const elementsRef = useRef<any>(null);
@@ -103,7 +104,18 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
                         return prev + 1;
                     } else {
                         clearInterval(interval);
-                        setTimeout(() => setViewState('FORM'), 500);
+                        setTimeout(() => {
+                            setViewState('FORM');
+                            // Meta InitiateCheckout
+                            trackMetaEvent({
+                                eventName: 'InitiateCheckout',
+                                value: 49.00,
+                                currency: 'USD',
+                                content_name: 'Interior Design System - 6 Book Collection',
+                                content_ids: ['interior-design-system-6-books'],
+                                content_type: 'product'
+                            });
+                        }, 500);
                         return prev;
                     }
                 });
@@ -199,6 +211,19 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
                 // Only hide PayPal when user has actually started typing (not empty is true when input has content)
                 if (!event.empty) {
                     setHidePayPalButton(true);
+                    
+                    // Meta AddPaymentInfo (fire only once)
+                    if (!hasAddedPaymentInfo) {
+                        trackMetaEvent({
+                            eventName: 'AddPaymentInfo',
+                            content_name: 'Interior Design System - 6 Book Collection',
+                            content_ids: ['interior-design-system-6-books'],
+                            content_type: 'product',
+                            value: 49.00,
+                            currency: 'USD'
+                        });
+                        setHasAddedPaymentInfo(true);
+                    }
                 }
             });
 
@@ -218,6 +243,20 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
             return;
         }
         setViewState('PROCESSING');
+
+        // Meta AddPaymentInfo for PayPal
+        if (!hasAddedPaymentInfo) {
+            trackMetaEvent({
+                eventName: 'AddPaymentInfo',
+                content_name: 'Interior Design System - 6 Book Collection',
+                content_ids: ['interior-design-system-6-books'],
+                content_type: 'product',
+                value: 49.00,
+                currency: 'USD',
+                payment_type: 'paypal'
+            });
+            setHasAddedPaymentInfo(true);
+        }
     };
 
     const handleCardPay = async () => {
@@ -296,10 +335,12 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
                 trackMetaEvent({
                     eventName: 'Purchase',
                     email: email,
-                    value: 49,
+                    value: 49.00,
                     currency: 'USD',
-                    content_ids: ['lifetime-bundle'],
-                    content_type: 'product'
+                    content_name: 'Interior Design System - 6 Book Collection',
+                    content_ids: ['interior-design-system-6-books'],
+                    content_type: 'product',
+                    order_id: result.paymentIntent.id
                 });
 
                 // Trigger Resend Email via Edge Function
@@ -634,6 +675,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) =
                                         href="https://wa.me/919198747810"
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        onClick={() => trackMetaEvent({ eventName: 'Contact' })}
                                         className="inline-flex items-center gap-2 text-emerald-600 font-bold hover:text-emerald-700 transition-colors bg-emerald-50 px-4 py-2 rounded-full border border-emerald-100 text-sm"
                                     >
                                         <MessageSquare size={16} fill="currentColor" stroke="none" />
