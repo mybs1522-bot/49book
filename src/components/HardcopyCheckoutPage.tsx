@@ -2,10 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
     Lock, Check, Loader2, Timer, CreditCard, Mail, ShieldCheck, AlertCircle,
     ArrowLeft, BookOpen, CheckCircle2, Download, Star, Shield, Clock,
-    MessageSquare
+    MessageSquare, Package, Truck
 } from 'lucide-react';
 import { trackMetaEvent } from '../utils/meta-tracking';
-import { BOOK_IMAGES } from '../AppHelpers';
 
 // --- CONFIGURATION ---
 const STRIPE_PUBLISHABLE_KEY = "pk_live_51PRJCsGGsoQTkhyv6OrT4zvnaaB5Y0MSSkTXi0ytj33oygsfW3dcu6aOFa9q3dr2mXYTCJErnFQJcOcyuDAsQd4B00lIAdclbB";
@@ -19,31 +18,21 @@ declare global {
     }
 }
 
-// Book labels for the order summary
-const BOOK_LABELS = [
-    { key: 'living', label: 'Living Room Design' },
-    { key: 'kitchen', label: 'Kitchen Design' },
-    { key: 'bedroom', label: 'Bedroom Design' },
-    { key: 'washroom', label: 'Washroom Design' },
-    { key: 'study', label: 'Study Design' },
-    { key: 'elevations', label: 'Elevations Design' },
-];
-
 /**
- * REFINED CHECKOUT COMPONENT
- * Implements Stripe Link, Unified Payment Element, 8px grid, and monochrome design.
+ * HARDCOPY CHECKOUT COMPONENT
+ * For physical book orders at $299 with 10-day global delivery.
  */
-export const CheckoutPage: React.FC = () => {
+export const HardcopyCheckoutPage: React.FC = () => {
     useEffect(() => { window.scrollTo(0, 0); }, []);
 
     // Meta InitiateCheckout
     useEffect(() => {
         trackMetaEvent({
             eventName: 'InitiateCheckout',
-            value: 49.00,
+            value: 299.00,
             currency: 'USD',
-            content_name: 'Interior Design System - 6 Book Collection',
-            content_ids: ['interior-design-system-6-books'],
+            content_name: 'Interior Design System - 6 Book Hardcopy Collection',
+            content_ids: ['interior-design-system-6-books-hardcopy'],
             content_type: 'product'
         });
     }, []);
@@ -51,8 +40,13 @@ export const CheckoutPage: React.FC = () => {
     // --- STATE ---
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [country, setCountry] = useState('');
+    const [zip, setZip] = useState('');
     const [emailError, setEmailError] = useState(false);
     const [nameError, setNameError] = useState(false);
+    const [addressError, setAddressError] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isStripeLoaded, setIsStripeLoaded] = useState(false);
     const [viewState, setViewState] = useState<'FORM' | 'PROCESSING' | 'SUCCESS'>('FORM');
@@ -67,7 +61,7 @@ export const CheckoutPage: React.FC = () => {
     // --- ENTRANCE ANIMATION ---
     useEffect(() => { requestAnimationFrame(() => setIsVisible(true)); }, []);
 
-    // --- TIMER (synced with landing page via shared localStorage key) ---
+    // --- TIMER ---
     useEffect(() => {
         const INITIAL_SECONDS = (4 * 3600) + (36 * 60) + 27;
         const getTarget = () => {
@@ -106,10 +100,9 @@ export const CheckoutPage: React.FC = () => {
             stripeRef.current = window.Stripe(STRIPE_PUBLISHABLE_KEY);
             elementsRef.current = stripeRef.current.elements({
                 mode: 'payment',
-                amount: 4900,
+                amount: 29900,
                 currency: 'usd',
                 automatic_payment_methods: { enabled: true },
-
                 appearance: {
                     theme: 'stripe',
                     variables: {
@@ -121,7 +114,6 @@ export const CheckoutPage: React.FC = () => {
                 },
             });
 
-            // Payment Element — handles cards, Link, Google Pay, etc.
             const paymentElement = elementsRef.current.create('payment', {
                 layout: 'tabs',
                 fields: {
@@ -130,23 +122,19 @@ export const CheckoutPage: React.FC = () => {
                     },
                 },
             });
-            const peMount = document.getElementById('stripe-payment-element');
-            if (peMount) paymentElement.mount('#stripe-payment-element');
+            const peMount = document.getElementById('stripe-payment-element-hardcopy');
+            if (peMount) paymentElement.mount('#stripe-payment-element-hardcopy');
 
-            // Hide PayPal when user starts entering card digits
             paymentElement.on('change', (event: any) => {
-                // Only hide PayPal when user has actually started typing (not empty is true when input has content)
                 if (!event.empty) {
                     setHidePayPal(true);
-                    
-                    // Meta AddPaymentInfo (fire only once)
                     if (!hasAddedPaymentInfo) {
                         trackMetaEvent({
                             eventName: 'AddPaymentInfo',
-                            content_name: 'Interior Design System - 6 Book Collection',
-                            content_ids: ['interior-design-system-6-books'],
+                            content_name: 'Interior Design System - 6 Book Hardcopy Collection',
+                            content_ids: ['interior-design-system-6-books-hardcopy'],
                             content_type: 'product',
-                            value: 49.00,
+                            value: 299.00,
                             currency: 'USD'
                         });
                         setHasAddedPaymentInfo(true);
@@ -154,10 +142,9 @@ export const CheckoutPage: React.FC = () => {
                 }
             });
 
-            // Link authentication element — captures email and enables Link autofill
             const linkAuth = elementsRef.current.create('linkAuthentication', {});
-            const linkMount = document.getElementById('stripe-link-auth');
-            if (linkMount) linkAuth.mount('#stripe-link-auth');
+            const linkMount = document.getElementById('stripe-link-auth-hardcopy');
+            if (linkMount) linkAuth.mount('#stripe-link-auth-hardcopy');
             linkAuth.on('change', (event: any) => {
                 if (event.value?.email) setEmail(event.value.email);
             });
@@ -174,31 +161,32 @@ export const CheckoutPage: React.FC = () => {
         let hasError = false;
         if (!name.trim()) { setNameError(true); hasError = true; }
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setEmailError(true); hasError = true; }
+        if (!address.trim()) { setAddressError(true); hasError = true; }
         if (hasError) {
             e.preventDefault();
-            setErrorMessage("Please fill in all fields to receive your books.");
+            setErrorMessage("Please fill in all required fields.");
             return;
         }
-
-        // Meta AddPaymentInfo for PayPal
         if (!hasAddedPaymentInfo) {
             trackMetaEvent({
                 eventName: 'AddPaymentInfo',
-                content_name: 'Interior Design System - 6 Book Collection',
-                content_ids: ['interior-design-system-6-books'],
+                content_name: 'Interior Design System - 6 Book Hardcopy Collection',
+                content_ids: ['interior-design-system-6-books-hardcopy'],
                 content_type: 'product',
-                value: 49.00,
+                value: 299.00,
                 currency: 'USD',
                 payment_type: 'paypal'
             });
             setHasAddedPaymentInfo(true);
         }
-
         setViewState('PROCESSING');
     };
 
     const handleCardPay = async () => {
-        if (!name.trim()) { setNameError(true); setErrorMessage("Please enter your name."); return; }
+        let hasError = false;
+        if (!name.trim()) { setNameError(true); hasError = true; }
+        if (!address.trim()) { setAddressError(true); hasError = true; }
+        if (hasError) { setErrorMessage("Please fill in your name and shipping address."); return; }
         if (!stripeRef.current || !elementsRef.current) {
             setErrorMessage("Payment gateway loading. Please wait a moment.");
             return;
@@ -207,7 +195,6 @@ export const CheckoutPage: React.FC = () => {
         setErrorMessage(null);
 
         try {
-            // 1. Submit elements (validates card + Link)
             const { error: submitError } = await elementsRef.current.submit();
             if (submitError) {
                 setErrorMessage(submitError.message || "Please check your payment details.");
@@ -215,11 +202,10 @@ export const CheckoutPage: React.FC = () => {
                 return;
             }
 
-            // 2. Create PaymentIntent on server
             const res = await fetch(BACKEND_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ items: [{ id: 'lifetime-bundle' }], email, name })
+                body: JSON.stringify({ items: [{ id: 'hardcopy-bundle' }], email, name, address: `${address}, ${city}, ${country} ${zip}` })
             });
             if (!res.ok) {
                 if (res.status === 404) throw new Error("Payment server unavailable. Please try PayPal.");
@@ -228,22 +214,21 @@ export const CheckoutPage: React.FC = () => {
             }
             const { clientSecret } = await res.json();
 
-            // 3. Confirm payment with elements
             const result = await stripeRef.current.confirmPayment({
                 elements: elementsRef.current,
                 clientSecret,
                 confirmParams: {
-                    return_url: window.location.origin + '/checkout?success=true',
+                    return_url: window.location.origin + '/checkout-hardcopy?success=true',
                     receipt_email: email,
                     payment_method_data: {
                         billing_details: {
                             address: {
                                 country: 'US',
                                 state: 'CA',
-                                city: 'Los Angeles',
-                                line1: '123 Main St',
+                                city: city || 'Los Angeles',
+                                line1: address || '123 Main St',
                                 line2: '',
-                                postal_code: '90001',
+                                postal_code: zip || '90001',
                             },
                         },
                     },
@@ -259,21 +244,18 @@ export const CheckoutPage: React.FC = () => {
                 trackMetaEvent({
                     eventName: 'Purchase',
                     email,
-                    value: 49.00,
+                    value: 299.00,
                     currency: 'USD',
-                    content_name: 'Interior Design System - 6 Book Collection',
-                    content_ids: ['interior-design-system-6-books'],
+                    content_name: 'Interior Design System - 6 Book Hardcopy Collection',
+                    content_ids: ['interior-design-system-6-books-hardcopy'],
                     content_type: 'product',
                     order_id: result.paymentIntent.id
                 });
                 fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-order-email", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, name, orderId: result.paymentIntent.id })
+                    body: JSON.stringify({ email, name, orderId: result.paymentIntent.id, type: 'hardcopy', address: `${address}, ${city}, ${country} ${zip}` })
                 }).catch(err => console.error("Email trigger failed:", err));
-                setTimeout(() => {
-                    window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc";
-                }, 2500);
             }
         } catch (err: any) {
             setErrorMessage(err.message || "An unexpected error occurred.");
@@ -284,6 +266,11 @@ export const CheckoutPage: React.FC = () => {
     const goBack = () => { window.location.href = '/'; };
     const pad = (n: number) => n.toString().padStart(2, '0');
 
+    const inputClass = (hasError: boolean) => `block w-full px-3.5 py-3 bg-white border text-sm rounded-lg transition-all focus:outline-none focus:ring-2 ${hasError
+        ? 'border-red-300 focus:ring-red-100 focus:border-red-400'
+        : 'border-gray-300 focus:ring-blue-100 focus:border-blue-500 hover:border-gray-400'
+    }`;
+
     // --- RENDER ---
     return (
         <div className={`min-h-screen bg-gray-50 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
@@ -291,10 +278,6 @@ export const CheckoutPage: React.FC = () => {
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
                 .checkout-container * { font-family: 'Inter', -apple-system, sans-serif; }
                 .stripe-input-wrapper { min-height: 20px; }
-                .book-scroll { display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 4px; }
-                .book-scroll::-webkit-scrollbar { display: none; }
-                .book-scroll > div { scroll-snap-align: start; flex: 1 1 0; min-width: 0; }
-                @media (min-width: 640px) { .book-scroll { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; overflow: visible; } }
             `}</style>
 
             {/* === HEADER === */}
@@ -306,9 +289,9 @@ export const CheckoutPage: React.FC = () => {
                     </button>
                     <div className="flex items-center gap-2">
                         <div className="w-7 h-7 rounded-lg bg-gray-800 flex items-center justify-center">
-                            <BookOpen size={14} className="text-white" />
+                            <Package size={14} className="text-white" />
                         </div>
-                        <span className="font-semibold text-sm text-gray-900">Interior Design Books</span>
+                        <span className="font-semibold text-sm text-gray-900">Hardcopy Collection</span>
                     </div>
                     <div className="flex items-center gap-1.5 text-xs text-gray-600 font-medium">
                         <Lock size={12} />
@@ -337,15 +320,19 @@ export const CheckoutPage: React.FC = () => {
                             </div>
                         </div>
                         <div>
-                            <h3 className="text-2xl font-bold text-gray-900">Payment Successful!</h3>
-                            <p className="text-gray-600 text-sm mt-2">Your interior design collection is ready.</p>
+                            <h3 className="text-2xl font-bold text-gray-900">Order Confirmed!</h3>
+                            <p className="text-gray-600 text-sm mt-2">Your hardcopy collection will be shipped within 24 hours.</p>
+                            <p className="text-gray-500 text-xs mt-1">Estimated delivery: 10 business days worldwide</p>
                         </div>
-                        <button
-                            onClick={() => window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc"}
-                            className="w-full py-4 bg-gray-900 text-white rounded-xl font-bold text-base shadow-lg hover:bg-gray-800 transition-all flex items-center justify-center gap-2"
-                        >
-                            Download Now <Download size={18} />
-                        </button>
+                        <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                            <div className="flex items-center gap-3 text-left">
+                                <Truck size={20} className="text-orange-500 shrink-0" />
+                                <div>
+                                    <p className="text-sm font-semibold text-gray-900">Global Shipping</p>
+                                    <p className="text-xs text-gray-600">You'll receive a tracking number via email within 24 hours.</p>
+                                </div>
+                            </div>
+                        </div>
                         <a href="https://wa.me/919198747810" target="_blank" rel="noopener noreferrer"
                             onClick={() => trackMetaEvent({ eventName: 'Contact' })}
                             className="inline-flex items-center gap-2 text-gray-600 text-xs font-semibold hover:text-gray-900 transition-colors">
@@ -362,10 +349,12 @@ export const CheckoutPage: React.FC = () => {
                         <div className="flex-1 lg:max-w-[50%]">
                             <div className="lg:sticky lg:top-4">
 
-                                {/* Best part callout */}
-                                <p className="text-xs text-gray-600 font-medium text-center mb-4">
-                                    <span className="font-bold text-gray-900">Best Part:</span> Monthly Updates in Books at no extra charge
-                                </p>
+                                {/* Hardcopy badge */}
+                                <div className="flex items-center justify-center gap-2 mb-4 px-4 py-2.5 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl">
+                                    <Package size={16} className="text-orange-500" />
+                                    <span className="text-sm font-bold text-orange-700">Physical Hardcopy Collection</span>
+                                    <span className="text-[10px] font-semibold text-orange-500 bg-orange-100 px-2 py-0.5 rounded-full">PRINTED BOOKS</span>
+                                </div>
 
                                 {/* Book preview video */}
                                 <div className="mb-4 rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-black">
@@ -375,7 +364,6 @@ export const CheckoutPage: React.FC = () => {
                                         muted
                                         playsInline
                                         className="w-full h-auto"
-                                        poster=""
                                     >
                                         <source src="https://avada.in/wp-content/uploads/2022/06/05181_2_2.mp4" type="video/mp4" />
                                     </video>
@@ -384,9 +372,28 @@ export const CheckoutPage: React.FC = () => {
                                 {/* Line items */}
                                 <div className="space-y-2 border-t border-gray-200 pt-4">
                                     <div className="flex items-baseline justify-between">
-                                        <p className="text-sm font-semibold text-gray-900">Interior Design — 6 Book Collection</p>
-                                        <p className="text-2xl font-bold text-gray-900">$49.00</p>
+                                        <div>
+                                            <p className="text-sm font-semibold text-gray-900">6 Hardcopy Books — Printed Collection</p>
+                                            <p className="text-xs text-gray-500 mt-0.5">Shipped globally · Premium quality print</p>
+                                        </div>
+                                        <p className="text-2xl font-bold text-gray-900">$299.00</p>
                                     </div>
+                                </div>
+
+                                {/* What's included */}
+                                <div className="mt-4 bg-gray-50 rounded-xl p-4 border border-gray-100 space-y-2.5">
+                                    <p className="text-xs font-bold text-gray-700 uppercase tracking-wider">What's included</p>
+                                    {[
+                                        { icon: <Package size={14} />, text: 'All 6 printed books (800+ pages)' },
+                                        { icon: <Truck size={14} />, text: '10-day global delivery' },
+                                        { icon: <Download size={14} />, text: 'FREE digital copies (PDF) included' },
+                                        { icon: <Shield size={14} />, text: 'Lifetime updates (digital)' },
+                                        { icon: <ShieldCheck size={14} />, text: '30-day money-back guarantee' },
+                                    ].map((item, i) => (
+                                        <div key={i} className="flex items-center gap-2 text-sm text-gray-600">
+                                            <span className="text-orange-500">{item.icon}</span> {item.text}
+                                        </div>
+                                    ))}
                                 </div>
 
                                 {/* Bonus section */}
@@ -419,8 +426,8 @@ export const CheckoutPage: React.FC = () => {
 
                                 {/* Trust badges */}
                                 <div className="flex items-center justify-between mt-3 text-[10px] sm:text-xs text-gray-600 font-semibold gap-1 whitespace-nowrap">
-                                    <span className="flex items-center gap-1"><Download size={12} className="shrink-0" /> Instant PDF</span>
-                                    <span className="flex items-center gap-1 text-blue-600"><Shield size={12} className="shrink-0" /> Lifetime Updates</span>
+                                    <span className="flex items-center gap-1"><Truck size={12} className="shrink-0" /> Free Shipping</span>
+                                    <span className="flex items-center gap-1 text-blue-600"><Shield size={12} className="shrink-0" /> + Digital Copies</span>
                                     <span className="flex items-center gap-1"><ShieldCheck size={12} className="shrink-0" /> 30-Day Guarantee</span>
                                 </div>
                             </div>
@@ -435,29 +442,62 @@ export const CheckoutPage: React.FC = () => {
                                     <div>
                                         <h3 className="text-sm font-semibold text-gray-900 mb-2">Contact information</h3>
                                         <div className="space-y-2">
-                                            {/* Stripe Link Authentication */}
-                                            <div id="stripe-link-auth" />
+                                            <div id="stripe-link-auth-hardcopy" />
                                         </div>
                                     </div>
 
-                                    {/* Payment method — Stripe Payment Element */}
+                                    {/* Shipping address */}
+                                    <div>
+                                        <h3 className="text-sm font-semibold text-gray-900 mb-2">Shipping address</h3>
+                                        <div className="space-y-2">
+                                            <input
+                                                type="text"
+                                                value={address}
+                                                onChange={(e) => { setAddress(e.target.value); setAddressError(false); setErrorMessage(null); }}
+                                                placeholder="Street address"
+                                                className={inputClass(addressError)}
+                                            />
+                                            <div className="grid grid-cols-2 gap-2">
+                                                <input
+                                                    type="text"
+                                                    value={city}
+                                                    onChange={(e) => setCity(e.target.value)}
+                                                    placeholder="City"
+                                                    className={inputClass(false)}
+                                                />
+                                                <input
+                                                    type="text"
+                                                    value={country}
+                                                    onChange={(e) => setCountry(e.target.value)}
+                                                    placeholder="Country"
+                                                    className={inputClass(false)}
+                                                />
+                                            </div>
+                                            <input
+                                                type="text"
+                                                value={zip}
+                                                onChange={(e) => setZip(e.target.value)}
+                                                placeholder="ZIP / Postal code"
+                                                className={inputClass(false)}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Payment method */}
                                     <div>
                                         <h3 className="text-sm font-semibold text-gray-900 mb-2">Payment method</h3>
-                                        <div id="stripe-payment-element" />
+                                        <div id="stripe-payment-element-hardcopy" />
                                     </div>
 
                                     {/* Cardholder name */}
                                     <div>
-                                        <label className="text-xs font-medium text-gray-600 mb-1 block">Cardholder name</label>
+                                        <label className="text-xs font-medium text-gray-600 mb-1 block">Full name</label>
                                         <input
                                             type="text"
                                             value={name}
                                             onChange={(e) => { setName(e.target.value); setNameError(false); setErrorMessage(null); }}
-                                            placeholder="Full name on card"
-                                            className={`block w-full px-3.5 py-3 bg-white border text-sm rounded-lg transition-all focus:outline-none focus:ring-2 ${nameError
-                                                ? 'border-red-300 focus:ring-red-100 focus:border-red-400'
-                                                : 'border-gray-300 focus:ring-blue-100 focus:border-blue-500 hover:border-gray-400'
-                                                }`}
+                                            placeholder="Full name"
+                                            className={inputClass(nameError)}
                                         />
                                     </div>
 
@@ -470,7 +510,7 @@ export const CheckoutPage: React.FC = () => {
                                     )}
                                 </div>
 
-                                {/* Download button + PayPal */}
+                                {/* Pay button + PayPal */}
                                 <div className="px-5 pb-5 pt-3 space-y-2">
                                     <button
                                         onClick={handleCardPay}
@@ -480,7 +520,7 @@ export const CheckoutPage: React.FC = () => {
                                         {viewState === 'PROCESSING' ? (
                                             <Loader2 className="animate-spin" size={20} />
                                         ) : (
-                                            <><Download size={18} /><span>Download</span></>
+                                            <><Package size={18} /><span>Order Hardcopy — $299</span></>
                                         )}
                                     </button>
 
@@ -498,16 +538,16 @@ export const CheckoutPage: React.FC = () => {
                                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" onSubmit={handlePaypalSubmit}>
                                         <input type="hidden" name="cmd" value="_xclick" />
                                         <input type="hidden" name="business" value={PAYPAL_BUSINESS_EMAIL} />
-                                        <input type="hidden" name="item_name" value="Avada Design Bundle" />
-                                        <input type="hidden" name="amount" value="49" />
+                                        <input type="hidden" name="item_name" value="Avada Design Bundle - Hardcopy" />
+                                        <input type="hidden" name="amount" value="299" />
                                         <input type="hidden" name="currency_code" value="USD" />
-                                        <input type="hidden" name="return" value={`${window.location.origin}/success?email=${email}&method=paypal`} />
+                                        <input type="hidden" name="return" value={`${window.location.origin}/success?email=${email}&method=paypal&type=hardcopy`} />
                                         <input type="hidden" name="email" value={email} />
                                         <button
                                             type="submit"
                                             className="w-full py-3.5 bg-[#ffc439] hover:bg-[#f0b72e] text-gray-900 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md active:scale-[0.98]"
                                         >
-                                            Download with <img src={PAYPAL_LOGO_URL} alt="PayPal" className="h-5 object-contain" />
+                                            Pay with <img src={PAYPAL_LOGO_URL} alt="PayPal" className="h-5 object-contain" />
                                         </button>
                                     </form>
                                     )}

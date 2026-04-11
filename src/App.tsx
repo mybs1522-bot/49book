@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CheckoutPage } from './components/CheckoutPage';
+import { HardcopyCheckoutPage } from './components/HardcopyCheckoutPage';
 import { SuccessPage } from './components/SuccessPage';
 import { AdminModal } from './components/AdminModal';
 import { LoginModal } from './components/LoginModal';
 import { FAQ_ITEMS, TESTIMONIALS, COURSES, INDUSTRIES, FEATURES, BUSINESS_MODULES } from './constants';
-import { ChevronDown, ArrowRight, Star, BookOpen, Sparkles, CheckCircle2, ShieldCheck, Target, TrendingUp, Zap, Users, X, Home, Sofa, ChefHat, Bed, Bath, Map, GraduationCap, Building, Wrench, Hammer, Palette, Download, Infinity, Award, Eye, Heart, Clock, Layers, LifeBuoy, Briefcase, AlertCircle } from 'lucide-react';
+import { ChevronDown, ArrowRight, Star, BookOpen, Sparkles, CheckCircle2, ShieldCheck, Target, TrendingUp, Zap, Users, X, Home, Sofa, ChefHat, Bed, Bath, Map, GraduationCap, Building, Wrench, Hammer, Palette, Download, Infinity, Award, Eye, Heart, Clock, Layers, LifeBuoy, Briefcase, AlertCircle, Package, Truck } from 'lucide-react';
 import { Course } from './types';
 import { trackMetaEvent } from './utils/meta-tracking';
 import {
@@ -79,6 +80,7 @@ const App: React.FC = () => {
 
   // Routing
   if (currentPath === '/checkout') return <CheckoutPage />;
+  if (currentPath === '/checkout-hardcopy') return <HardcopyCheckoutPage />;
   if (currentPath.startsWith('/success')) return <SuccessPage />;
 
   const navigateToCheckout = () => {
@@ -94,6 +96,20 @@ const App: React.FC = () => {
     window.scrollTo(0, 0);
     window.history.pushState({}, '', '/checkout');
     setCurrentPath('/checkout');
+  };
+
+  const navigateToHardcopy = () => {
+    trackMetaEvent({
+      eventName: 'AddToCart',
+      content_name: 'Interior Design System - 6 Book Hardcopy Collection',
+      content_ids: ['interior-design-system-6-books-hardcopy'],
+      content_type: 'product',
+      value: 299.00,
+      currency: 'USD'
+    });
+    window.scrollTo(0, 0);
+    window.history.pushState({}, '', '/checkout-hardcopy');
+    setCurrentPath('/checkout-hardcopy');
   };
 
   return (
@@ -189,6 +205,199 @@ const App: React.FC = () => {
         </section>
 
         {/* ═══════════════════════════════════════════════
+           SECTION 1B: PHONE MOCKUP — Value Proposition
+           ═══════════════════════════════════════════════ */}
+        <section className="py-10 md:py-24 bg-gradient-to-b from-gray-50 via-white to-gray-50 relative overflow-hidden">
+          {/* Ambient glow effects */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-orange-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-gradient-radial from-amber-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
+
+          <div className="max-w-5xl mx-auto px-5 flex flex-col items-center">
+            <div className="reveal-scale">
+              {/* Phone Device */}
+              <div className="relative mx-auto" style={{ width: 'min(340px, 80vw)' }}>
+                {/* Phone Frame */}
+                <div style={{
+                  borderRadius: '40px',
+                  padding: '12px',
+                  background: 'linear-gradient(145deg, #e8e4f0, #d4cfe0, #c8c2d4)',
+                  boxShadow: '0 25px 80px rgba(124, 111, 170, 0.15), 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6)',
+                }}>
+                  {/* Left side buttons */}
+                  <div style={{ position: 'absolute', left: '-3px', top: '100px', width: '3px', height: '28px', borderRadius: '3px 0 0 3px', background: 'linear-gradient(to bottom, #d4cfe0, #c8c2d4)' }} />
+                  <div style={{ position: 'absolute', left: '-3px', top: '145px', width: '3px', height: '50px', borderRadius: '3px 0 0 3px', background: 'linear-gradient(to bottom, #d4cfe0, #c8c2d4)' }} />
+                  <div style={{ position: 'absolute', left: '-3px', top: '205px', width: '3px', height: '50px', borderRadius: '3px 0 0 3px', background: 'linear-gradient(to bottom, #d4cfe0, #c8c2d4)' }} />
+                  {/* Right side button */}
+                  <div style={{ position: 'absolute', right: '-3px', top: '155px', width: '3px', height: '65px', borderRadius: '0 3px 3px 0', background: 'linear-gradient(to bottom, #d4cfe0, #c8c2d4)' }} />
+
+                  {/* Screen */}
+                  <div style={{
+                    borderRadius: '30px',
+                    overflow: 'hidden',
+                    background: '#f9f9fb',
+                  }}>
+                    {/* Status Bar */}
+                    <div style={{ padding: '14px 24px 8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <span style={{ color: '#1c1c1e', fontSize: '15px', fontWeight: 600, fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif' }}>11:11</span>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" strokeWidth="2.5"><path d="M22 2L2 22M15 2l7 7M9 2l13 13"/><path d="M2 12l10 10M8 12l10 10"/></svg>
+                      </div>
+                      {/* Dynamic Island */}
+                      <div style={{ width: '100px', height: '28px', background: '#1c1c1e', borderRadius: '20px', position: 'relative' }}>
+                        <div style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', width: '8px', height: '8px', borderRadius: '50%', background: '#2c2c3e', border: '1.5px solid #444' }} />
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        {/* Signal bars */}
+                        <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="8" width="3" height="4" rx="0.5" fill="#1c1c1e"/><rect x="4.5" y="5" width="3" height="7" rx="0.5" fill="#1c1c1e"/><rect x="9" y="2" width="3" height="10" rx="0.5" fill="#1c1c1e"/><rect x="13" y="0" width="3" height="12" rx="0.5" fill="#1c1c1e" opacity="0.3"/></svg>
+                        {/* WiFi */}
+                        <svg width="16" height="12" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="#1c1c1e"/></svg>
+                        {/* Battery */}
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <div style={{ width: '22px', height: '10px', border: '1.5px solid #1c1c1e', borderRadius: '3px', padding: '1.5px' }}>
+                            <div style={{ width: '100%', height: '100%', background: '#1c1c1e', borderRadius: '1px' }} />
+                          </div>
+                          <div style={{ width: '2px', height: '5px', background: '#1c1c1e', borderRadius: '0 1px 1px 0', marginLeft: '1px' }} />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Notes App Header */}
+                    <div style={{ padding: '8px 20px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <svg width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="#e97a1f" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M8 2L2 8l6 6"/></svg>
+                        <span style={{ color: '#e97a1f', fontSize: '16px', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif' }}>Notes</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                        <div style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1.5px solid #ccc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <div style={{ display: 'flex', gap: '2px' }}><span style={{ width: '3px', height: '3px', borderRadius: '50%', background: '#e97a1f' }} /><span style={{ width: '3px', height: '3px', borderRadius: '50%', background: '#e97a1f' }} /><span style={{ width: '3px', height: '3px', borderRadius: '50%', background: '#e97a1f' }} /></div>
+                        </div>
+                        <span style={{ color: '#e97a1f', fontSize: '16px', fontWeight: 400, fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif' }}>Done</span>
+                      </div>
+                    </div>
+
+                    {/* Notes Content */}
+                    <div style={{ padding: '16px 24px 60px' }}>
+                      <p style={{
+                        color: '#1c1c1e',
+                        fontSize: '22px',
+                        fontWeight: 600,
+                        lineHeight: 1.45,
+                        fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
+                        letterSpacing: '0.01em',
+                        textAlign: 'justify',
+                      }}>
+                        Covers everything you need to design your own home or to increase your income by 10 times, no matter you're in job or own a firm.
+                      </p>
+                    </div>
+
+                    {/* Bottom dots indicator */}
+                    <div style={{ padding: '8px 0 20px', display: 'flex', justifyContent: 'center', gap: '6px' }}>
+                      {[0,1,2,3,4].map((_,i) => (
+                        <div key={i} style={{ width: '7px', height: '7px', borderRadius: '50%', background: i === 0 ? '#e97a1f' : '#ccc' }} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════
+           CTA: ABOVE WHO THIS IS FOR
+           ═══════════════════════════════════════════════ */}
+        <section className="py-8 md:py-14">
+          <div className="max-w-3xl mx-auto px-5 text-center">
+            <div className="reveal">
+              <p className="text-gray-600 text-base md:text-lg mb-6">
+                Join <span className="font-bold text-gray-900">50,000+ designers</span> who already have these books
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <div className="text-center">
+                  <button onClick={navigateToCheckout} className="cta-primary px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
+                    E-Books Download — $49 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
+                  </button>
+                  <p className="text-xs text-gray-500 mt-2 flex items-center justify-center gap-1 font-medium"><Download size={12} className="text-orange-400" /> Download Instantly</p>
+                </div>
+                <span className="text-xs font-bold text-gray-400 uppercase">or</span>
+                <div className="text-center">
+                  <button onClick={navigateToHardcopy} className="px-8 py-4 bg-gray-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-gray-900/15 hover:bg-gray-800 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
+                    Get Hardcopies — $299 <Package size={18} />
+                  </button>
+                  <p className="text-xs text-gray-500 mt-2 flex items-center justify-center gap-1 font-medium"><Truck size={12} className="text-gray-400" /> 10-Day Delivery Globally</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════
+           SECTION 5B: WHO THIS IS FOR
+           ═══════════════════════════════════════════════ */}
+        <section className="py-6 md:py-20">
+          <div className="max-w-5xl mx-auto px-5">
+            <div className="reveal text-center mb-7 md:mb-10">
+              <p className="text-orange-500 text-xs font-mono uppercase tracking-widest mb-3 font-semibold">Who is this for?</p>
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 tracking-tight">Trusted by <span className="text-orange-500">every type</span> of design professional</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+              {INDUSTRIES.map((ind, i) => {
+                const IconComp = ICON_MAP[ind.icon] || Home;
+                return (
+                  <div key={i} className="reveal text-center bg-white border border-gray-100 rounded-2xl p-4 md:p-5 hover:border-orange-200 hover:shadow-lg transition-all group">
+                    <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-orange-50 flex items-center justify-center">
+                      <IconComp size={22} className="text-orange-500" />
+                    </div>
+                    <p className="text-xs font-semibold text-gray-700">{ind.label}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════
+           SECTION 1C: LEARN WITH INTERACTIVE DIAGRAMS
+           ═══════════════════════════════════════════════ */}
+        <section className="py-10 md:py-24 bg-white relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent" />
+          <div className="max-w-5xl mx-auto px-5">
+            <div className="reveal text-center mb-8 md:mb-14">
+              <p className="text-orange-600 text-xs font-bold uppercase tracking-[0.25em] mb-4 font-display">What makes these books special</p>
+              <h2 className="text-3xl md:text-6xl font-display font-black text-gray-900 tracking-tightest leading-[1]">
+                Learn with <span className="font-serif italic font-normal text-orange-600">Interactive Diagrams</span>
+              </h2>
+              <p className="text-gray-600 text-base md:text-lg mt-4 max-w-2xl mx-auto">
+                Every page is filled with <span className="font-bold text-gray-900">handmade diagrams</span> covering room layouts, clearances, and dimensions — so you can see <span className="font-bold text-emerald-600">what works</span> and <span className="font-bold text-red-600">what doesn't</span> at a glance.
+              </p>
+            </div>
+
+            {/* Diagram Grid Image */}
+            <div className="reveal mb-6 md:mb-10">
+              <div className="rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl shadow-gray-900/10 border border-gray-100 bg-white">
+                <img
+                  src="/images/interactive-diagrams-grid.png"
+                  alt="Interactive floor plan diagrams showing living room, bedroom, bathroom, kitchen, and stairs designs with dimensions and clearances"
+                  className="w-full h-auto"
+                />
+              </div>
+            </div>
+
+            {/* Icons Image */}
+            <div className="reveal">
+              <div className="rounded-2xl md:rounded-3xl overflow-hidden shadow-xl shadow-gray-900/5 border border-gray-100 bg-white p-4 md:p-8">
+                <img
+                  src="/images/interactive-diagrams-icons.png"
+                  alt="Four categories: Space Planning, Tips Tricks and Ideas, History of Architecture, Don'ts and Do's"
+                  className="w-full h-auto max-w-3xl mx-auto"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent" />
+        </section>
+
+        {/* ═══════════════════════════════════════════════
            SECTION 2: BOOK FLIP-THROUGH VIDEO
            ═══════════════════════════════════════════════ */}
         <section className="py-6 md:py-24">
@@ -203,10 +412,20 @@ const App: React.FC = () => {
                 allowFullScreen
               />
             </div>
-            <div className="text-center mt-6">
-              <button onClick={navigateToCheckout} className="cta-primary px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
-                Get All 6 Books — $49 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
-              </button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+              <div className="text-center">
+                <button onClick={navigateToCheckout} className="cta-primary px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
+                  E-Books Download — $49 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
+                </button>
+                <p className="text-xs text-gray-500 mt-2 flex items-center justify-center gap-1 font-medium"><Download size={12} className="text-orange-400" /> Download Instantly</p>
+              </div>
+              <span className="text-xs font-bold text-gray-400 uppercase">or</span>
+              <div className="text-center">
+                <button onClick={navigateToHardcopy} className="px-8 py-4 bg-gray-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-gray-900/15 hover:bg-gray-800 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
+                  Get Hardcopies — $299 <Package size={18} />
+                </button>
+                <p className="text-xs text-gray-500 mt-2 flex items-center justify-center gap-1 font-medium"><Truck size={12} className="text-gray-400" /> 10-Day Delivery Globally</p>
+              </div>
             </div>
 
             <div className="mt-10 md:mt-20">
@@ -388,30 +607,6 @@ const App: React.FC = () => {
            SECTION 5: YOU NEED / YOU DON'T NEED
            ═══════════════════════════════════════════════ */}
 
-        {/* ═══════════════════════════════════════════════
-           SECTION 5B: WHO THIS IS FOR
-           ═══════════════════════════════════════════════ */}
-        <section className="py-6 md:py-20">
-          <div className="max-w-5xl mx-auto px-5">
-            <div className="reveal text-center mb-7 md:mb-10">
-              <p className="text-orange-500 text-xs font-mono uppercase tracking-widest mb-3 font-semibold">Who is this for?</p>
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 tracking-tight">Trusted by <span className="text-orange-500">every type</span> of design professional</h2>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
-              {INDUSTRIES.map((ind, i) => {
-                const IconComp = ICON_MAP[ind.icon] || Home;
-                return (
-                  <div key={i} className="reveal text-center bg-white border border-gray-100 rounded-2xl p-4 md:p-5 hover:border-orange-200 hover:shadow-lg transition-all group">
-                    <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-orange-50 flex items-center justify-center">
-                      <IconComp size={22} className="text-orange-500" />
-                    </div>
-                    <p className="text-xs font-semibold text-gray-700">{ind.label}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
 
         {/* ═══════════════════════════════════════════════
            SECTION 6B: WHAT YOU GET — Features
@@ -559,11 +754,27 @@ const App: React.FC = () => {
                 ))}
               </div>
 
-              <button onClick={navigateToCheckout} className="cta-primary w-full py-5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.03] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group whitespace-nowrap">
-                Get Instant Access <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
-              </button>
+              <div className="space-y-3">
+                <div>
+                  <button onClick={navigateToCheckout} className="cta-primary w-full py-5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.03] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group whitespace-nowrap">
+                    E-Books Download — $49 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
+                  </button>
+                  <p className="text-xs text-gray-500 mt-1.5 text-center flex items-center justify-center gap-1 font-medium"><Download size={12} className="text-orange-400" /> Download Instantly</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-px bg-gray-200" />
+                  <span className="text-[10px] font-bold text-gray-400 uppercase">or</span>
+                  <div className="flex-1 h-px bg-gray-200" />
+                </div>
+                <div>
+                  <button onClick={navigateToHardcopy} className="w-full py-5 bg-gray-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-gray-900/15 hover:bg-gray-800 hover:scale-[1.03] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group whitespace-nowrap">
+                    Get Hardcopies — $299 <Package size={18} />
+                  </button>
+                  <p className="text-xs text-gray-500 mt-1.5 text-center flex items-center justify-center gap-1 font-medium"><Truck size={12} className="text-gray-400" /> 10-Day Delivery Globally</p>
+                </div>
+              </div>
 
-              <p className="text-xs text-gray-500 mt-4">Secure payment · Instant download · No subscription</p>
+              <p className="text-xs text-gray-500 mt-4 text-center">Secure payment · No subscription</p>
             </div>
           </div>
         </section>
@@ -606,9 +817,21 @@ const App: React.FC = () => {
               <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 md:mb-5 tracking-tight">Look, every day you wait is another <span className="font-serif italic text-orange-400">mistake</span> you might make.</h2>
 
               <p className="text-gray-400 text-lg mb-8">50,000+ people already have these books. The only question is — <span className="font-bold text-white">how many more mistakes will you make before you join them?</span></p>
-              <button onClick={navigateToCheckout} className="cta-primary px-10 py-5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
-                Get all 6 books — $49 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
-              </button>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <div className="text-center">
+                  <button onClick={navigateToCheckout} className="cta-primary px-10 py-5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
+                    E-Books Download — $49 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
+                  </button>
+                  <p className="text-xs text-gray-400 mt-2 flex items-center justify-center gap-1 font-medium"><Download size={12} className="text-orange-400" /> Download Instantly</p>
+                </div>
+                <span className="text-xs font-bold text-gray-600 uppercase">or</span>
+                <div className="text-center">
+                  <button onClick={navigateToHardcopy} className="px-10 py-5 bg-white text-gray-900 rounded-2xl font-bold text-lg shadow-xl hover:bg-gray-100 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap border border-gray-200">
+                    Get Hardcopies — $299 <Package size={18} />
+                  </button>
+                  <p className="text-xs text-gray-400 mt-2 flex items-center justify-center gap-1 font-medium"><Truck size={12} /> 10-Day Delivery Globally</p>
+                </div>
+              </div>
               <div className="mt-6 flex items-center justify-center gap-6 text-xs text-gray-500 font-medium">
                 <span className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-emerald-400" /> 30-Day Guarantee</span>
                 <span className="flex items-center gap-1.5"><Zap size={14} className="text-orange-400" /> Instant Download</span>
