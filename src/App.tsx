@@ -168,14 +168,9 @@ const App: React.FC = () => {
                   You don't need to <span className="font-serif italic font-normal text-orange-600">waste time</span> searching anymore.
                 </h1>
 
-                <p className="text-base md:text-xl text-gray-700 font-medium mb-3 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                  We've done the heavy lifting. <span className="font-bold text-gray-900">6 books. 800+ pages.</span> Every dimension, clearance, and layout — with <span className="font-serif italic text-orange-600">handmade diagrams</span> showing what's <span className="font-bold text-emerald-600">right</span> and what goes <span className="font-bold text-red-600">wrong</span>.
-                </p>
-
-                {/* Author line */}
-                <p className="text-sm text-gray-600 mb-6 flex items-center justify-center lg:justify-start gap-2 max-w-lg mx-auto lg:mx-0">
-                  <span className="w-1 h-1 bg-orange-400 rounded-full" />
-                  Created by Architects who've seen <span className="font-serif italic text-orange-600">every mistake possible</span> — so you don't make them
+                <p className="text-base md:text-lg text-gray-700 font-medium mb-3 leading-snug max-w-lg mx-auto lg:mx-0">
+                  <span className="font-black text-gray-900 text-xl md:text-2xl block mb-2">Design Better. Earn More.</span>
+                  6 expert eBooks · 800+ pages · <span className="font-bold text-emerald-600">results for every skill level</span>.
                 </p>
 
                 {/* Trust line */}
