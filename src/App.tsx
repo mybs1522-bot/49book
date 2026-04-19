@@ -5,6 +5,7 @@ import { SuccessPage } from './components/SuccessPage';
 import { AdminModal } from './components/AdminModal';
 import { LoginModal } from './components/LoginModal';
 import { FAQ_ITEMS, TESTIMONIALS, COURSES, INDUSTRIES, FEATURES, BUSINESS_MODULES } from './constants';
+import { SplashScreen } from './components/SplashScreen';
 import { ChevronDown, ArrowRight, Star, BookOpen, Sparkles, CheckCircle2, ShieldCheck, Target, TrendingUp, Zap, Users, X, Home, Sofa, ChefHat, Bed, Bath, Map, GraduationCap, Building, Wrench, Hammer, Palette, Download, Infinity, Award, Eye, Heart, Clock, Layers, LifeBuoy, Briefcase, AlertCircle, Package, Truck } from 'lucide-react';
 import { Course } from './types';
 import { trackMetaEvent } from './utils/meta-tracking';
@@ -33,6 +34,7 @@ const App: React.FC = () => {
   const [showStickyBar, setShowStickyBar] = useState(false);
   const [activeCurriculumBook, setActiveCurriculumBook] = useState(0);
   const [curriculumPaused, setCurriculumPaused] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   // Auto-cycle curriculum tabs
   useEffect(() => {
@@ -116,16 +118,40 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-white text-gray-900 font-sans overflow-x-hidden antialiased">
       <style>{APP_STYLES}</style>
 
+      {/* Splash loading animation — only on landing page */}
+      {showSplash && currentPath === '/' && (
+        <SplashScreen onComplete={() => {
+          setShowSplash(false);
+        }} />
+      )}
+
       <main>
 
         {/* ═══════════════════════════════════════════════
            SECTION 1: HERO — The First Impression
            ═══════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden">
-          {/* Subtle warm gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-white to-amber-50/50 pointer-events-none" />
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-orange-100/40 to-transparent rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-radial from-amber-100/30 to-transparent rounded-full blur-3xl pointer-events-none" />
+        <section className="relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #fefcf9 0%, #fff8f0 25%, #ffffff 50%, #fef9f2 75%, #fffdf8 100%)' }}>
+          {/* Animated ambient orbs */}
+          <div className="absolute top-[-150px] right-[-100px] w-[700px] h-[700px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(251,146,60,0.08) 0%, transparent 70%)', animation: 'float 8s ease-in-out infinite' }} />
+          <div className="absolute bottom-[-100px] left-[-150px] w-[500px] h-[500px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.06) 0%, transparent 70%)', animation: 'float 10s ease-in-out infinite reverse' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[400px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(ellipse, rgba(251,191,36,0.04) 0%, transparent 60%)' }} />
+
+          {/* Floating animation keyframes */}
+          <style>{`
+            @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+            @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+            @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+            @keyframes scaleIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+            @keyframes slideInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
+            .hero-fade-1 { animation: fadeInUp 0.8s ease-out 0.1s both; }
+            .hero-fade-2 { animation: fadeInUp 0.8s ease-out 0.25s both; }
+            .hero-fade-3 { animation: fadeInUp 0.8s ease-out 0.4s both; }
+            .hero-fade-4 { animation: fadeInUp 0.8s ease-out 0.55s both; }
+            .hero-fade-5 { animation: fadeInUp 0.8s ease-out 0.7s both; }
+            .hero-scale-in { animation: scaleIn 1s ease-out 0.2s both; }
+            .hero-book-glow { filter: drop-shadow(0 20px 60px rgba(234,88,12,0.12)) drop-shadow(0 8px 24px rgba(0,0,0,0.08)); }
+            .hero-book-glow:hover { filter: drop-shadow(0 25px 70px rgba(234,88,12,0.18)) drop-shadow(0 12px 32px rgba(0,0,0,0.12)); transition: filter 0.4s ease; }
+          `}</style>
 
           {/* Sticky Header */}
           <header className="sticky top-0 z-[60] bg-white/80 backdrop-blur-xl border-b border-gray-100 px-5 py-3.5">
@@ -137,65 +163,124 @@ const App: React.FC = () => {
             </div>
           </header>
 
-          <div className="max-w-6xl mx-auto px-5 relative z-10 pt-6 md:pt-12 pb-8 md:pb-24">
-            {/* Top Collage Image */}
-            <div className="reveal mb-8 md:mb-20">
-              <img
-                src="/images/hero-collage.png"
-                alt="6 Books For Interior/Exterior Designing"
-                className="w-full h-auto shadow-sm"
-              />
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+          <div className="max-w-6xl mx-auto px-5 relative z-10 pt-10 md:pt-20 pb-10 md:pb-28">
 
-              {/* Left — Copy */}
-              <div className="reveal text-center lg:text-left max-w-xl mx-auto lg:mx-0">
-                {/* Trust badge */}
-                <div className="mb-4 inline-flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-100 rounded-full mx-auto lg:mx-0">
-                  <div className="flex -space-x-2">
-                    {PORTRAIT_IMAGES.slice(0, 4).map((img, i) => (
-                      <img key={i} src={img} alt="" className="w-6 h-6 rounded-full border-2 border-white object-cover" />
-                    ))}
-                  </div>
-                  <span className="text-xs font-semibold text-orange-700">#1 Bestseller in 21 Countries</span>
-                </div>
+            {/* Centered Hero Content */}
+            <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
 
-                <p className="text-sm md:text-lg text-gray-600 mb-2 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                  If you're an <span className="font-semibold text-gray-900">Architect, Interior Designer, or Homeowner</span> who wants to design the best homes possible...
-                </p>
-
-                <h1 className="text-3xl md:text-5xl lg:text-[4rem] font-display font-black leading-[0.98] mb-4 text-gray-900 tracking-tightest text-balance max-w-4xl mx-auto lg:mx-0">
-                  You don't need to <span className="font-serif italic font-normal text-orange-600">waste time</span> searching anymore.
-                </h1>
-
-                <p className="text-base md:text-lg text-gray-700 font-medium mb-3 leading-snug max-w-lg mx-auto lg:mx-0">
-                  <span className="font-black text-gray-900 text-xl md:text-2xl block mb-2">Design Better. Earn More.</span>
-                  6 expert eBooks · 800+ pages · <span className="font-bold text-emerald-600">results for every skill level</span>.
-                </p>
-
-                {/* Trust line */}
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-xs text-gray-800 font-semibold">
-                  <span className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-emerald-500" /> 30-day money back</span>
-                  <span className="flex items-center gap-1.5"><Zap size={14} className="text-orange-400" /> Instant PDF download</span>
-                  <span className="flex items-center gap-1.5"><Infinity size={14} className="text-blue-400" /> Free lifetime updates</span>
-                </div>
-              </div>
-
-              {/* Right — Book visual grid */}
-              <div className="reveal-scale">
-                <div className="grid grid-cols-3 gap-3">
-                  {BOOK_THUMBNAILS.map((thumb, i) => (
-                    <div key={i} className="relative rounded-2xl overflow-hidden aspect-[3/4] bg-gray-100 group cursor-pointer shadow-lg shadow-gray-900/5 hover:shadow-xl hover:shadow-gray-900/10 transition-all hover:scale-[1.03]">
-                      <img src={thumb.image} alt={thumb.label} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-3">
-                        <span className="text-[11px] font-bold text-white uppercase tracking-wider">{thumb.label}</span>
-                      </div>
-                    </div>
+              {/* Trust badge pill */}
+              <div className="hero-fade-1 mb-6 inline-flex items-center gap-2.5 px-5 py-2.5 bg-white/70 backdrop-blur-md border border-orange-100/80 rounded-full shadow-sm shadow-orange-500/5">
+                <div className="flex -space-x-2">
+                  {PORTRAIT_IMAGES.slice(0, 4).map((img, i) => (
+                    <img key={i} src={img} alt="" className="w-7 h-7 rounded-full border-2 border-white object-cover" />
                   ))}
                 </div>
+                <div className="flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={11} className="fill-orange-400 text-orange-400" />)}
+                </div>
+                <span className="text-xs font-bold text-gray-700">#1 Bestseller in 21 Countries</span>
+              </div>
+
+              {/* Main Headline */}
+              <h1 className="hero-fade-2 text-4xl md:text-6xl lg:text-[4.5rem] font-display font-black leading-[1.05] mb-5 text-gray-900 tracking-tightest text-balance">
+                6 Books on<br />
+                <span style={{ background: 'linear-gradient(135deg, #ea580c 0%, #d97706 50%, #b45309 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Residential Design</span>
+              </h1>
+
+              {/* Sub-headline */}
+              <p className="hero-fade-3 text-lg md:text-2xl text-gray-700 font-medium leading-relaxed mb-3 max-w-2xl tracking-tight">
+                A visual guide to understanding home design.
+              </p>
+
+              {/* Description */}
+              <p className="hero-fade-3 text-sm md:text-lg text-gray-500 leading-relaxed mb-8 max-w-xl">
+                With over <span className="font-bold text-gray-800">1,000 colorful illustrations</span>, these ebooks explain the <span className="font-semibold text-gray-700">why</span> behind residential design in a clear, simple, and engaging way.
+              </p>
+
+              {/* Target Audience Tag */}
+              <div className="hero-fade-4 mb-8 flex flex-wrap items-center justify-center gap-2">
+                {[
+                  { icon: <Home size={13} />, label: 'Homeowners' },
+                  { icon: <GraduationCap size={13} />, label: 'Architecture Students' },
+                  { icon: <Wrench size={13} />, label: 'Contractors' },
+                ].map((tag, i) => (
+                  <span key={i} className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-orange-50/80 border border-orange-100 rounded-full text-xs font-semibold text-orange-700">
+                    {tag.icon} {tag.label}
+                  </span>
+                ))}
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="hero-fade-4 flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+                <div className="text-center">
+                  <button onClick={navigateToCheckout} className="cta-primary px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
+                    Get All 6 Books — $49 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
+                  </button>
+                  <p className="text-xs text-gray-500 mt-2 flex items-center justify-center gap-1 font-medium"><Download size={12} className="text-orange-400" /> Instant PDF Download</p>
+                </div>
+                <span className="text-xs font-bold text-gray-400 uppercase">or</span>
+                <div className="text-center">
+                  <button onClick={navigateToHardcopy} className="px-8 py-4 bg-gray-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-gray-900/15 hover:bg-gray-800 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
+                    Get Hardcopies — $299 <Package size={18} />
+                  </button>
+                  <p className="text-xs text-gray-500 mt-2 flex items-center justify-center gap-1 font-medium"><Truck size={12} className="text-gray-400" /> 10-Day Delivery Globally</p>
+                </div>
+              </div>
+
+              {/* Trust indicators strip */}
+              <div className="hero-fade-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-gray-600 font-semibold mb-12 md:mb-16">
+                <span className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-emerald-500" /> 30-Day Money Back</span>
+                <span className="flex items-center gap-1.5"><Zap size={14} className="text-orange-400" /> Instant PDF Download</span>
+                <span className="flex items-center gap-1.5"><Infinity size={14} className="text-blue-400" /> Free Lifetime Updates</span>
+              </div>
+
+              {/* Hero Book Cover Image */}
+              <div className="hero-scale-in w-full max-w-4xl mx-auto">
+                <div className="relative rounded-2xl md:rounded-3xl overflow-hidden hero-book-glow cursor-pointer group">
+                  {/* Subtle animated border accent */}
+                  <div className="absolute inset-0 rounded-2xl md:rounded-3xl z-10 pointer-events-none" style={{ border: '1px solid rgba(251,146,60,0.15)' }} />
+                  <img
+                    src="https://public-files.gumroad.com/7rg34ens9dbkkpm2vbzxlcc6jtqw"
+                    alt="Graphic Guide to Residential Design — 6 Book Collection with colorful architectural illustrations"
+                    className="w-full h-auto group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                  />
+                </div>
+              </div>
+
+              {/* Design Like a Professional — Below Image */}
+              <div className="mt-16 md:mt-24 w-full max-w-4xl mx-auto">
+                {/* Section heading */}
+                <div className="reveal text-center mb-10 md:mb-14">
+                  <p className="text-orange-500 text-xs font-mono uppercase tracking-[0.25em] mb-4 font-bold">The complete system</p>
+                  <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-black text-gray-900 tracking-tightest leading-[1.05] mb-5">
+                    Design Interiors/Exteriors Like<br />
+                    <span className="font-serif italic font-normal text-orange-600">a Professional</span>
+                  </h2>
+                  <p className="text-gray-600 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto">
+                    <span className="font-bold text-gray-900">6 comprehensive books. 800+ pages.</span> Every room in your home — from clearances and layouts to lighting and materials. <span className="font-semibold text-orange-600">The only design system you'll ever need.</span>
+                  </p>
+                </div>
+
+                {/* 6 Book Thumbnails Grid */}
+                <div className="reveal-scale">
+                  <div className="grid grid-cols-3 gap-2 md:gap-5">
+                    {BOOK_THUMBNAILS.map((thumb, i) => (
+                      <div key={i} className="relative rounded-2xl md:rounded-3xl overflow-hidden aspect-[3/4] bg-gray-100 group cursor-pointer shadow-lg shadow-gray-900/5 hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 hover:scale-[1.03]">
+                        <img src={thumb.image} alt={thumb.label} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+                        <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+                          <span className="text-[10px] md:text-xs font-bold text-white/60 uppercase tracking-widest">Book {i + 1}</span>
+                          <p className="text-sm md:text-base font-bold text-white leading-tight mt-0.5">{thumb.label}</p>
+                        </div>
+                        {/* Hover accent border */}
+                        <div className="absolute inset-0 rounded-2xl md:rounded-3xl border-2 border-transparent group-hover:border-orange-400/30 transition-colors pointer-events-none" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
         </section>
 
