@@ -130,7 +130,7 @@ export const PRICING_PLANS: PricingPlan[] = [
     duration: 'The Digital Collection',
     period: 'One-time payment',
     price: '$49',
-    originalPrice: '$199',
+    originalPrice: '$99',
     label: 'BEST SELLER',
     features: ['All 6 eBooks (PDF)', 'Mobile Optimized', 'High-Res Image Bank', 'Instant Download', 'Lifetime Updates'],
     accentColor: 'border-brand-success shadow-glow-success'

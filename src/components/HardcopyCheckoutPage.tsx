@@ -20,7 +20,7 @@ declare global {
 
 /**
  * HARDCOPY CHECKOUT COMPONENT
- * For physical book orders at $299 with 10-day global delivery.
+ * For physical book orders at $199 with 10-day global delivery.
  */
 export const HardcopyCheckoutPage: React.FC = () => {
     useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -29,7 +29,7 @@ export const HardcopyCheckoutPage: React.FC = () => {
     useEffect(() => {
         trackMetaEvent({
             eventName: 'InitiateCheckout',
-            value: 299.00,
+            value: 199.00,
             currency: 'USD',
             content_name: 'Interior Design System - 6 Book Hardcopy Collection',
             content_ids: ['interior-design-system-6-books-hardcopy'],
@@ -100,7 +100,7 @@ export const HardcopyCheckoutPage: React.FC = () => {
             stripeRef.current = window.Stripe(STRIPE_PUBLISHABLE_KEY);
             elementsRef.current = stripeRef.current.elements({
                 mode: 'payment',
-                amount: 29900,
+                amount: 19900,
                 currency: 'usd',
                 automatic_payment_methods: { enabled: true },
                 appearance: {
@@ -134,7 +134,7 @@ export const HardcopyCheckoutPage: React.FC = () => {
                             content_name: 'Interior Design System - 6 Book Hardcopy Collection',
                             content_ids: ['interior-design-system-6-books-hardcopy'],
                             content_type: 'product',
-                            value: 299.00,
+                            value: 199.00,
                             currency: 'USD'
                         });
                         setHasAddedPaymentInfo(true);
@@ -173,7 +173,7 @@ export const HardcopyCheckoutPage: React.FC = () => {
                 content_name: 'Interior Design System - 6 Book Hardcopy Collection',
                 content_ids: ['interior-design-system-6-books-hardcopy'],
                 content_type: 'product',
-                value: 299.00,
+                value: 199.00,
                 currency: 'USD',
                 payment_type: 'paypal'
             });
@@ -244,7 +244,7 @@ export const HardcopyCheckoutPage: React.FC = () => {
                 trackMetaEvent({
                     eventName: 'Purchase',
                     email,
-                    value: 299.00,
+                    value: 199.00,
                     currency: 'USD',
                     content_name: 'Interior Design System - 6 Book Hardcopy Collection',
                     content_ids: ['interior-design-system-6-books-hardcopy'],
@@ -376,7 +376,7 @@ export const HardcopyCheckoutPage: React.FC = () => {
                                             <p className="text-sm font-semibold text-gray-900">6 Hardcopy Books — Printed Collection</p>
                                             <p className="text-xs text-gray-500 mt-0.5">Shipped globally · Premium quality print</p>
                                         </div>
-                                        <p className="text-2xl font-bold text-gray-900">$299.00</p>
+                                        <p className="text-2xl font-bold text-gray-900">$199.00</p>
                                     </div>
                                 </div>
 
@@ -520,7 +520,7 @@ export const HardcopyCheckoutPage: React.FC = () => {
                                         {viewState === 'PROCESSING' ? (
                                             <Loader2 className="animate-spin" size={20} />
                                         ) : (
-                                            <><Package size={18} /><span>Order Hardcopy — $299</span></>
+                                            <><Package size={18} /><span>Order Hardcopy — $199</span></>
                                         )}
                                     </button>
 
@@ -539,7 +539,7 @@ export const HardcopyCheckoutPage: React.FC = () => {
                                         <input type="hidden" name="cmd" value="_xclick" />
                                         <input type="hidden" name="business" value={PAYPAL_BUSINESS_EMAIL} />
                                         <input type="hidden" name="item_name" value="Avada Design Bundle - Hardcopy" />
-                                        <input type="hidden" name="amount" value="299" />
+                                        <input type="hidden" name="amount" value="199" />
                                         <input type="hidden" name="currency_code" value="USD" />
                                         <input type="hidden" name="return" value={`${window.location.origin}/success?email=${email}&method=paypal&type=hardcopy`} />
                                         <input type="hidden" name="email" value={email} />

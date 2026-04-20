@@ -10,7 +10,7 @@ import { ChevronDown, ArrowRight, Star, BookOpen, Sparkles, CheckCircle2, Shield
 import { Course } from './types';
 import { trackMetaEvent } from './utils/meta-tracking';
 import {
-  Counter, Logo, CountdownTimer,
+  Counter, Logo,
   APP_STYLES, PORTRAIT_IMAGES, BOOK_THUMBNAILS, BOOK_IMAGES,
   PROBLEM_POINTS, TRANSFORMATION_STORIES, CURRICULUM_DATA
 } from './AppHelpers';
@@ -106,7 +106,7 @@ const App: React.FC = () => {
       content_name: 'Interior Design System - 6 Book Hardcopy Collection',
       content_ids: ['interior-design-system-6-books-hardcopy'],
       content_type: 'product',
-      value: 299.00,
+      value: 199.00,
       currency: 'USD'
     });
     window.scrollTo(0, 0);
@@ -115,8 +115,10 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans overflow-x-hidden antialiased">
+    <div className="min-h-screen bg-white text-gray-900 font-sans overflow-x-hidden antialiased relative">
       <style>{APP_STYLES}</style>
+      {/* Light opacity grid overlay across entire page */}
+      <div className="fixed inset-0 pointer-events-none z-[1]" style={{ backgroundImage: 'linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
       {/* Splash loading animation — only on landing page */}
       {showSplash && currentPath === '/' && (
@@ -153,85 +155,39 @@ const App: React.FC = () => {
             .hero-book-glow:hover { filter: drop-shadow(0 25px 70px rgba(234,88,12,0.18)) drop-shadow(0 12px 32px rgba(0,0,0,0.12)); transition: filter 0.4s ease; }
           `}</style>
 
-          {/* Sticky Header */}
-          <header className="sticky top-0 z-[60] bg-white/80 backdrop-blur-xl border-b border-gray-100 px-5 py-3.5">
-            <div className="max-w-6xl mx-auto flex items-center justify-between">
-              <Logo />
-              <button onClick={navigateToCheckout} className="hidden sm:flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-full text-sm font-semibold hover:bg-gray-800 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-gray-900/10">
-                Get the Books <ArrowRight size={14} />
-              </button>
-            </div>
-          </header>
-
           <div className="max-w-6xl mx-auto px-5 relative z-10 pt-10 md:pt-20 pb-10 md:pb-28">
 
             {/* Centered Hero Content */}
             <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
 
+              {/* Pain-point opener */}
+              <p className="hero-fade-1 text-gray-900 text-sm md:text-lg font-semibold leading-relaxed max-w-lg mb-3">
+                In Architecture & Design, <span className="font-black text-gray-950">dimensions and clearances</span> matter most. The real question is&nbsp;—
+              </p>
+              <h2 className="hero-fade-2 text-xl md:text-3xl font-display font-black text-orange-600 tracking-tight leading-[1.15] mb-5 max-w-xl">
+                How to design a Home perfectly without wasting time searching inspirations and dimensions?
+              </h2>
+
+              {/* Transition into the product */}
+              <p className="hero-fade-3 text-sm md:text-lg text-gray-800 font-semibold mb-6 max-w-md">That's why we present</p>
+
+              {/* Main Headline */}
+              <h1 className="hero-fade-3 text-4xl md:text-6xl lg:text-[4.5rem] font-display font-black leading-[1.05] mb-5 text-gray-900 tracking-tightest text-balance">
+                6 Books on<br />
+                <span style={{ background: 'linear-gradient(135deg, #ea580c 0%, #d97706 50%, #b45309 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Interior & Exterior Design</span>
+              </h1>
+
               {/* Trust badge pill */}
-              <div className="hero-fade-1 mb-6 inline-flex items-center gap-2.5 px-5 py-2.5 bg-white/70 backdrop-blur-md border border-orange-100/80 rounded-full shadow-sm shadow-orange-500/5">
-                <div className="flex -space-x-2">
+              <div className="hero-fade-4 mb-6 inline-flex items-center gap-1.5 md:gap-2.5 px-3 md:px-5 py-2 md:py-2.5 bg-white/70 backdrop-blur-md border border-orange-100/80 rounded-full shadow-sm shadow-orange-500/5 whitespace-nowrap">
+                <div className="hidden md:flex -space-x-2">
                   {PORTRAIT_IMAGES.slice(0, 4).map((img, i) => (
                     <img key={i} src={img} alt="" className="w-7 h-7 rounded-full border-2 border-white object-cover" />
                   ))}
                 </div>
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => <Star key={i} size={11} className="fill-orange-400 text-orange-400" />)}
+                <div className="flex items-center gap-0.5 md:gap-1">
+                  {[...Array(5)].map((_, i) => <Star key={i} size={10} className="fill-orange-400 text-orange-400 md:w-[11px] md:h-[11px]" />)}
                 </div>
-                <span className="text-xs font-bold text-gray-700">#1 Bestseller in 21 Countries</span>
-              </div>
-
-              {/* Main Headline */}
-              <h1 className="hero-fade-2 text-4xl md:text-6xl lg:text-[4.5rem] font-display font-black leading-[1.05] mb-5 text-gray-900 tracking-tightest text-balance">
-                6 Books on<br />
-                <span style={{ background: 'linear-gradient(135deg, #ea580c 0%, #d97706 50%, #b45309 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Residential Design</span>
-              </h1>
-
-              {/* Sub-headline */}
-              <p className="hero-fade-3 text-lg md:text-2xl text-gray-700 font-medium leading-relaxed mb-3 max-w-2xl tracking-tight">
-                A visual guide to understanding home design.
-              </p>
-
-              {/* Description */}
-              <p className="hero-fade-3 text-sm md:text-lg text-gray-500 leading-relaxed mb-8 max-w-xl">
-                With over <span className="font-bold text-gray-800">1,000 colorful illustrations</span>, these ebooks explain the <span className="font-semibold text-gray-700">why</span> behind residential design in a clear, simple, and engaging way.
-              </p>
-
-              {/* Target Audience Tag */}
-              <div className="hero-fade-4 mb-8 flex flex-wrap items-center justify-center gap-2">
-                {[
-                  { icon: <Home size={13} />, label: 'Homeowners' },
-                  { icon: <GraduationCap size={13} />, label: 'Architecture Students' },
-                  { icon: <Wrench size={13} />, label: 'Contractors' },
-                ].map((tag, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-orange-50/80 border border-orange-100 rounded-full text-xs font-semibold text-orange-700">
-                    {tag.icon} {tag.label}
-                  </span>
-                ))}
-              </div>
-
-              {/* CTA Buttons */}
-              <div className="hero-fade-4 flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
-                <div className="text-center">
-                  <button onClick={navigateToCheckout} className="cta-primary px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
-                    Get All 6 Books — $49 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
-                  </button>
-                  <p className="text-xs text-gray-500 mt-2 flex items-center justify-center gap-1 font-medium"><Download size={12} className="text-orange-400" /> Instant PDF Download</p>
-                </div>
-                <span className="text-xs font-bold text-gray-400 uppercase">or</span>
-                <div className="text-center">
-                  <button onClick={navigateToHardcopy} className="px-8 py-4 bg-gray-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-gray-900/15 hover:bg-gray-800 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
-                    Get Hardcopies — $299 <Package size={18} />
-                  </button>
-                  <p className="text-xs text-gray-500 mt-2 flex items-center justify-center gap-1 font-medium"><Truck size={12} className="text-gray-400" /> 10-Day Delivery Globally</p>
-                </div>
-              </div>
-
-              {/* Trust indicators strip */}
-              <div className="hero-fade-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-gray-600 font-semibold mb-12 md:mb-16">
-                <span className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-emerald-500" /> 30-Day Money Back</span>
-                <span className="flex items-center gap-1.5"><Zap size={14} className="text-orange-400" /> Instant PDF Download</span>
-                <span className="flex items-center gap-1.5"><Infinity size={14} className="text-blue-400" /> Free Lifetime Updates</span>
+                <span className="text-[10px] md:text-xs font-bold text-gray-700">Trusted by designers in 21+ countries</span>
               </div>
 
               {/* Hero Book Cover Image */}
@@ -241,23 +197,24 @@ const App: React.FC = () => {
                   <div className="absolute inset-0 rounded-2xl md:rounded-3xl z-10 pointer-events-none" style={{ border: '1px solid rgba(251,146,60,0.15)' }} />
                   <img
                     src="https://public-files.gumroad.com/7rg34ens9dbkkpm2vbzxlcc6jtqw"
-                    alt="Graphic Guide to Residential Design — 6 Book Collection with colorful architectural illustrations"
+                    alt="Graphic Guide to Interior/Exterior Design — 6 Book Collection with colorful architectural illustrations"
                     className="w-full h-auto group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                   />
                 </div>
               </div>
 
-              {/* Design Like a Professional — Below Image */}
+              {/* Pain Point + Value Prop — Below Image */}
               <div className="mt-16 md:mt-24 w-full max-w-4xl mx-auto">
-                {/* Section heading */}
-                <div className="reveal text-center mb-10 md:mb-14">
-                  <p className="text-orange-500 text-xs font-mono uppercase tracking-[0.25em] mb-4 font-bold">The complete system</p>
-                  <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-black text-gray-900 tracking-tightest leading-[1.05] mb-5">
-                    Design Interiors/Exteriors Like<br />
-                    <span className="font-serif italic font-normal text-orange-600">a Professional</span>
+                <div className="reveal text-center mb-10 md:mb-14 max-w-2xl mx-auto space-y-5">
+                  <p className="text-orange-500 text-xs font-mono uppercase tracking-[0.25em] font-bold">Before you design anything</p>
+                  <h2 className="text-2xl md:text-5xl font-display font-black text-gray-900 tracking-tightest leading-[1.1]">
+                    One wrong measurement =<br /><span className="font-serif italic font-normal text-orange-600">thousands wasted.</span>
                   </h2>
-                  <p className="text-gray-600 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto">
-                    <span className="font-bold text-gray-900">6 comprehensive books. 800+ pages.</span> Every room in your home — from clearances and layouts to lighting and materials. <span className="font-semibold text-orange-600">The only design system you'll ever need.</span>
+                  <p className="text-gray-700 text-sm md:text-lg leading-relaxed">
+                    <span className="font-bold text-gray-900">800+ handmade diagrams.</span> Every dimension, clearance & layout — what works and what fails.
+                  </p>
+                  <p className="text-orange-600 font-bold text-sm md:text-base">
+                    20 years of knowledge — yours in hours.
                   </p>
                 </div>
 
@@ -284,132 +241,7 @@ const App: React.FC = () => {
           </div>
         </section>
 
-        {/* ═══════════════════════════════════════════════
-           SECTION 1B: PHONE MOCKUP — Value Proposition
-           ═══════════════════════════════════════════════ */}
-        <section className="py-10 md:py-24 bg-gradient-to-b from-gray-50 via-white to-gray-50 relative overflow-hidden">
-          {/* Ambient glow effects */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-orange-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-gradient-radial from-amber-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
 
-          <div className="max-w-5xl mx-auto px-5 flex flex-col items-center">
-            <div className="reveal-scale">
-              {/* Phone Device */}
-              <div className="relative mx-auto" style={{ width: 'min(340px, 80vw)' }}>
-                {/* Phone Frame */}
-                <div style={{
-                  borderRadius: '40px',
-                  padding: '12px',
-                  background: 'linear-gradient(145deg, #e8e4f0, #d4cfe0, #c8c2d4)',
-                  boxShadow: '0 25px 80px rgba(124, 111, 170, 0.15), 0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6)',
-                }}>
-                  {/* Left side buttons */}
-                  <div style={{ position: 'absolute', left: '-3px', top: '100px', width: '3px', height: '28px', borderRadius: '3px 0 0 3px', background: 'linear-gradient(to bottom, #d4cfe0, #c8c2d4)' }} />
-                  <div style={{ position: 'absolute', left: '-3px', top: '145px', width: '3px', height: '50px', borderRadius: '3px 0 0 3px', background: 'linear-gradient(to bottom, #d4cfe0, #c8c2d4)' }} />
-                  <div style={{ position: 'absolute', left: '-3px', top: '205px', width: '3px', height: '50px', borderRadius: '3px 0 0 3px', background: 'linear-gradient(to bottom, #d4cfe0, #c8c2d4)' }} />
-                  {/* Right side button */}
-                  <div style={{ position: 'absolute', right: '-3px', top: '155px', width: '3px', height: '65px', borderRadius: '0 3px 3px 0', background: 'linear-gradient(to bottom, #d4cfe0, #c8c2d4)' }} />
-
-                  {/* Screen */}
-                  <div style={{
-                    borderRadius: '30px',
-                    overflow: 'hidden',
-                    background: '#f9f9fb',
-                  }}>
-                    {/* Status Bar */}
-                    <div style={{ padding: '14px 24px 8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <span style={{ color: '#1c1c1e', fontSize: '15px', fontWeight: 600, fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif' }}>11:11</span>
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" strokeWidth="2.5"><path d="M22 2L2 22M15 2l7 7M9 2l13 13"/><path d="M2 12l10 10M8 12l10 10"/></svg>
-                      </div>
-                      {/* Dynamic Island */}
-                      <div style={{ width: '100px', height: '28px', background: '#1c1c1e', borderRadius: '20px', position: 'relative' }}>
-                        <div style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', width: '8px', height: '8px', borderRadius: '50%', background: '#2c2c3e', border: '1.5px solid #444' }} />
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                        {/* Signal bars */}
-                        <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="8" width="3" height="4" rx="0.5" fill="#1c1c1e"/><rect x="4.5" y="5" width="3" height="7" rx="0.5" fill="#1c1c1e"/><rect x="9" y="2" width="3" height="10" rx="0.5" fill="#1c1c1e"/><rect x="13" y="0" width="3" height="12" rx="0.5" fill="#1c1c1e" opacity="0.3"/></svg>
-                        {/* WiFi */}
-                        <svg width="16" height="12" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="#1c1c1e"/></svg>
-                        {/* Battery */}
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                          <div style={{ width: '22px', height: '10px', border: '1.5px solid #1c1c1e', borderRadius: '3px', padding: '1.5px' }}>
-                            <div style={{ width: '100%', height: '100%', background: '#1c1c1e', borderRadius: '1px' }} />
-                          </div>
-                          <div style={{ width: '2px', height: '5px', background: '#1c1c1e', borderRadius: '0 1px 1px 0', marginLeft: '1px' }} />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Notes App Header */}
-                    <div style={{ padding: '8px 20px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <svg width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="#e97a1f" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M8 2L2 8l6 6"/></svg>
-                        <span style={{ color: '#e97a1f', fontSize: '16px', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif' }}>Notes</span>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                        <div style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1.5px solid #ccc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <div style={{ display: 'flex', gap: '2px' }}><span style={{ width: '3px', height: '3px', borderRadius: '50%', background: '#e97a1f' }} /><span style={{ width: '3px', height: '3px', borderRadius: '50%', background: '#e97a1f' }} /><span style={{ width: '3px', height: '3px', borderRadius: '50%', background: '#e97a1f' }} /></div>
-                        </div>
-                        <span style={{ color: '#e97a1f', fontSize: '16px', fontWeight: 400, fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif' }}>Done</span>
-                      </div>
-                    </div>
-
-                    {/* Notes Content */}
-                    <div style={{ padding: '16px 24px 60px' }}>
-                      <p style={{
-                        color: '#1c1c1e',
-                        fontSize: '22px',
-                        fontWeight: 600,
-                        lineHeight: 1.45,
-                        fontFamily: 'ui-monospace, "SF Mono", Menlo, monospace',
-                        letterSpacing: '0.01em',
-                        textAlign: 'justify',
-                      }}>
-                        Covers everything you need to design your own home or to increase your income by 10 times, no matter you're in job or own a firm.
-                      </p>
-                    </div>
-
-                    {/* Bottom dots indicator */}
-                    <div style={{ padding: '8px 0 20px', display: 'flex', justifyContent: 'center', gap: '6px' }}>
-                      {[0,1,2,3,4].map((_,i) => (
-                        <div key={i} style={{ width: '7px', height: '7px', borderRadius: '50%', background: i === 0 ? '#e97a1f' : '#ccc' }} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════════════════════════════════════════
-           CTA: ABOVE WHO THIS IS FOR
-           ═══════════════════════════════════════════════ */}
-        <section className="py-8 md:py-14">
-          <div className="max-w-3xl mx-auto px-5 text-center">
-            <div className="reveal">
-              <p className="text-gray-600 text-base md:text-lg mb-6">
-                Join <span className="font-bold text-gray-900">50,000+ designers</span> who already have these books
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <div className="text-center">
-                  <button onClick={navigateToCheckout} className="cta-primary px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
-                    E-Books Download — $49 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
-                  </button>
-                  <p className="text-xs text-gray-500 mt-2 flex items-center justify-center gap-1 font-medium"><Download size={12} className="text-orange-400" /> Download Instantly</p>
-                </div>
-                <span className="text-xs font-bold text-gray-400 uppercase">or</span>
-                <div className="text-center">
-                  <button onClick={navigateToHardcopy} className="px-8 py-4 bg-gray-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-gray-900/15 hover:bg-gray-800 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
-                    Get Hardcopies — $299 <Package size={18} />
-                  </button>
-                  <p className="text-xs text-gray-500 mt-2 flex items-center justify-center gap-1 font-medium"><Truck size={12} className="text-gray-400" /> 10-Day Delivery Globally</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* ═══════════════════════════════════════════════
            SECTION 5B: WHO THIS IS FOR
@@ -443,7 +275,7 @@ const App: React.FC = () => {
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent" />
           <div className="max-w-5xl mx-auto px-5">
             <div className="reveal text-center mb-8 md:mb-14">
-              <p className="text-orange-600 text-xs font-bold uppercase tracking-[0.25em] mb-4 font-display">What makes these books special</p>
+              <p className="text-orange-600 text-xs font-bold uppercase tracking-[0.2em] mb-4 font-display">What makes these books special</p>
               <h2 className="text-3xl md:text-6xl font-display font-black text-gray-900 tracking-tightest leading-[1]">
                 Learn with <span className="font-serif italic font-normal text-orange-600">Interactive Diagrams</span>
               </h2>
@@ -502,7 +334,7 @@ const App: React.FC = () => {
               <span className="text-xs font-bold text-gray-400 uppercase">or</span>
               <div className="text-center">
                 <button onClick={navigateToHardcopy} className="px-8 py-4 bg-gray-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-gray-900/15 hover:bg-gray-800 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
-                  Get Hardcopies — $299 <Package size={18} />
+                  Get Hardcopies — $199 <Package size={18} />
                 </button>
                 <p className="text-xs text-gray-500 mt-2 flex items-center justify-center gap-1 font-medium"><Truck size={12} className="text-gray-400" /> 10-Day Delivery Globally</p>
               </div>
@@ -512,7 +344,9 @@ const App: React.FC = () => {
               <div className="reveal text-center mb-7 md:mb-10">
                 <p className="text-orange-600 text-xs font-bold uppercase tracking-[0.2em] mb-4 font-display">What's inside</p>
                 <h2 className="text-3xl md:text-6xl font-display font-black text-gray-900 tracking-tightest">800+ pages that cover <span className="font-serif italic font-normal text-orange-600">everything</span></h2>
-                <p className="text-gray-600 text-base md:text-lg mt-3 max-w-2xl mx-auto">Every clearance. Every dimension. Every mistake you could make — <span className="font-bold text-gray-900">and how to avoid it</span>.</p>
+                <p className="text-gray-600 text-base md:text-lg mt-3 max-w-2xl mx-auto">
+                  Every clearance. Every dimension. Every mistake you could make — <span className="font-bold text-gray-900">and how to avoid it</span>.
+                </p>
               </div>
 
               <div className="flex flex-wrap justify-center gap-2 mb-6 md:mb-8 reveal">
@@ -571,7 +405,7 @@ const App: React.FC = () => {
               </h2>
               <div className="bg-gradient-to-r from-orange-50 to-amber-50 border-l-4 border-orange-500 rounded-2xl p-5 md:p-8 max-w-2xl mx-auto">
                 <div className="flex items-start gap-4">
-                  <span className="text-3xl shrink-0">�</span>
+                  <span className="text-3xl shrink-0">💡</span>
                   <div>
                     <p className="text-gray-800 text-sm md:text-lg leading-relaxed text-left">
                       That's <span className="font-bold text-orange-600">exactly why</span> we created these 6 books. <span className="font-bold text-orange-600">800+ pages of handmade diagrams</span> showing every dimension, clearance, and layout — what works and what fails. <span className="font-serif italic text-gray-900">Learn in hours what took us 20 years to master.</span>
@@ -678,7 +512,7 @@ const App: React.FC = () => {
               <p>Look, here's what nobody tells you: <strong className="text-gray-900">hiring a designer doesn't guarantee you'll avoid these mistakes.</strong> Most designers keep their dimensional knowledge secret — it's their competitive edge.</p>
               <p>And YouTube? It teaches you trends. <span className="font-bold text-gray-900">Trends expire. Dimensions don't.</span></p>
               <p>So we did something different. We took <strong className="text-gray-900">every measurement, every clearance, every layout principle</strong> we've learned and put it into 6 books with <span className="font-bold text-orange-600">handmade diagrams</span> that show you what's right and what's wrong.</p>
-              <p className="text-gray-900 font-semibold text-base md:text-xl pt-3 md:pt-4 border-l-4 border-orange-400 pl-4 md:pl-5">20 years of knowledge — yours in hours. No guessing. No mistakes. Just <span className="font-serif italic">clarity</span>.</p>
+              <p className="text-gray-900 font-semibold text-base md:text-xl pt-3 md:pt-4 border-l-4 border-orange-400 pl-4 md:pl-5">20 years of knowledge — yours in hours. No guessing. No mistakes. Just <span className="font-serif italic">clarity</span>.<br/><span className="text-sm text-gray-500 font-normal not-italic">— The Home Design Books Team</span></p>
             </div>
           </div>
         </section>
@@ -747,7 +581,7 @@ const App: React.FC = () => {
           <div className="px-5 mb-8 md:mb-12 text-center">
             <div className="reveal">
               <h2 className="text-3xl md:text-5xl font-display font-bold text-gray-900 tracking-tight mb-3">Don't just take <span className="text-orange-500">our word for it</span></h2>
-              <p className="text-gray-600 text-base md:text-lg">50,000+ designers and homeowners already have these books. Here's what they're saying:</p>
+              <p className="text-gray-600 text-base md:text-lg">Thousands of designers and homeowners already have these books. Here's what they're saying:</p>
             </div>
           </div>
 
@@ -763,7 +597,7 @@ const App: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-full bg-orange-100 flex items-center justify-center font-bold text-sm text-orange-600">{t.name[0]}</div>
                     <div>
-                      <p className="text-sm font-semibold text-gray-800 flex items-center gap-1">{t.name} <CheckCircle2 size={12} className="text-emerald-500" /></p>
+                      <p className="text-sm font-semibold text-gray-800 flex items-center gap-1">{t.name}</p>
                       <p className="text-[10px] text-gray-600 uppercase tracking-widest">{t.role} • {t.location}</p>
                     </div>
                   </div>
@@ -782,7 +616,7 @@ const App: React.FC = () => {
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-full bg-orange-100 flex items-center justify-center font-bold text-sm text-orange-600">{t.name[0]}</div>
                     <div>
-                      <p className="text-sm font-semibold text-gray-800 flex items-center gap-1">{t.name} <CheckCircle2 size={12} className="text-emerald-500" /></p>
+                      <p className="text-sm font-semibold text-gray-800 flex items-center gap-1">{t.name}</p>
                       <p className="text-[10px] text-gray-600 uppercase tracking-widest">{t.role} • {t.location}</p>
                     </div>
                   </div>
@@ -812,12 +646,11 @@ const App: React.FC = () => {
             <div className="reveal bg-white rounded-3xl p-6 md:p-10 shadow-2xl shadow-gray-900/10 border border-gray-100 text-center relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-amber-400 to-orange-500" />
 
-              <p className="text-gray-400 text-xs font-mono uppercase tracking-widest mb-4">Limited time pricing</p>
+              <p className="text-gray-400 text-xs font-mono uppercase tracking-widest mb-4">The Complete Collection</p>
               <div className="flex items-center justify-center gap-4 mb-2">
-                <span className="text-2xl font-medium text-gray-300 line-through">$199</span>
                 <span className="text-6xl md:text-7xl font-display font-black text-gray-900 tracking-tighter">$49</span>
               </div>
-              <p className="text-orange-500 font-semibold text-sm mb-6 md:mb-8">75% off · One-time payment · Yours forever · Free updates for life</p>
+              <p className="text-orange-500 font-semibold text-sm mb-6 md:mb-8">One-time payment · Yours forever · Free updates for life</p>
 
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6 md:mb-8 text-left">
                 {[
@@ -848,7 +681,7 @@ const App: React.FC = () => {
                 </div>
                 <div>
                   <button onClick={navigateToHardcopy} className="w-full py-5 bg-gray-900 text-white rounded-2xl font-bold text-lg shadow-xl shadow-gray-900/15 hover:bg-gray-800 hover:scale-[1.03] active:scale-[0.98] transition-all flex items-center justify-center gap-3 group whitespace-nowrap">
-                    Get Hardcopies — $299 <Package size={18} />
+                    Get Hardcopies — $199 <Package size={18} />
                   </button>
                   <p className="text-xs text-gray-500 mt-1.5 text-center flex items-center justify-center gap-1 font-medium"><Truck size={12} className="text-gray-400" /> 10-Day Delivery Globally</p>
                 </div>
@@ -896,7 +729,7 @@ const App: React.FC = () => {
             <div className="reveal">
               <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 md:mb-5 tracking-tight">Look, every day you wait is another <span className="font-serif italic text-orange-400">mistake</span> you might make.</h2>
 
-              <p className="text-gray-400 text-lg mb-8">50,000+ people already have these books. The only question is — <span className="font-bold text-white">how many more mistakes will you make before you join them?</span></p>
+              <p className="text-gray-400 text-lg mb-8">Thousands of people already have these books. The only question is — <span className="font-bold text-white">will you keep guessing, or start designing with confidence?</span></p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <div className="text-center">
                   <button onClick={navigateToCheckout} className="cta-primary px-10 py-5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap">
@@ -907,7 +740,7 @@ const App: React.FC = () => {
                 <span className="text-xs font-bold text-gray-600 uppercase">or</span>
                 <div className="text-center">
                   <button onClick={navigateToHardcopy} className="px-10 py-5 bg-white text-gray-900 rounded-2xl font-bold text-lg shadow-xl hover:bg-gray-100 hover:scale-[1.03] active:scale-[0.98] transition-all inline-flex items-center gap-3 group whitespace-nowrap border border-gray-200">
-                    Get Hardcopies — $299 <Package size={18} />
+                    Get Hardcopies — $199 <Package size={18} />
                   </button>
                   <p className="text-xs text-gray-400 mt-2 flex items-center justify-center gap-1 font-medium"><Truck size={12} /> 10-Day Delivery Globally</p>
                 </div>
@@ -928,14 +761,14 @@ const App: React.FC = () => {
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center">
                   <BookOpen size={16} className="text-white" />
                 </div>
-                <span className="text-sm font-semibold text-white">Interior Design System</span>
+                <span className="text-sm font-semibold text-white">Home Design Books</span>
               </div>
               <div className="flex items-center gap-6 text-xs text-gray-500">
-                <a href="#" className="hover:text-gray-300 transition-colors">Privacy Policy</a>
-                <a href="#" className="hover:text-gray-300 transition-colors">Refund Policy</a>
-                <a href="#" className="hover:text-gray-300 transition-colors">Contact</a>
+                <span>30-Day Money-Back Guarantee</span>
+                <span>·</span>
+                <span>Secure Payment via Gumroad</span>
               </div>
-              <p className="text-xs text-gray-600">© {new Date().getFullYear()} Interior Design System. All rights reserved.</p>
+              <p className="text-xs text-gray-600"> {new Date().getFullYear()} Home Design Books. All rights reserved.</p>
             </div>
           </div>
         </footer>
@@ -951,16 +784,6 @@ const App: React.FC = () => {
           <div className="max-w-6xl mx-auto">
             {/* Mobile: timer + full-width button */}
             <div className="sm:hidden">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-semibold text-orange-500 uppercase tracking-wider">Offer ends in</span>
-                  <CountdownTimer />
-                </div>
-                <div>
-                  <span className="text-xs text-gray-600 line-through mr-1">$199</span>
-                  <span className="text-lg font-display font-black text-gray-900">$49</span>
-                </div>
-              </div>
               <button onClick={navigateToCheckout} className="w-full py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-bold text-sm active:scale-[0.98] transition-all flex items-center justify-center gap-2 group shadow-lg shadow-orange-500/20">
                 Get All 6 Books <ArrowRight className="group-hover:translate-x-1 transition-transform" size={14} />
               </button>
@@ -975,20 +798,12 @@ const App: React.FC = () => {
                   ))}
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-gray-800 leading-none">50,000+ readers</p>
+                  <p className="text-xs font-bold text-gray-800 leading-none">Trusted readers</p>
                   <p className="text-[10px] text-gray-600">trusted worldwide</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-semibold text-orange-500 uppercase tracking-wider">Offer ends in</span>
-                  <CountdownTimer />
-                </div>
-                <div className="text-right">
-                  <span className="text-sm text-gray-600 line-through mr-2">$199</span>
-                  <span className="text-xl font-display font-black text-gray-900">$49</span>
-                </div>
                 <button onClick={navigateToCheckout} className="px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-bold text-sm hover:scale-[1.03] active:scale-[0.98] transition-all flex items-center gap-2 group whitespace-nowrap shadow-lg shadow-orange-500/20">
                   Get All 6 Books <ArrowRight className="group-hover:translate-x-1 transition-transform" size={14} />
                 </button>
