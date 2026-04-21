@@ -1,5 +1,5 @@
 const email = "mybs1522@gmail.com";
-const edgeFunctionUrl = "https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-order-email";
+const edgeFunctionUrl = "https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-mail";
 
 console.log(`Triggering test email to ${email}...`);
 
@@ -8,7 +8,8 @@ fetch(edgeFunctionUrl, {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
         email: email,
-        orderId: "TEST_DELIVERABILITY_CHECK"
+        orderId: "TEST_DELIVERABILITY_CHECK",
+        type: "digital"
     })
 })
     .then(async res => {

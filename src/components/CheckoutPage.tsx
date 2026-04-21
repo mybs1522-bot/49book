@@ -266,7 +266,7 @@ export const CheckoutPage: React.FC = () => {
                     content_type: 'product',
                     order_id: result.paymentIntent.id
                 });
-                fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-order-email", {
+                fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-mail", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, name, orderId: result.paymentIntent.id })
