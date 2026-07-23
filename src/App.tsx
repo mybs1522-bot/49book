@@ -6,6 +6,7 @@ import { AdminModal } from './components/AdminModal';
 import { LoginModal } from './components/LoginModal';
 import { FAQ_ITEMS, TESTIMONIALS, COURSES, INDUSTRIES, FEATURES, BUSINESS_MODULES } from './constants';
 import { SplashScreen } from './components/SplashScreen';
+import { HeroSlider } from './components/HeroSlider';
 import { ChevronDown, ArrowRight, Star, BookOpen, Sparkles, CheckCircle2, ShieldCheck, Target, TrendingUp, Zap, Users, X, Home, Sofa, ChefHat, Bed, Bath, Map, GraduationCap, Building, Wrench, Hammer, Palette, Download, Infinity, Award, Eye, Heart, Clock, Layers, LifeBuoy, Briefcase, AlertCircle, Package, Truck } from 'lucide-react';
 import { Course } from './types';
 import { trackMetaEvent } from './utils/meta-tracking';
@@ -190,18 +191,8 @@ const App: React.FC = () => {
                 <span className="text-[10px] md:text-xs font-bold text-gray-700">Trusted by designers in 21+ countries</span>
               </div>
 
-              {/* Hero Book Cover Image */}
-              <div className="hero-scale-in w-full max-w-4xl mx-auto">
-                <div className="relative rounded-2xl md:rounded-3xl overflow-hidden hero-book-glow cursor-pointer group">
-                  {/* Subtle animated border accent */}
-                  <div className="absolute inset-0 rounded-2xl md:rounded-3xl z-10 pointer-events-none" style={{ border: '1px solid rgba(251,146,60,0.15)' }} />
-                  <img
-                    src="https://public-files.gumroad.com/7rg34ens9dbkkpm2vbzxlcc6jtqw"
-                    alt="Graphic Guide to Interior/Exterior Design — 6 Book Collection with colorful architectural illustrations"
-                    className="w-full h-auto group-hover:scale-[1.02] transition-transform duration-700 ease-out"
-                  />
-                </div>
-              </div>
+              {/* Hero Book Cover Gallery Slider */}
+              <HeroSlider />
 
               {/* Pain Point + Value Prop — Below Image */}
               <div className="mt-16 md:mt-24 w-full max-w-4xl mx-auto">

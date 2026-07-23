@@ -356,17 +356,13 @@ export const HardcopyCheckoutPage: React.FC = () => {
                                     <span className="text-[10px] font-semibold text-orange-500 bg-orange-100 px-2 py-0.5 rounded-full">PRINTED BOOKS</span>
                                 </div>
 
-                                {/* Book preview video */}
-                                <div className="mb-4 rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-black">
-                                    <video
-                                        autoPlay
-                                        loop
-                                        muted
-                                        playsInline
-                                        className="w-full h-auto"
-                                    >
-                                        <source src="https://avada.in/wp-content/uploads/2022/06/05181_2_2.mp4" type="video/mp4" />
-                                    </video>
+                                {/* Book preview image */}
+                                <div className="mb-4 rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white">
+                                    <img
+                                        src="/images/books-transformation-preview.jpg"
+                                        alt="The Books that Change How You Understand Design"
+                                        className="w-full h-auto object-cover"
+                                    />
                                 </div>
 
                                 {/* Line items */}
