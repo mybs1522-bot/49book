@@ -503,19 +503,7 @@ export const CheckoutPage: React.FC = () => {
                                                     <div className="w-5 sm:w-6 h-5 sm:h-6 rounded-md bg-emerald-100 flex items-center justify-center shrink-0">
                                                         <Star size={12} className="text-emerald-700" />
                                                     </div>
-                                                    <span className="text-xs font-bold text-gray-950">Sketchup-Vray Course</span>
-                                                </div>
-                                                <span className="text-[9px] sm:text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ml-2 border border-emerald-200">
-                                                    FREE BONUS
-                                                </span>
-                                            </div>
-
-                                            <div className="flex items-center justify-between p-2 sm:p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-200">
-                                                <div className="flex items-center gap-2 min-w-0">
-                                                    <div className="w-5 sm:w-6 h-5 sm:h-6 rounded-md bg-emerald-100 flex items-center justify-center shrink-0">
-                                                        <Sparkles size={12} className="text-emerald-700" />
-                                                    </div>
-                                                    <span className="text-xs font-bold text-gray-950">3ds Max Course</span>
+                                                    <span className="text-xs font-bold text-gray-950">Sketchup-Vray Interior Design Course</span>
                                                 </div>
                                                 <span className="text-[9px] sm:text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ml-2 border border-emerald-200">
                                                     FREE BONUS
