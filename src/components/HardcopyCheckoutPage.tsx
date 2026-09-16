@@ -779,11 +779,9 @@ export const HardcopyCheckoutPage: React.FC = () => {
                                     )}
 
                                     {/* Footer */}
-                                    <div className="flex items-center justify-center gap-2 pt-2 text-xs text-gray-700 font-semibold">
-                                        <Lock size={12} className="text-emerald-700" />
-                                        <span>Guaranteed Safe & Secure Checkout</span>
-                                        <span>•</span>
-                                        <span className="font-extrabold text-gray-900">256-bit SSL</span>
+                                    <div className="flex items-center justify-center gap-1.5 pt-2 text-xs text-gray-500 font-medium">
+                                        <span>Powered by</span>
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" className="h-4 object-contain" />
                                     </div>
                                 </div>
                             </div>
