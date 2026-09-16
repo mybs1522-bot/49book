@@ -405,7 +405,7 @@ export const CheckoutPage: React.FC = () => {
             </div>
 
             {/* === MAIN CONTENT === */}
-            <div className="checkout-container max-w-5xl mx-auto px-4 sm:px-6 py-4 lg:py-6">
+            <div className="checkout-container max-w-5xl mx-auto px-3 sm:px-6 py-2.5 sm:py-4 lg:py-6">
 
                 {/* SUCCESS VIEW */}
                 {viewState === 'SUCCESS' && (
@@ -438,14 +438,14 @@ export const CheckoutPage: React.FC = () => {
 
                 {/* FORM VIEW */}
                 {(viewState === 'FORM' || viewState === 'PROCESSING') && (
-                    <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
+                    <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-8">
 
                         {/* ========== LEFT COLUMN: ORDER SUMMARY ========== */}
                         <div className="flex-1 lg:max-w-[50%]">
                             <div className="lg:sticky lg:top-4">
 
                                 {/* Best part callout */}
-                                <p className="text-xs text-gray-800 font-medium text-center mb-4">
+                                <p className="text-[11px] sm:text-xs text-gray-800 font-medium text-center mb-2 sm:mb-4">
                                     <span className="font-bold text-gray-950">Best Part:</span> Monthly Updates in Books at no extra charge
                                 </p>
 
@@ -453,21 +453,21 @@ export const CheckoutPage: React.FC = () => {
                                 <PagesSlider />
 
                                 {/* PREMIUM MOVIE TICKET PASS */}
-                                <div className="relative bg-white rounded-2xl border border-gray-300 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.07)] overflow-hidden transition-all hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)]">
+                                <div className="relative bg-white rounded-xl sm:rounded-2xl border border-gray-300 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.07)] overflow-hidden transition-all hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)]">
                                     {/* Ticket Upper Section (Header & Price) */}
-                                    <div className="p-4 sm:p-5 pb-3.5">
-                                        <div className="flex items-center justify-between gap-3">
+                                    <div className="p-3 sm:p-5 pb-2 sm:pb-3.5">
+                                        <div className="flex items-center justify-between gap-2">
                                             <div>
-                                                <h4 className="text-base sm:text-lg font-black text-gray-950 leading-snug">
+                                                <h4 className="text-[15px] sm:text-lg font-black text-gray-950 leading-snug">
                                                     6 Interior Design Books
                                                 </h4>
                                             </div>
                                             <div className="text-right shrink-0">
-                                                <div className="flex items-baseline justify-end gap-1.5">
+                                                <div className="flex items-baseline justify-end gap-1 sm:gap-1.5">
                                                     <span className="text-xs text-gray-500 line-through font-bold">$98</span>
-                                                    <span className="text-2xl sm:text-3xl font-black text-gray-950 tracking-tight">$49<span className="text-base font-bold text-gray-600">.00</span></span>
+                                                    <span className="text-xl sm:text-3xl font-black text-gray-950 tracking-tight">$49<span className="text-sm sm:text-base font-bold text-gray-600">.00</span></span>
                                                 </div>
-                                                <span className="inline-block mt-0.5 text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded border border-emerald-300">
+                                                <span className="inline-block mt-0.5 text-[9px] sm:text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded border border-emerald-300">
                                                     SAVE 50% ($49 OFF)
                                                 </span>
                                             </div>
@@ -475,57 +475,57 @@ export const CheckoutPage: React.FC = () => {
                                     </div>
 
                                     {/* Perforated Tear Line with Semicircular Ticket Notches */}
-                                    <div className="relative flex items-center justify-between my-1">
+                                    <div className="relative flex items-center justify-between my-0.5 sm:my-1">
                                         {/* Left Notch */}
-                                        <div className="w-3.5 h-7 bg-gray-50 border-r border-y border-gray-300 rounded-r-full -ml-[1px]" />
+                                        <div className="w-2.5 sm:w-3.5 h-5 sm:h-7 bg-gray-50 border-r border-y border-gray-300 rounded-r-full -ml-[1px]" />
                                         {/* Dashed Line */}
                                         <div className="flex-1 border-t-2 border-dashed border-gray-300 mx-2 relative">
-                                            <span className="absolute left-1/2 -top-2.5 -translate-x-1/2 bg-white px-2 text-[9px] font-mono font-bold text-gray-700 uppercase tracking-widest">
+                                            <span className="absolute left-1/2 -top-2.5 -translate-x-1/2 bg-white px-2 text-[8.5px] sm:text-[9px] font-mono font-bold text-gray-700 uppercase tracking-widest">
                                                 Lifetime Access Pass
                                             </span>
                                         </div>
                                         {/* Right Notch */}
-                                        <div className="w-3.5 h-7 bg-gray-50 border-l border-y border-gray-300 rounded-l-full -mr-[1px]" />
+                                        <div className="w-2.5 sm:w-3.5 h-5 sm:h-7 bg-gray-50 border-l border-y border-gray-300 rounded-l-full -mr-[1px]" />
                                     </div>
 
                                     {/* Ticket Lower Section (Included Perks) */}
-                                    <div className="p-4 sm:p-5 pt-3 bg-gradient-to-b from-stone-50/80 to-white">
-                                        <p className="text-[10.5px] font-black text-gray-900 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                                            <span className="w-4 h-4 bg-emerald-600 rounded-full flex items-center justify-center shadow-2xs">
-                                                <Check size={10} className="text-white" strokeWidth={3} />
+                                    <div className="p-3 sm:p-5 pt-2 sm:pt-3 bg-gradient-to-b from-stone-50/80 to-white">
+                                        <p className="text-[10px] sm:text-[10.5px] font-black text-gray-900 uppercase tracking-wider mb-1.5 sm:mb-2.5 flex items-center gap-1.5">
+                                            <span className="w-3.5 sm:w-4 h-3.5 sm:h-4 bg-emerald-600 rounded-full flex items-center justify-center shadow-2xs">
+                                                <Check size={9} className="text-white" strokeWidth={3} />
                                             </span>
                                             FREE BONUS INCLUDED
                                         </p>
 
-                                        <div className="space-y-2">
-                                            <div className="flex items-center justify-between p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-200">
+                                        <div className="space-y-1.5 sm:space-y-2">
+                                            <div className="flex items-center justify-between p-2 sm:p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-200">
                                                 <div className="flex items-center gap-2 min-w-0">
-                                                    <div className="w-6 h-6 rounded-md bg-emerald-100 flex items-center justify-center shrink-0">
-                                                        <Star size={13} className="text-emerald-700" />
+                                                    <div className="w-5 sm:w-6 h-5 sm:h-6 rounded-md bg-emerald-100 flex items-center justify-center shrink-0">
+                                                        <Star size={12} className="text-emerald-700" />
                                                     </div>
                                                     <span className="text-xs font-bold text-gray-950">Sketchup-Vray Course</span>
                                                 </div>
-                                                <span className="text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ml-2 border border-emerald-200">
+                                                <span className="text-[9px] sm:text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ml-2 border border-emerald-200">
                                                     FREE BONUS
                                                 </span>
                                             </div>
 
-                                            <div className="flex items-center justify-between p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-200">
+                                            <div className="flex items-center justify-between p-2 sm:p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-200">
                                                 <div className="flex items-center gap-2 min-w-0">
-                                                    <div className="w-6 h-6 rounded-md bg-emerald-100 flex items-center justify-center shrink-0">
-                                                        <Sparkles size={13} className="text-emerald-700" />
+                                                    <div className="w-5 sm:w-6 h-5 sm:h-6 rounded-md bg-emerald-100 flex items-center justify-center shrink-0">
+                                                        <Sparkles size={12} className="text-emerald-700" />
                                                     </div>
                                                     <span className="text-xs font-bold text-gray-950">3ds Max Course</span>
                                                 </div>
-                                                <span className="text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ml-2 border border-emerald-200">
+                                                <span className="text-[9px] sm:text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ml-2 border border-emerald-200">
                                                     FREE BONUS
                                                 </span>
                                             </div>
                                         </div>
 
                                         {/* Barcode Accent */}
-                                        <div className="mt-3.5 pt-3 border-t border-gray-200 flex flex-col items-center">
-                                            <svg className="w-48 h-6 opacity-75" viewBox="0 0 180 28" fill="currentColor">
+                                        <div className="mt-2.5 sm:mt-3.5 pt-2 sm:pt-3 border-t border-gray-200 flex flex-col items-center">
+                                            <svg className="w-36 sm:w-48 h-5 sm:h-6 opacity-75" viewBox="0 0 180 28" fill="currentColor">
                                                 <rect x="0" y="0" width="2" height="28"/>
                                                 <rect x="4" y="0" width="1" height="28"/>
                                                 <rect x="7" y="0" width="3" height="28"/>
@@ -572,32 +572,32 @@ export const CheckoutPage: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* Trust badges */}
-                                <div className="flex items-center justify-between mt-3 text-[11px] sm:text-xs text-gray-900 font-bold gap-1 whitespace-nowrap">
-                                    <span className="flex items-center gap-1.5"><Download size={13} className="shrink-0 text-gray-950" /> Instant PDF</span>
-                                    <span className="flex items-center gap-1.5 text-blue-700 font-extrabold"><Shield size={13} className="shrink-0" /> Lifetime Updates</span>
-                                    <span className="flex items-center gap-1.5 text-emerald-800 font-bold"><ShieldCheck size={13} className="shrink-0" /> 30-Day Guarantee</span>
+                                {/* Billing Details divider */}
+                                <div className="flex items-center gap-3 mt-3 sm:mt-4">
+                                    <div className="flex-1 h-px bg-gray-300" />
+                                    <span className="text-[10px] sm:text-[11px] font-bold text-gray-600 uppercase tracking-widest">Billing Details</span>
+                                    <div className="flex-1 h-px bg-gray-300" />
                                 </div>
                             </div>
                         </div>
 
                         {/* ========== RIGHT COLUMN: PAYMENT FORM ========== */}
                         <div className="flex-1 lg:max-w-[50%]">
-                            <div className="bg-white rounded-2xl border border-gray-300 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.07)] overflow-hidden">
+                            <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-300 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.07)] overflow-hidden">
 
                                 {/* Apple Pay / Google Pay wallet button */}
                                 {showWalletButton && (
-                                    <div className="p-5 pb-0">
+                                    <div className="p-4 sm:p-5 pb-0">
                                         <div id="wallet-button-element" className="mb-1" />
-                                        <div className="flex items-center gap-3 my-3">
+                                        <div className="flex items-center gap-3 my-2 sm:my-3">
                                             <div className="flex-1 h-px bg-gray-300" />
-                                            <span className="text-[11px] font-bold text-gray-600 uppercase tracking-wider">Or pay with card</span>
+                                            <span className="text-[10px] sm:text-[11px] font-bold text-gray-600 uppercase tracking-wider">Or pay with card</span>
                                             <div className="flex-1 h-px bg-gray-300" />
                                         </div>
                                     </div>
                                 )}
 
-                                <div className="p-5 sm:p-6 space-y-4">
+                                <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
 
                                     {/* Email */}
                                     <div>

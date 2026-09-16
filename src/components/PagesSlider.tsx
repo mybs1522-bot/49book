@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { X } from 'lucide-react';
 
 export const PAGE_PREVIEWS = [
@@ -22,7 +22,7 @@ export const PagesSlider: React.FC = () => {
 
   return (
     <div
-      className="mb-4 rounded-2xl border border-gray-200/90 shadow-sm bg-[#fdfdfc] p-3 sm:p-3.5 relative overflow-hidden"
+      className="mb-2.5 sm:mb-4 rounded-xl sm:rounded-2xl border border-gray-200/90 shadow-sm bg-[#fdfdfc] p-2 sm:p-3.5 relative overflow-hidden"
       style={{
         backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)`,
         backgroundSize: '22px 22px'
@@ -44,8 +44,8 @@ export const PagesSlider: React.FC = () => {
       `}</style>
 
       {/* Header: Just "Inside Books" */}
-      <div className="text-center mb-2.5">
-        <span className="text-xs sm:text-sm font-extrabold text-gray-900 tracking-tight uppercase">
+      <div className="text-center mb-1.5 sm:mb-2.5">
+        <span className="text-[11px] sm:text-sm font-extrabold text-gray-900 tracking-tight uppercase">
           Inside Books
         </span>
       </div>
@@ -56,12 +56,12 @@ export const PagesSlider: React.FC = () => {
         <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-[#fdfdfc] to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-[#fdfdfc] to-transparent z-10 pointer-events-none" />
 
-        <div className="animate-pages-marquee gap-2.5 items-center">
+        <div className="animate-pages-marquee gap-2 sm:gap-2.5 items-center">
           {[...PAGE_PREVIEWS, ...PAGE_PREVIEWS].map((page, idx) => (
             <div
               key={`${page.id}-${idx}`}
               onClick={() => setSelectedImage({ src: page.src, title: page.title })}
-              className="shrink-0 w-[86px] sm:w-[96px] aspect-[1/1.41] bg-white rounded-lg border border-gray-200/90 shadow-sm hover:shadow-md hover:border-orange-400 hover:scale-[1.02] transition-all duration-300 cursor-pointer overflow-hidden"
+              className="shrink-0 w-[74px] sm:w-[96px] aspect-[1/1.41] bg-white rounded-lg border border-gray-200/90 shadow-sm hover:shadow-md hover:border-orange-400 hover:scale-[1.02] transition-all duration-300 cursor-pointer overflow-hidden"
             >
               <img
                 src={page.src}

@@ -598,11 +598,11 @@ export const HardcopyCheckoutPage: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* Trust badges */}
-                                <div className="flex items-center justify-between mt-3 text-[11px] sm:text-xs text-gray-900 font-bold gap-1 whitespace-nowrap">
-                                    <span className="flex items-center gap-1.5"><Truck size={13} className="shrink-0 text-gray-950" /> Free Shipping</span>
-                                    <span className="flex items-center gap-1.5 text-blue-700 font-extrabold"><Shield size={13} className="shrink-0" /> + Digital Copies</span>
-                                    <span className="flex items-center gap-1.5 text-emerald-800 font-bold"><ShieldCheck size={13} className="shrink-0" /> 30-Day Guarantee</span>
+                                {/* Billing Details divider */}
+                                <div className="flex items-center gap-3 mt-4">
+                                    <div className="flex-1 h-px bg-gray-300" />
+                                    <span className="text-[11px] font-bold text-gray-600 uppercase tracking-widest">Billing Details</span>
+                                    <div className="flex-1 h-px bg-gray-300" />
                                 </div>
                             </div>
                         </div>
