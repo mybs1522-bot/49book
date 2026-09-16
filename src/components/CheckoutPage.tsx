@@ -464,11 +464,11 @@ export const CheckoutPage: React.FC = () => {
                                             </div>
                                             <div className="text-right shrink-0">
                                                 <div className="flex items-baseline justify-end gap-1.5">
-                                                    <span className="text-xs text-gray-500 line-through font-bold">$294</span>
+                                                    <span className="text-xs text-gray-500 line-through font-bold">$98</span>
                                                     <span className="text-2xl sm:text-3xl font-black text-gray-950 tracking-tight">$49<span className="text-base font-bold text-gray-600">.00</span></span>
                                                 </div>
                                                 <span className="inline-block mt-0.5 text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded border border-emerald-300">
-                                                    SAVE 83% ($245 OFF)
+                                                    SAVE 50% ($49 OFF)
                                                 </span>
                                             </div>
                                         </div>
