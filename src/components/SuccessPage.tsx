@@ -74,12 +74,14 @@ export const SuccessPage: React.FC = () => {
                 {/* Support Link */}
                 <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 flex flex-col gap-4">
                     <p className="text-gray-600 font-medium">Your collection is ready for immediate access.</p>
-                    <button
-                        onClick={() => window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc"}
-                        className="w-full py-4 bg-orange-500 text-white rounded-xl font-black text-lg uppercase tracking-wider shadow-lg shadow-orange-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+                    <a
+                        href="https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-black text-lg uppercase tracking-wider shadow-lg shadow-orange-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 no-underline"
                     >
                         Download Files <Download size={20} strokeWidth={3} />
-                    </button>
+                    </a>
                     <div className="pt-2">
                         <a
                             href="https://wa.me/919198747810"

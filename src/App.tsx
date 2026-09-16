@@ -82,8 +82,8 @@ const App: React.FC = () => {
   }, [currentPath]);
 
   // Routing
-  if (currentPath === '/checkout') return <CheckoutPage />;
-  if (currentPath === '/checkout-hardcopy') return <HardcopyCheckoutPage />;
+  if (currentPath === '/checkout-hardcopy' || currentPath.startsWith('/checkout-hardcopy')) return <HardcopyCheckoutPage />;
+  if (currentPath === '/checkout' || currentPath.startsWith('/checkout')) return <CheckoutPage />;
   if (currentPath.startsWith('/success')) return <SuccessPage />;
 
   const navigateToCheckout = () => {
@@ -241,7 +241,7 @@ const App: React.FC = () => {
           <div className="max-w-5xl mx-auto px-5">
             <div className="reveal text-center mb-7 md:mb-10">
               <p className="text-orange-500 text-xs font-mono uppercase tracking-widest mb-3 font-semibold">Who is this for?</p>
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 tracking-tight">Trusted by <span className="text-orange-500">every type</span> of design professional</h2>
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 tracking-tight">Trusted by <span className="text-orange-500">Homeowners & Professionals</span> Alike</h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
               {INDUSTRIES.map((ind, i) => {

@@ -29,6 +29,15 @@ const BOOK_LABELS = [
     { key: 'elevations', label: 'Elevations Design' },
 ];
 
+const WHO_IS_THIS_FOR = [
+    { label: 'Homeowners', icon: '/images/icon-3d-homeowners.png' },
+    { label: 'Architecture Students', icon: '/images/icon-3d-students.png' },
+    { label: 'Interior Designers', icon: '/images/icon-3d-designers.png' },
+    { label: 'Real Estate Developers', icon: '/images/icon-3d-developers.png' },
+    { label: 'Renovators', icon: '/images/icon-3d-renovators.png' },
+    { label: 'DIY Enthusiasts', icon: '/images/icon-3d-diy.png' },
+];
+
 /**
  * REFINED CHECKOUT COMPONENT
  * Implements Stripe Link, Unified Payment Element, 8px grid, and monochrome design.
@@ -64,8 +73,27 @@ export const CheckoutPage: React.FC = () => {
     const stripeRef = useRef<any>(null);
     const elementsRef = useRef<any>(null);
 
-    // --- ENTRANCE ANIMATION ---
-    useEffect(() => { requestAnimationFrame(() => setIsVisible(true)); }, []);
+    // --- ENTRANCE ANIMATION & 3DS REDIRECT HANDLING ---
+    useEffect(() => {
+        requestAnimationFrame(() => setIsVisible(true));
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('redirect_status') === 'succeeded' || params.get('success') === 'true') {
+            setViewState('SUCCESS');
+            const stripeId = params.get('payment_intent');
+            trackMetaEvent({
+                eventName: 'Purchase',
+                value: 49.00,
+                currency: 'USD',
+                content_name: 'Interior Design System - 6 Book Collection',
+                content_ids: ['interior-design-system-6-books'],
+                content_type: 'product',
+                order_id: stripeId || 'stripe-redirect'
+            });
+            setTimeout(() => {
+                window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc";
+            }, 2500);
+        }
+    }, []);
 
     // --- TIMER (synced with landing page via shared localStorage key) ---
     useEffect(() => {
@@ -340,12 +368,14 @@ export const CheckoutPage: React.FC = () => {
                             <h3 className="text-2xl font-bold text-gray-900">Payment Successful!</h3>
                             <p className="text-gray-600 text-sm mt-2">Your interior design collection is ready.</p>
                         </div>
-                        <button
-                            onClick={() => window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc"}
-                            className="w-full py-4 bg-gray-900 text-white rounded-xl font-bold text-base shadow-lg hover:bg-gray-800 transition-all flex items-center justify-center gap-2"
+                        <a
+                            href="https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full py-4 bg-gray-900 text-white rounded-xl font-bold text-base shadow-lg hover:bg-gray-800 transition-all flex items-center justify-center gap-2 no-underline"
                         >
                             Download Now <Download size={18} />
-                        </button>
+                        </a>
                         <a href="https://wa.me/919198747810" target="_blank" rel="noopener noreferrer"
                             onClick={() => trackMetaEvent({ eventName: 'Contact' })}
                             className="inline-flex items-center gap-2 text-gray-600 text-xs font-semibold hover:text-gray-900 transition-colors">
@@ -367,47 +397,163 @@ export const CheckoutPage: React.FC = () => {
                                     <span className="font-bold text-gray-900">Best Part:</span> Monthly Updates in Books at no extra charge
                                 </p>
 
-                                {/* Book preview image */}
-                                <div className="mb-4 rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white">
-                                    <img
-                                        src="/images/books-transformation-preview.jpg"
-                                        alt="The Books that Change How You Understand Design"
-                                        className="w-full h-auto object-cover"
-                                    />
-                                </div>
+                                {/* WHO IS THIS FOR (All 6 Icons in a Single Line) */}
+                                <div 
+                                    className="mb-4 rounded-2xl border border-gray-200/90 shadow-sm bg-[#fdfdfc] p-3.5 sm:p-4.5 relative overflow-hidden"
+                                    style={{
+                                        backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)`,
+                                        backgroundSize: '22px 22px'
+                                    }}
+                                >
+                                    <div className="text-center mb-3">
+                                        <span className="inline-block text-[10.5px] font-extrabold tracking-[0.14em] text-[#ea580c] uppercase mb-1">
+                                            WHO IS THIS FOR?
+                                        </span>
+                                        <h3 className="text-sm sm:text-base font-extrabold text-gray-900 tracking-tight leading-snug">
+                                            Trusted by <span className="text-[#ea580c]">Homeowners & Professionals</span> Alike
+                                        </h3>
+                                    </div>
 
-                                {/* Line items */}
-                                <div className="space-y-2 border-t border-gray-200 pt-4">
-                                    <div className="flex items-baseline justify-between">
-                                        <p className="text-sm font-semibold text-gray-900">Interior Design — 6 Book Collection</p>
-                                        <p className="text-2xl font-bold text-gray-900">$49.00</p>
+                                    {/* All 6 icons in a single line */}
+                                    <div className="grid grid-cols-6 gap-1 sm:gap-1.5 items-stretch">
+                                        {WHO_IS_THIS_FOR.map((item, idx) => (
+                                            <div
+                                                key={idx}
+                                                className="bg-white rounded-lg sm:rounded-xl border border-gray-200/80 py-1.5 px-0.5 sm:py-2 sm:px-1 flex flex-col items-center justify-start text-center shadow-[0_2px_6px_rgba(0,0,0,0.02)] hover:border-orange-300 hover:shadow-md transition-all group overflow-hidden"
+                                            >
+                                                <div className="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-lg sm:rounded-xl bg-gradient-to-br from-[#fff7ed] to-[#ffedd5] border border-orange-200/60 flex items-center justify-center mb-1 shrink-0 group-hover:scale-105 transition-transform">
+                                                    <img
+                                                        src={item.icon}
+                                                        alt={item.label}
+                                                        className="w-5 h-5 sm:w-6 sm:h-6 object-contain drop-shadow-sm"
+                                                        loading="lazy"
+                                                    />
+                                                </div>
+                                                <span className="text-[7.5px] sm:text-[8.5px] font-bold text-gray-800 leading-[1.15] px-0.5 break-words">
+                                                    {item.label}
+                                                </span>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
 
-                                {/* Bonus section */}
-                                <div className="mt-4 bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl p-4 border border-emerald-200">
-                                    <p className="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                                        <span className="w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center"><Check size={12} className="text-white" /></span>
-                                        Included with your purchase
-                                    </p>
-                                    <div className="space-y-2.5">
-                                        <div className="flex items-center gap-2.5">
-                                            <BookOpen size={16} className="text-emerald-600 shrink-0" />
-                                            <span className="text-sm font-semibold text-gray-900">6 Interior Design Books</span>
-                                        </div>
-                                        <div className="flex items-center gap-2.5">
-                                            <Star size={16} className="text-emerald-600 shrink-0" />
+                                {/* PREMIUM MOVIE TICKET PASS */}
+                                <div className="relative bg-white rounded-2xl border border-gray-300/80 shadow-[0_10px_30px_rgba(0,0,0,0.06)] overflow-hidden transition-all hover:shadow-[0_14px_40px_rgba(0,0,0,0.09)]">
+                                    {/* Ticket Upper Section (Header & Price) */}
+                                    <div className="p-4 sm:p-5 pb-3.5">
+                                        <div className="flex items-center justify-between gap-3">
                                             <div>
-                                                <span className="text-sm font-semibold text-gray-900">Free Sketchup-Vray Course</span>
-                                                <span className="ml-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded-full">BONUS</span>
+                                                <h4 className="text-base sm:text-lg font-black text-gray-900 leading-snug">
+                                                    6 Interior Design Books
+                                                </h4>
+                                            </div>
+                                            <div className="text-right shrink-0">
+                                                <div className="flex items-baseline justify-end gap-1.5">
+                                                    <span className="text-xs text-gray-400 line-through font-semibold">$294</span>
+                                                    <span className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">$49<span className="text-base font-bold text-gray-500">.00</span></span>
+                                                </div>
+                                                <span className="inline-block mt-0.5 text-[9.5px] font-extrabold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded border border-emerald-200">
+                                                    SAVE 83% ($245 OFF)
+                                                </span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-2.5">
-                                            <Star size={16} className="text-emerald-600 shrink-0" />
-                                            <div>
-                                                <span className="text-sm font-semibold text-gray-900">Free Interior Design Lead Generation Course</span>
-                                                <span className="ml-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded-full">BONUS</span>
+                                    </div>
+
+                                    {/* Perforated Tear Line with Semicircular Ticket Notches */}
+                                    <div className="relative flex items-center justify-between my-1">
+                                        {/* Left Notch */}
+                                        <div className="w-3.5 h-7 bg-gray-50 border-r border-y border-gray-300/80 rounded-r-full -ml-[1px]" />
+                                        {/* Dashed Line */}
+                                        <div className="flex-1 border-t-2 border-dashed border-gray-300 mx-2 relative">
+                                            <span className="absolute left-1/2 -top-2.5 -translate-x-1/2 bg-white px-2 text-[8px] font-mono font-bold text-gray-400 uppercase tracking-widest">
+                                                PERFORATED TICKET STUB
+                                            </span>
+                                        </div>
+                                        {/* Right Notch */}
+                                        <div className="w-3.5 h-7 bg-gray-50 border-l border-y border-gray-300/80 rounded-l-full -mr-[1px]" />
+                                    </div>
+
+                                    {/* Ticket Lower Section (Included Perks) */}
+                                    <div className="p-4 sm:p-5 pt-3 bg-gradient-to-b from-[#fafaf9]/80 to-white">
+                                        <p className="text-[10.5px] font-extrabold text-gray-500 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                                            <span className="w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center">
+                                                <Check size={10} className="text-white" strokeWidth={3} />
+                                            </span>
+                                            FREE BONUS INCLUDED
+                                        </p>
+
+                                        <div className="space-y-2">
+                                            <div className="flex items-center justify-between p-2.5 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                                                <div className="flex items-center gap-2 min-w-0">
+                                                    <div className="w-6 h-6 rounded-md bg-emerald-100 flex items-center justify-center shrink-0">
+                                                        <Star size={13} className="text-emerald-600" />
+                                                    </div>
+                                                    <span className="text-xs font-bold text-gray-800">Sketchup-Vray Course</span>
+                                                </div>
+                                                <span className="text-[9.5px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ml-2">
+                                                    FREE BONUS
+                                                </span>
                                             </div>
+
+                                            <div className="flex items-center justify-between p-2.5 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                                                <div className="flex items-center gap-2 min-w-0">
+                                                    <div className="w-6 h-6 rounded-md bg-emerald-100 flex items-center justify-center shrink-0">
+                                                        <Star size={13} className="text-emerald-600" />
+                                                    </div>
+                                                    <span className="text-xs font-bold text-gray-800">Live Class Lead Gen Course</span>
+                                                </div>
+                                                <span className="text-[9.5px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ml-2">
+                                                    FREE BONUS
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Authentic Vector Barcode */}
+                                        <div className="mt-3.5 pt-3 border-t border-gray-100 flex flex-col items-center">
+                                            <svg className="h-6 sm:h-7 w-48 text-gray-800 max-w-full" viewBox="0 0 176 28" fill="currentColor">
+                                                <rect x="0" y="0" width="3" height="28"/>
+                                                <rect x="5" y="0" width="1.5" height="28"/>
+                                                <rect x="9" y="0" width="4" height="28"/>
+                                                <rect x="15" y="0" width="2" height="28"/>
+                                                <rect x="19" y="0" width="1.5" height="28"/>
+                                                <rect x="23" y="0" width="3.5" height="28"/>
+                                                <rect x="29" y="0" width="2" height="28"/>
+                                                <rect x="33" y="0" width="1" height="28"/>
+                                                <rect x="36" y="0" width="4" height="28"/>
+                                                <rect x="42" y="0" width="2" height="28"/>
+                                                <rect x="46" y="0" width="1.5" height="28"/>
+                                                <rect x="50" y="0" width="3" height="28"/>
+                                                <rect x="55" y="0" width="4" height="28"/>
+                                                <rect x="61" y="0" width="1" height="28"/>
+                                                <rect x="64" y="0" width="3" height="28"/>
+                                                <rect x="69" y="0" width="2" height="28"/>
+                                                <rect x="73" y="0" width="4" height="28"/>
+                                                <rect x="79" y="0" width="1.5" height="28"/>
+                                                <rect x="83" y="0" width="2" height="28"/>
+                                                <rect x="87" y="0" width="3.5" height="28"/>
+                                                <rect x="93" y="0" width="1" height="28"/>
+                                                <rect x="96" y="0" width="4" height="28"/>
+                                                <rect x="102" y="0" width="2" height="28"/>
+                                                <rect x="106" y="0" width="1.5" height="28"/>
+                                                <rect x="110" y="0" width="3" height="28"/>
+                                                <rect x="115" y="0" width="4" height="28"/>
+                                                <rect x="121" y="0" width="1.5" height="28"/>
+                                                <rect x="125" y="0" width="3" height="28"/>
+                                                <rect x="130" y="0" width="2" height="28"/>
+                                                <rect x="134" y="0" width="4" height="28"/>
+                                                <rect x="140" y="0" width="1" height="28"/>
+                                                <rect x="143" y="0" width="3.5" height="28"/>
+                                                <rect x="148" y="0" width="2" height="28"/>
+                                                <rect x="152" y="0" width="1.5" height="28"/>
+                                                <rect x="156" y="0" width="4" height="28"/>
+                                                <rect x="162" y="0" width="2" height="28"/>
+                                                <rect x="166" y="0" width="1.5" height="28"/>
+                                                <rect x="170" y="0" width="3" height="28"/>
+                                                <rect x="174" y="0" width="2" height="28"/>
+                                            </svg>
+                                            <span className="font-mono text-[9px] font-bold tracking-[0.25em] text-gray-400 mt-1 uppercase">
+                                                * 84920-VIP-TICKET-2026 *
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -490,13 +636,18 @@ export const CheckoutPage: React.FC = () => {
 
                                     {/* PayPal button */}
                                     {!hidePayPal && (
-                                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" onSubmit={handlePaypalSubmit}>
+                                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" onSubmit={handlePaypalSubmit}>
                                         <input type="hidden" name="cmd" value="_xclick" />
                                         <input type="hidden" name="business" value={PAYPAL_BUSINESS_EMAIL} />
-                                        <input type="hidden" name="item_name" value="Avada Design Bundle" />
+                                        <input type="hidden" name="item_name" value="AVADA 6-Book Interior & Exterior Design System" />
+                                        <input type="hidden" name="item_number" value="AVADA-6BOOKS-DIGITAL" />
                                         <input type="hidden" name="amount" value="49" />
                                         <input type="hidden" name="currency_code" value="USD" />
                                         <input type="hidden" name="return" value={`${window.location.origin}/success?email=${email}&method=paypal`} />
+                                        <input type="hidden" name="notify_url" value="https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/paypal-ipn" />
+                                        <input type="hidden" name="custom" value={email} />
+                                        <input type="hidden" name="rm" value="2" />
+                                        <input type="hidden" name="cbr" value="1" />
                                         <input type="hidden" name="email" value={email} />
                                         <button
                                             type="submit"

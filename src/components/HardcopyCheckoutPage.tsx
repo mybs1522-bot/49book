@@ -18,6 +18,15 @@ declare global {
     }
 }
 
+const WHO_IS_THIS_FOR = [
+    { label: 'Homeowners', icon: '/images/icon-3d-homeowners.png' },
+    { label: 'Architecture Students', icon: '/images/icon-3d-students.png' },
+    { label: 'Interior Designers', icon: '/images/icon-3d-designers.png' },
+    { label: 'Real Estate Developers', icon: '/images/icon-3d-developers.png' },
+    { label: 'Renovators', icon: '/images/icon-3d-renovators.png' },
+    { label: 'DIY Enthusiasts', icon: '/images/icon-3d-diy.png' },
+];
+
 /**
  * HARDCOPY CHECKOUT COMPONENT
  * For physical book orders at $199 with 10-day global delivery.
@@ -356,66 +365,176 @@ export const HardcopyCheckoutPage: React.FC = () => {
                                     <span className="text-[10px] font-semibold text-orange-500 bg-orange-100 px-2 py-0.5 rounded-full">PRINTED BOOKS</span>
                                 </div>
 
-                                {/* Book preview image */}
-                                <div className="mb-4 rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white">
-                                    <img
-                                        src="/images/books-transformation-preview.jpg"
-                                        alt="The Books that Change How You Understand Design"
-                                        className="w-full h-auto object-cover"
-                                    />
-                                </div>
+                                {/* WHO IS THIS FOR (All 6 Icons in a Single Line) */}
+                                <div 
+                                    className="mb-4 rounded-2xl border border-gray-200/90 shadow-sm bg-[#fdfdfc] p-3.5 sm:p-4.5 relative overflow-hidden"
+                                    style={{
+                                        backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)`,
+                                        backgroundSize: '22px 22px'
+                                    }}
+                                >
+                                    <div className="text-center mb-3">
+                                        <span className="inline-block text-[10.5px] font-extrabold tracking-[0.14em] text-[#ea580c] uppercase mb-1">
+                                            WHO IS THIS FOR?
+                                        </span>
+                                        <h3 className="text-sm sm:text-base font-extrabold text-gray-900 tracking-tight leading-snug">
+                                            Trusted by <span className="text-[#ea580c]">Homeowners & Professionals</span> Alike
+                                        </h3>
+                                    </div>
 
-                                {/* Line items */}
-                                <div className="space-y-2 border-t border-gray-200 pt-4">
-                                    <div className="flex items-baseline justify-between">
-                                        <div>
-                                            <p className="text-sm font-semibold text-gray-900">6 Hardcopy Books — Printed Collection</p>
-                                            <p className="text-xs text-gray-500 mt-0.5">Shipped globally · Premium quality print</p>
-                                        </div>
-                                        <p className="text-2xl font-bold text-gray-900">$199.00</p>
+                                    {/* All 6 icons in a single line */}
+                                    <div className="grid grid-cols-6 gap-1 sm:gap-1.5 items-stretch">
+                                        {WHO_IS_THIS_FOR.map((item, idx) => (
+                                            <div
+                                                key={idx}
+                                                className="bg-white rounded-lg sm:rounded-xl border border-gray-200/80 py-1.5 px-0.5 sm:py-2 sm:px-1 flex flex-col items-center justify-start text-center shadow-[0_2px_6px_rgba(0,0,0,0.02)] hover:border-orange-300 hover:shadow-md transition-all group overflow-hidden"
+                                            >
+                                                <div className="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-lg sm:rounded-xl bg-gradient-to-br from-[#fff7ed] to-[#ffedd5] border border-orange-200/60 flex items-center justify-center mb-1 shrink-0 group-hover:scale-105 transition-transform">
+                                                    <img
+                                                        src={item.icon}
+                                                        alt={item.label}
+                                                        className="w-5 h-5 sm:w-6 sm:h-6 object-contain drop-shadow-sm"
+                                                        loading="lazy"
+                                                    />
+                                                </div>
+                                                <span className="text-[7.5px] sm:text-[8.5px] font-bold text-gray-800 leading-[1.15] px-0.5 break-words">
+                                                    {item.label}
+                                                </span>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
 
-                                {/* What's included */}
-                                <div className="mt-4 bg-gray-50 rounded-xl p-4 border border-gray-100 space-y-2.5">
-                                    <p className="text-xs font-bold text-gray-700 uppercase tracking-wider">What's included</p>
-                                    {[
-                                        { icon: <Package size={14} />, text: 'All 6 printed books (800+ pages)' },
-                                        { icon: <Truck size={14} />, text: '10-day global delivery' },
-                                        { icon: <Download size={14} />, text: 'FREE digital copies (PDF) included' },
-                                        { icon: <Shield size={14} />, text: 'Lifetime updates (digital)' },
-                                        { icon: <ShieldCheck size={14} />, text: '30-day money-back guarantee' },
-                                    ].map((item, i) => (
-                                        <div key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                                            <span className="text-orange-500">{item.icon}</span> {item.text}
+                                {/* PREMIUM MOVIE TICKET PASS */}
+                                <div className="relative bg-white rounded-2xl border border-gray-300/80 shadow-[0_10px_30px_rgba(0,0,0,0.06)] overflow-hidden transition-all hover:shadow-[0_14px_40px_rgba(0,0,0,0.09)]">
+                                    {/* Ticket Upper Section (Header & Price) */}
+                                    <div className="p-4 sm:p-5 pb-3">
+                                        <div className="flex items-start justify-between gap-3">
+                                            <div>
+                                                <h4 className="text-base sm:text-lg font-black text-gray-900 leading-snug">
+                                                    6 Hardcopy Books Collection
+                                                </h4>
+                                                <p className="text-xs text-gray-500 font-medium mt-0.5">
+                                                    Shipped Globally · Premium Hardcover Edition
+                                                </p>
+                                            </div>
+                                            <div className="text-right shrink-0">
+                                                <div className="flex items-baseline justify-end gap-1.5">
+                                                    <span className="text-xs text-gray-400 line-through font-semibold">$450</span>
+                                                    <span className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">$199<span className="text-base font-bold text-gray-500">.00</span></span>
+                                                </div>
+                                                <span className="inline-block mt-0.5 text-[9.5px] font-extrabold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded border border-emerald-200">
+                                                    SAVE $251 (56% OFF)
+                                                </span>
+                                            </div>
                                         </div>
-                                    ))}
-                                </div>
+                                    </div>
 
-                                {/* Bonus section */}
-                                <div className="mt-4 bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl p-4 border border-emerald-200">
-                                    <p className="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                                        <span className="w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center"><Check size={12} className="text-white" /></span>
-                                        Included with your purchase
-                                    </p>
-                                    <div className="space-y-2.5">
-                                        <div className="flex items-center gap-2.5">
-                                            <BookOpen size={16} className="text-emerald-600 shrink-0" />
-                                            <span className="text-sm font-semibold text-gray-900">6 Interior Design Books</span>
+                                    {/* Perforated Tear Line with Semicircular Ticket Notches */}
+                                    <div className="relative flex items-center justify-between my-1">
+                                        {/* Left Notch */}
+                                        <div className="w-3.5 h-7 bg-gray-50 border-r border-y border-gray-300/80 rounded-r-full -ml-[1px]" />
+                                        {/* Dashed Line */}
+                                        <div className="flex-1 border-t-2 border-dashed border-gray-300 mx-2 relative">
+                                            <span className="absolute left-1/2 -top-2.5 -translate-x-1/2 bg-white px-2 text-[8px] font-mono font-bold text-gray-400 uppercase tracking-widest">
+                                                PERFORATED TICKET STUB
+                                            </span>
                                         </div>
-                                        <div className="flex items-center gap-2.5">
-                                            <Star size={16} className="text-emerald-600 shrink-0" />
-                                            <div>
-                                                <span className="text-sm font-semibold text-gray-900">Free Sketchup-Vray Course</span>
-                                                <span className="ml-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded-full">BONUS</span>
+                                        {/* Right Notch */}
+                                        <div className="w-3.5 h-7 bg-gray-50 border-l border-y border-gray-300/80 rounded-l-full -mr-[1px]" />
+                                    </div>
+
+                                    {/* Ticket Lower Section (Included Perks) */}
+                                    <div className="p-4 sm:p-5 pt-3 bg-gradient-to-b from-[#fafaf9]/80 to-white">
+                                        <p className="text-[10.5px] font-extrabold text-gray-500 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                                            <span className="w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center">
+                                                <Check size={10} className="text-white" strokeWidth={3} />
+                                            </span>
+                                            INCLUDED WITH THIS ORDER
+                                        </p>
+
+                                        <div className="space-y-2">
+                                            <div className="flex items-center justify-between p-2 rounded-lg bg-gray-50/80 border border-gray-100">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-6 h-6 rounded-md bg-orange-100 flex items-center justify-center shrink-0">
+                                                        <Package size={13} className="text-orange-600" />
+                                                    </div>
+                                                    <span className="text-xs font-bold text-gray-800">All 6 Printed Hardcover Books</span>
+                                                </div>
+                                                <span className="text-[9.5px] font-mono font-bold text-gray-500">800+ PGS</span>
+                                            </div>
+
+                                            <div className="flex items-center justify-between p-2 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-6 h-6 rounded-md bg-emerald-100 flex items-center justify-center shrink-0">
+                                                        <Truck size={13} className="text-emerald-600" />
+                                                    </div>
+                                                    <span className="text-xs font-bold text-gray-800">10-Day Global Tracked Shipping</span>
+                                                </div>
+                                                <span className="text-[9.5px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded">
+                                                    FREE SHIPPING
+                                                </span>
+                                            </div>
+
+                                            <div className="flex items-center justify-between p-2 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-6 h-6 rounded-md bg-emerald-100 flex items-center justify-center shrink-0">
+                                                        <Download size={13} className="text-emerald-600" />
+                                                    </div>
+                                                    <span className="text-xs font-bold text-gray-800">Instant Digital Copies (PDF) Included</span>
+                                                </div>
+                                                <span className="text-[9.5px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded">
+                                                    FREE BONUS
+                                                </span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-2.5">
-                                            <Star size={16} className="text-emerald-600 shrink-0" />
-                                            <div>
-                                                <span className="text-sm font-semibold text-gray-900">Free Interior Design Lead Generation Course</span>
-                                                <span className="ml-1.5 text-[10px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded-full">BONUS</span>
-                                            </div>
+
+                                        {/* Authentic Vector Barcode */}
+                                        <div className="mt-3.5 pt-3 border-t border-gray-100 flex flex-col items-center">
+                                            <svg className="h-6 sm:h-7 w-48 text-gray-800 max-w-full" viewBox="0 0 176 28" fill="currentColor">
+                                                <rect x="0" y="0" width="3" height="28"/>
+                                                <rect x="5" y="0" width="1.5" height="28"/>
+                                                <rect x="9" y="0" width="4" height="28"/>
+                                                <rect x="15" y="0" width="2" height="28"/>
+                                                <rect x="19" y="0" width="1.5" height="28"/>
+                                                <rect x="23" y="0" width="3.5" height="28"/>
+                                                <rect x="29" y="0" width="2" height="28"/>
+                                                <rect x="33" y="0" width="1" height="28"/>
+                                                <rect x="36" y="0" width="4" height="28"/>
+                                                <rect x="42" y="0" width="2" height="28"/>
+                                                <rect x="46" y="0" width="1.5" height="28"/>
+                                                <rect x="50" y="0" width="3" height="28"/>
+                                                <rect x="55" y="0" width="4" height="28"/>
+                                                <rect x="61" y="0" width="1" height="28"/>
+                                                <rect x="64" y="0" width="3" height="28"/>
+                                                <rect x="69" y="0" width="2" height="28"/>
+                                                <rect x="73" y="0" width="4" height="28"/>
+                                                <rect x="79" y="0" width="1.5" height="28"/>
+                                                <rect x="83" y="0" width="2" height="28"/>
+                                                <rect x="87" y="0" width="3.5" height="28"/>
+                                                <rect x="93" y="0" width="1" height="28"/>
+                                                <rect x="96" y="0" width="4" height="28"/>
+                                                <rect x="102" y="0" width="2" height="28"/>
+                                                <rect x="106" y="0" width="1.5" height="28"/>
+                                                <rect x="110" y="0" width="3" height="28"/>
+                                                <rect x="115" y="0" width="4" height="28"/>
+                                                <rect x="121" y="0" width="1.5" height="28"/>
+                                                <rect x="125" y="0" width="3" height="28"/>
+                                                <rect x="130" y="0" width="2" height="28"/>
+                                                <rect x="134" y="0" width="4" height="28"/>
+                                                <rect x="140" y="0" width="1" height="28"/>
+                                                <rect x="143" y="0" width="3.5" height="28"/>
+                                                <rect x="148" y="0" width="2" height="28"/>
+                                                <rect x="152" y="0" width="1.5" height="28"/>
+                                                <rect x="156" y="0" width="4" height="28"/>
+                                                <rect x="162" y="0" width="2" height="28"/>
+                                                <rect x="166" y="0" width="1.5" height="28"/>
+                                                <rect x="170" y="0" width="3" height="28"/>
+                                                <rect x="174" y="0" width="2" height="28"/>
+                                            </svg>
+                                            <span className="font-mono text-[9px] font-bold tracking-[0.25em] text-gray-400 mt-1 uppercase">
+                                                * 19900-VIP-HARDCOPY-2026 *
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
