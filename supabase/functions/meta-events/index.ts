@@ -18,7 +18,6 @@ Deno.serve(async (req) => {
 
         // Prepare payload
         const payload = {
-            test_event_code: 'TEST41312', // REMOVE after testing is verified
             data: [
                 {
                     event_name: eventName,
