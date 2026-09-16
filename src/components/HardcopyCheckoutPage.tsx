@@ -598,8 +598,8 @@ export const HardcopyCheckoutPage: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* Billing Details divider */}
-                                <div className="flex items-center gap-3 mt-4">
+                                {/* Billing Details divider (mobile only) */}
+                                <div className="flex items-center gap-3 mt-4 lg:hidden">
                                     <div className="flex-1 h-px bg-gray-300" />
                                     <span className="text-[11px] font-bold text-gray-600 uppercase tracking-widest">Billing Details</span>
                                     <div className="flex-1 h-px bg-gray-300" />
@@ -609,6 +609,13 @@ export const HardcopyCheckoutPage: React.FC = () => {
 
                         {/* ========== RIGHT COLUMN: PAYMENT FORM ========== */}
                         <div className="flex-1 lg:max-w-[50%]">
+                            {/* Billing Details divider (desktop / laptop) */}
+                            <div className="hidden lg:flex items-center gap-3 mb-4">
+                                <div className="flex-1 h-px bg-gray-300" />
+                                <span className="text-[11px] font-bold text-gray-600 uppercase tracking-widest">Billing Details</span>
+                                <div className="flex-1 h-px bg-gray-300" />
+                            </div>
+
                             <div className="bg-white rounded-2xl border border-gray-300 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.07)] overflow-hidden">
 
                                 {/* Apple Pay / Google Pay wallet button */}
