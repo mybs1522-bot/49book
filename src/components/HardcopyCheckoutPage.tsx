@@ -201,66 +201,77 @@ export const HardcopyCheckoutPage: React.FC = () => {
                 if (e.error) setErrorMessage(e.error.message);
             });
 
-            // Apple Pay / Google Pay via PaymentRequest
-            const paymentRequest = stripe.paymentRequest({
-                country: 'US',
+            // Apple Pay / Google Pay / Link via Express Checkout Element
+            const expressElements = stripe.elements({
+                mode: 'payment',
+                amount: 19900,
                 currency: 'usd',
-                total: { label: '6 Book Collection (Hardcopy)', amount: 19900 },
-                requestPayerName: true,
-                requestPayerEmail: true,
             });
 
-            paymentRequest.canMakePayment().then((result: any) => {
-                if (result) {
+            const expressCheckout = expressElements.create('expressCheckout', {
+                buttonHeight: 48,
+                buttonTheme: { applePay: 'black', googlePay: 'black' },
+                buttonType: { applePay: 'buy', googlePay: 'buy' },
+                layout: { maxColumns: 2, maxRows: 1 },
+            });
+
+            expressCheckoutRef.current = expressCheckout;
+
+            const walletMount = document.getElementById('wallet-button-element-hardcopy');
+            if (walletMount) {
+                walletMount.innerHTML = '';
+                expressCheckout.mount('#wallet-button-element-hardcopy');
+            }
+
+            expressCheckout.on('ready', (event: any) => {
+                console.log('[Stripe Express Checkout Hardcopy] Ready event:', event);
+                const methods = event?.availablePaymentMethods;
+                if (methods && (methods.applePay || methods.googlePay || methods.link || Object.values(methods).some(Boolean))) {
                     setShowWalletButton(true);
-                    paymentRequestRef.current = paymentRequest;
-                    setTimeout(() => {
-                        const prMount = document.getElementById('wallet-button-element-hardcopy');
-                        if (prMount && elementsRef.current) {
-                            const prButton = elementsRef.current.create('paymentRequestButton', {
-                                paymentRequest,
-                                style: { paymentRequestButton: { type: 'buy', theme: 'dark', height: '48px' } }
-                            });
-                            prButton.mount('#wallet-button-element-hardcopy');
-                        }
-                    }, 50);
+                } else if (event?.availablePaymentMethods !== undefined) {
+                    console.log('[Stripe Express Checkout Hardcopy] No payment methods available for this device/browser.');
                 }
             });
 
-            paymentRequest.on('paymentmethod', async (ev: any) => {
+            expressCheckout.on('loaderror', (event: any) => {
+                console.error('[Stripe Express Checkout Hardcopy] Load error:', event);
+            });
+
+            expressCheckout.on('confirm', async (ev: any) => {
                 try {
+                    const payerEmail = ev.billingDetails?.email || email || '';
+                    const payerName = ev.billingDetails?.name || payerEmail.split('@')[0] || 'Customer';
                     const res = await fetch(BACKEND_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ items: [{ id: 'hardcopy-bundle' }], email: ev.payerEmail, name: ev.payerName, address: `${address}, ${city}, ${country} ${zip}` })
+                        body: JSON.stringify({ items: [{ id: 'hardcopy-bundle' }], email: payerEmail, name: payerName, address: `${address}, ${city}, ${country} ${zip}` })
                     });
                     const { clientSecret } = await res.json();
-                    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, { payment_method: ev.paymentMethod.id }, { handleActions: false });
-                    if (error) { ev.complete('fail'); setErrorMessage(error.message || 'Payment failed.'); }
-                    else {
-                        ev.complete('success');
-                        if (paymentIntent.status === 'succeeded') {
-                            setEmail(ev.payerEmail || '');
-                            setName(ev.payerName || '');
-                            setViewState('SUCCESS');
-                            trackMetaEvent({
-                                eventName: 'Purchase',
-                                email: ev.payerEmail,
-                                value: 199.00,
-                                currency: 'USD',
-                                content_name: 'Interior Design System - 6 Book Hardcopy Collection',
-                                content_ids: ['interior-design-system-6-books-hardcopy'],
-                                content_type: 'product',
-                                order_id: paymentIntent.id
-                            });
-                            fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-mail", {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ email: ev.payerEmail, name: ev.payerName, orderId: paymentIntent.id, type: 'hardcopy', address: `${address}, ${city}, ${country} ${zip}` })
-                            }).catch(() => {});
-                        }
+                    const { error, paymentIntent } = await stripe.confirmPayment({
+                        elements: expressElements,
+                        clientSecret,
+                        confirmParams: { return_url: window.location.origin + '/checkout-hardcopy?success=true' },
+                        redirect: 'if_required',
+                    });
+                    if (error) { setErrorMessage(error.message || 'Payment failed.'); }
+                    else if (paymentIntent?.status === 'succeeded') {
+                        setEmail(payerEmail);
+                        setName(payerName);
+                        setViewState('SUCCESS');
+                        trackMetaEvent({
+                            eventName: 'Purchase',
+                            email: payerEmail,
+                            value: 199.00,
+                            currency: 'USD',
+                            content_name: 'Interior Design System - 6 Book Hardcopy Collection',
+                            content_ids: ['interior-design-system-6-books-hardcopy'],
+                            content_type: 'product',
+                            order_id: paymentIntent.id
+                        });
+                        fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-mail", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: payerEmail, name: payerName, orderId: paymentIntent.id, isHardcopy: true, address: `${address}, ${city}, ${country} ${zip}` }) }).catch(() => {});
+                        setTimeout(() => { window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc"; }, 2500);
                     }
-                } catch { ev.complete('fail'); }
+                } catch (err: any) { setErrorMessage(err.message || 'Payment failed.'); }
             });
 
             setIsStripeLoaded(true);
@@ -619,16 +630,16 @@ export const HardcopyCheckoutPage: React.FC = () => {
                             <div className="bg-white rounded-2xl border border-gray-300 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.07)] overflow-hidden">
 
                                 {/* Apple Pay / Google Pay wallet button */}
-                                {showWalletButton && (
-                                    <div className="p-5 pb-0">
-                                        <div id="wallet-button-element-hardcopy" className="mb-1" />
-                                        <div className="flex items-center gap-3 my-3">
+                                <div className={showWalletButton ? "p-4 sm:p-5 pb-0" : "px-4 sm:px-5"}>
+                                    <div id="wallet-button-element-hardcopy" className="mb-1" />
+                                    {showWalletButton && (
+                                        <div className="flex items-center gap-3 my-2 sm:my-3">
                                             <div className="flex-1 h-px bg-gray-300" />
-                                            <span className="text-[11px] font-bold text-gray-600 uppercase tracking-wider">Or pay with card</span>
+                                            <span className="text-[10px] sm:text-[11px] font-bold text-gray-600 uppercase tracking-wider">Or pay with card</span>
                                             <div className="flex-1 h-px bg-gray-300" />
                                         </div>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
 
                                 <div className="p-5 sm:p-6 space-y-4">
 

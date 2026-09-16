@@ -227,7 +227,6 @@ export const CheckoutPage: React.FC = () => {
                 mode: 'payment',
                 amount: 4900,
                 currency: 'usd',
-                paymentMethodConfiguration: 'pmc_1PRJILGGsoQTkhyvo4mZsWwl',
             });
 
             const expressCheckout = expressElements.create('expressCheckout', {
