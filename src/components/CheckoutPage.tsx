@@ -11,7 +11,6 @@ import { PagesSlider } from './PagesSlider';
 // --- CONFIGURATION ---
 const STRIPE_PUBLISHABLE_KEY = "pk_live_51PRJCsGGsoQTkhyv6OrT4zvnaaB5Y0MSSkTXi0ytj33oygsfW3dcu6aOFa9q3dr2mXYTCJErnFQJcOcyuDAsQd4B00lIAdclbB";
 const BACKEND_URL = "https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/create-payment-intent";
-const CHECKOUT_SESSION_URL = "https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/create-checkout-session";
 const PAYPAL_BUSINESS_EMAIL = "design@avada.in";
 const PAYPAL_LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg";
 
@@ -220,41 +219,60 @@ export const CheckoutPage: React.FC = () => {
                 if (e.error) setErrorMessage(e.error.message);
             });
 
-            // Apple Pay / Google Pay via PaymentRequest
-            const paymentRequest = stripe.paymentRequest({
-                country: 'US',
+            // Apple Pay / Google Pay / Link via Express Checkout Element
+            const expressElements = stripe.elements({
+                mode: 'payment',
+                amount: 4900,
                 currency: 'usd',
-                total: { label: '6 Interior Design Books', amount: 4900 },
-                requestPayerName: true,
-                requestPayerEmail: true,
+                paymentMethodConfiguration: 'pmc_1PRJILGGsoQTkhyvo4mZsWwl',
             });
 
-            paymentRequest.canMakePayment().then((result: any) => {
-                if (result) {
+            const expressCheckout = expressElements.create('expressCheckout', {
+                buttonHeight: 48,
+                buttonTheme: { applePay: 'black', googlePay: 'black' },
+                buttonType: { applePay: 'buy', googlePay: 'buy' },
+                layout: { maxColumns: 2, maxRows: 1 },
+            });
+
+            // Show the wallet section when Express Checkout is ready
+            expressCheckout.on('ready', ({ availablePaymentMethods }: any) => {
+                if (availablePaymentMethods) {
                     setShowWalletButton(true);
-                    paymentRequestRef.current = paymentRequest;
                     setTimeout(() => {
-                        const prMount = document.getElementById('wallet-button-element');
-                        if (prMount && elementsRef.current) {
-                            prMount.innerHTML = '';
-                            const prButton = elementsRef.current.create('paymentRequestButton', {
-                                paymentRequest,
-                                style: { paymentRequestButton: { type: 'buy', theme: 'dark', height: '48px' } }
-                            });
-                            prButton.mount('#wallet-button-element');
+                        const walletMount = document.getElementById('wallet-button-element');
+                        if (walletMount) {
+                            walletMount.innerHTML = '';
+                            expressCheckout.mount('#wallet-button-element');
                         }
                     }, 50);
                 }
             });
 
-            paymentRequest.on('paymentmethod', async (ev: any) => {
+            // Handle Express Checkout confirm (Apple Pay / Google Pay payment)
+            expressCheckout.on('confirm', async (ev: any) => {
                 try {
-                    const res = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: [{ id: 'lifetime-bundle' }], email: ev.payerEmail, name: ev.payerName || ev.payerEmail.split('@')[0] }) });
+                    const payerEmail = ev.billingDetails?.email || email || '';
+                    const payerName = ev.billingDetails?.name || payerEmail.split('@')[0] || 'Customer';
+                    const res = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: [{ id: 'lifetime-bundle' }], email: payerEmail, name: payerName }) });
                     const { clientSecret } = await res.json();
-                    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, { payment_method: ev.paymentMethod.id }, { handleActions: false });
-                    if (error) { ev.complete('fail'); setErrorMessage(error.message || 'Payment failed.'); }
-                    else { ev.complete('success'); if (paymentIntent.status === 'succeeded') { setEmail(ev.payerEmail || ''); setViewState('SUCCESS'); trackMetaEvent({ eventName: 'Purchase', email: ev.payerEmail, value: 49.00, currency: 'USD', content_name: 'Interior Design System - 6 Book Collection', content_ids: ['interior-design-system-6-books'], content_type: 'product', order_id: paymentIntent.id }); fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-mail", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: ev.payerEmail, name: ev.payerName || ev.payerEmail.split('@')[0], orderId: paymentIntent.id }) }).catch(() => {}); setTimeout(() => { window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc"; }, 2500); } }
-                } catch { ev.complete('fail'); }
+                    const { error, paymentIntent } = await stripe.confirmPayment({
+                        elements: expressElements,
+                        clientSecret,
+                        confirmParams: { return_url: window.location.origin + '/checkout?success=true' },
+                        redirect: 'if_required',
+                    });
+                    if (error) {
+                        setErrorMessage(error.message || 'Payment failed.');
+                    } else if (paymentIntent?.status === 'succeeded') {
+                        setEmail(payerEmail);
+                        setViewState('SUCCESS');
+                        trackMetaEvent({ eventName: 'Purchase', email: payerEmail, value: 49.00, currency: 'USD', content_name: 'Interior Design System - 6 Book Collection', content_ids: ['interior-design-system-6-books'], content_type: 'product', order_id: paymentIntent.id });
+                        fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-mail", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: payerEmail, name: payerName, orderId: paymentIntent.id }) }).catch(() => {});
+                        setTimeout(() => { window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc"; }, 2500);
+                    }
+                } catch (err: any) {
+                    setErrorMessage(err.message || 'Payment failed.');
+                }
             });
 
             setIsStripeLoaded(true);
@@ -359,36 +377,6 @@ export const CheckoutPage: React.FC = () => {
         }
     };
 
-    const [walletLoading, setWalletLoading] = useState<'apple' | 'google' | null>(null);
-
-    const handleWalletPay = async (method: 'apple_pay' | 'google_pay') => {
-        setWalletLoading(method === 'apple_pay' ? 'apple' : 'google');
-        setErrorMessage(null);
-        try {
-            const res = await fetch(CHECKOUT_SESSION_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    email: email || undefined,
-                    name: name.trim() || undefined,
-                    payment_method: method,
-                }),
-            });
-            if (!res.ok) {
-                const errData = await res.json().catch(() => ({}));
-                throw new Error(errData.error || `Server error: ${res.status}`);
-            }
-            const { url } = await res.json();
-            if (url) {
-                window.location.href = url;
-            } else {
-                throw new Error('No checkout URL returned');
-            }
-        } catch (err: any) {
-            setErrorMessage(err.message || 'Failed to start wallet payment. Please try card payment.');
-            setWalletLoading(null);
-        }
-    };
 
     const goBack = () => { window.location.href = '/'; };
     const pad = (n: number) => n.toString().padStart(2, '0');
@@ -612,53 +600,17 @@ export const CheckoutPage: React.FC = () => {
 
                             <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-300 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.07)] overflow-hidden">
 
-                                {/* Apple Pay / Google Pay buttons - always visible */}
-                                <div className="p-4 sm:p-5 pb-0">
-                                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                                        {/* Apple Pay Button */}
-                                        <button
-                                            type="button"
-                                            onClick={() => handleWalletPay('apple_pay')}
-                                            disabled={walletLoading !== null}
-                                            className="flex items-center justify-center gap-2 w-full py-3 sm:py-3.5 bg-black text-white rounded-xl font-semibold text-sm sm:text-[15px] hover:bg-gray-900 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
-                                        >
-                                            {walletLoading === 'apple' ? (
-                                                <Loader2 className="w-4 h-4 animate-spin" />
-                                            ) : (
-                                                <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6 fill-white">
-                                                    <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
-                                                </svg>
-                                            )}
-                                            <span>Pay</span>
-                                        </button>
-
-                                        {/* Google Pay Button */}
-                                        <button
-                                            type="button"
-                                            onClick={() => handleWalletPay('google_pay')}
-                                            disabled={walletLoading !== null}
-                                            className="flex items-center justify-center gap-2 w-full py-3 sm:py-3.5 bg-white text-gray-800 border border-gray-300 rounded-xl font-semibold text-sm sm:text-[15px] hover:bg-gray-50 hover:border-gray-400 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
-                                        >
-                                            {walletLoading === 'google' ? (
-                                                <Loader2 className="w-4 h-4 animate-spin" />
-                                            ) : (
-                                                <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6">
-                                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
-                                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                                                </svg>
-                                            )}
-                                            <span>Pay</span>
-                                        </button>
+                                {/* Apple Pay / Google Pay via Express Checkout Element */}
+                                {showWalletButton && (
+                                    <div className="p-4 sm:p-5 pb-0">
+                                        <div id="wallet-button-element" className="mb-1" />
+                                        <div className="flex items-center gap-3 my-2 sm:my-3">
+                                            <div className="flex-1 h-px bg-gray-300" />
+                                            <span className="text-[10px] sm:text-[11px] font-bold text-gray-600 uppercase tracking-wider">Or pay with card</span>
+                                            <div className="flex-1 h-px bg-gray-300" />
+                                        </div>
                                     </div>
-                                    <div className="flex items-center gap-3 my-2 sm:my-3">
-                                        <div className="flex-1 h-px bg-gray-300" />
-                                        <span className="text-[10px] sm:text-[11px] font-bold text-gray-600 uppercase tracking-wider">Or pay with card</span>
-                                        <div className="flex-1 h-px bg-gray-300" />
-                                    </div>
-                                </div>
-
+                                )}
 
                                 <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
 
