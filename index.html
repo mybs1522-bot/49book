@@ -3392,168 +3392,185 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
 <script defer="defer">
     window.addEventListener('DOMContentLoaded', () => {
         ($ => {
-            var currentScroll = 0;
-            var thumbnailCount = $('.gallery__thumbnail').length;
+            const slider = document.querySelector('.slider--product');
+            if (!slider) return;
 
-            $('.thumbnail--slide').click(function(event) {
-                if($(this).data('thumbnail_slide') == '+') {
-                    if(currentScroll >= (thumbnailCount - 5) * 86 ) {
-                        currentScroll = currentScroll;
-                    } else {
-                        currentScroll = currentScroll + 86;
-                    }
-
-                    $('.gallery__thumbnails').animate({
-                        scrollTop: currentScroll
-                    }, 200);
-                } else if ($(this).data('thumbnail_slide') == '-') {
-                    if(currentScroll <= 0) {
-                        currentScroll = 0;
-                    } else {
-                        currentScroll = currentScroll - 86;
-                    }
-                    $('.gallery__thumbnails').animate({
-                        scrollTop: currentScroll
-                    }, 200);
-                }
-            });
-
-            // Dynamic Spacing & Smooth Height Animation on Mobile
-            const holder = document.querySelector('.slider--product__holder');
-            const slider = document.querySelector('[data-bstr-slide-holder]');
+            const slides = Array.from(slider.querySelectorAll('.slide--product'));
+            const thumbs = Array.from(document.querySelectorAll('.gallery__thumbnail'));
+            const prevBtn = document.querySelector('[data-bstr-slider-button="-"]');
+            const nextBtn = document.querySelector('[data-bstr-slider-button="+"]');
             const thumbHolder = document.querySelector('.gallery__thumbnails');
+            const holder = document.querySelector('.slider--product__holder');
 
-            function updateGalleryHeight(targetIndex, animated = true) {
+            if (!slides.length) return;
+
+            let currentIdx = 0;
+            let autoPlayTimer = null;
+            const AUTO_PLAY_INTERVAL = 2000; // 2 seconds
+
+            function centerActiveThumb(target) {
+                if (!target || !thumbHolder) return;
+                const scrollTarget = target.offsetTop - (thumbHolder.offsetHeight / 2) + (target.offsetHeight / 2);
+                thumbHolder.scrollTo({ top: Math.max(0, scrollTarget), behavior: 'smooth' });
+            }
+
+            function updateGalleryHeight(index) {
                 if (window.innerWidth >= 790) {
-                    if (holder) {
-                        holder.style.height = '';
-                        holder.style.maxHeight = '';
-                    }
-                    if (thumbHolder) {
-                        thumbHolder.style.maxHeight = '';
-                    }
+                    if (holder) { holder.style.height = ''; holder.style.maxHeight = ''; }
+                    if (thumbHolder) { thumbHolder.style.maxHeight = ''; }
                     return;
                 }
-                if (!holder || !slider) return;
-
-                const slides = slider.querySelectorAll('[data-bstr-slide]');
-                if (!slides.length) return;
-
-                let index = targetIndex;
-                if (typeof index !== 'number' || index < 0 || index >= slides.length) {
-                    const slideWidth = slides[0].offsetWidth || slider.offsetWidth || 1;
-                    index = Math.round(slider.scrollLeft / slideWidth);
-                    index = Math.max(0, Math.min(index, slides.length - 1));
-                }
-
                 const activeSlide = slides[index];
-                if (!activeSlide) return;
-
+                if (!activeSlide || !holder) return;
                 const img = activeSlide.querySelector('img');
                 let imgHeight = 0;
-
                 if (img && img.naturalWidth && img.naturalHeight) {
                     const currentW = activeSlide.offsetWidth || slider.offsetWidth || (window.innerWidth - 100);
                     imgHeight = Math.round((img.naturalHeight / img.naturalWidth) * currentW);
                 } else if (img && img.offsetHeight > 50) {
                     imgHeight = img.offsetHeight;
-                } else if (img && img.getAttribute('height') && img.getAttribute('width')) {
-                    const w = parseFloat(img.getAttribute('width'));
-                    const h = parseFloat(img.getAttribute('height'));
-                    const currentW = activeSlide.offsetWidth || slider.offsetWidth || (window.innerWidth - 100);
-                    imgHeight = Math.round((h / w) * currentW);
                 } else {
-                    imgHeight = 280;
+                    imgHeight = 320;
                 }
-
-                const totalTargetHeight = imgHeight;
-
-                if (!animated) {
-                    holder.style.transition = 'none';
-                } else {
-                    holder.style.transition = 'height 0.35s cubic-bezier(0.25, 1, 0.5, 1), max-height 0.35s cubic-bezier(0.25, 1, 0.5, 1)';
-                }
-
-                holder.style.height = totalTargetHeight + 'px';
-                holder.style.maxHeight = totalTargetHeight + 'px';
+                holder.style.height = imgHeight + 'px';
+                holder.style.maxHeight = imgHeight + 'px';
                 if (thumbHolder) {
-                    thumbHolder.style.maxHeight = Math.max(totalTargetHeight, 280) + 'px';
-                }
-
-                if (!animated) {
-                    requestAnimationFrame(() => {
-                        holder.style.transition = 'height 0.35s cubic-bezier(0.25, 1, 0.5, 1), max-height 0.35s cubic-bezier(0.25, 1, 0.5, 1)';
-                    });
+                    thumbHolder.style.maxHeight = Math.max(imgHeight, 280) + 'px';
                 }
             }
 
-            // Smooth Auto-Center Active Thumbnail in Vertical Column
-            if (thumbHolder) {
-                const centerActiveThumb = (target) => {
-                    if (!target) return;
-                    const scrollTarget = target.offsetTop - (thumbHolder.offsetHeight / 2) + (target.offsetHeight / 2);
-                    thumbHolder.scrollTo({ top: Math.max(0, scrollTarget), behavior: 'smooth' });
-                };
+            function goToSlide(index, userInteracted = false) {
+                if (index < 0) index = slides.length - 1;
+                if (index >= slides.length) index = 0;
+                currentIdx = index;
 
-                const observer = new MutationObserver((mutations) => {
-                    mutations.forEach((mutation) => {
-                        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                            const target = mutation.target;
-                            if (target && target.classList && target.classList.contains('bstrSlider__thumb--active')) {
-                                const idx = parseInt(target.getAttribute('data-bstr-slider-thumb') || 0);
-                                updateGalleryHeight(idx, true);
-                                centerActiveThumb(target);
-                            }
-                        }
-                    });
+                // Cross-fade active slide
+                slides.forEach((slide, i) => {
+                    if (i === currentIdx) {
+                        slide.setAttribute('data-bstr-slide', 'active');
+                        slide.classList.add('active-slide');
+                    } else {
+                        slide.setAttribute('data-bstr-slide', '');
+                        slide.classList.remove('active-slide');
+                    }
                 });
 
-                document.querySelectorAll('.gallery__thumbnail').forEach(th => {
-                    observer.observe(th, { attributes: true });
+                // Update thumbnails
+                thumbs.forEach((th, i) => {
+                    if (i === currentIdx) {
+                        th.classList.add('bstrSlider__thumb--active');
+                        centerActiveThumb(th);
+                    } else {
+                        th.classList.remove('bstrSlider__thumb--active');
+                    }
                 });
 
-                // Thumbnail click: immediate responsive trigger
-                document.querySelectorAll('.gallery__thumbnail').forEach((th, i) => {
-                    th.addEventListener('click', () => {
-                        updateGalleryHeight(i, true);
-                    });
-                });
+                updateGalleryHeight(currentIdx);
 
-                // Check initial active thumbnail & height
-                const initialActive = thumbHolder.querySelector('.bstrSlider__thumb--active');
-                if (initialActive) {
-                    const idx = parseInt(initialActive.getAttribute('data-bstr-slider-thumb') || 0);
-                    updateGalleryHeight(idx, false);
-                    setTimeout(() => {
-                        updateGalleryHeight(idx, false);
-                        centerActiveThumb(initialActive);
-                    }, 120);
-                } else {
-                    updateGalleryHeight(0, false);
+                if (userInteracted) {
+                    restartAutoPlay();
                 }
             }
 
-            // Scroll swipe event on slider
-            if (slider) {
-                let scrollTimeout;
-                slider.addEventListener('scroll', () => {
-                    clearTimeout(scrollTimeout);
-                    scrollTimeout = setTimeout(() => {
-                        updateGalleryHeight(null, true);
-                    }, 50);
-                }, { passive: true });
+            function nextSlide() {
+                goToSlide(currentIdx + 1);
             }
 
-            // Recompute on resize or image load
+            function prevSlide() {
+                goToSlide(currentIdx - 1, true);
+            }
+
+            function startAutoPlay() {
+                stopAutoPlay();
+                autoPlayTimer = setInterval(nextSlide, AUTO_PLAY_INTERVAL);
+            }
+
+            function stopAutoPlay() {
+                if (autoPlayTimer) {
+                    clearInterval(autoPlayTimer);
+                    autoPlayTimer = null;
+                }
+            }
+
+            function restartAutoPlay() {
+                stopAutoPlay();
+                startAutoPlay();
+            }
+
+            // Thumbnail clicks & hover
+            thumbs.forEach((thumb, i) => {
+                thumb.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    goToSlide(i, true);
+                });
+                thumb.addEventListener('mouseenter', () => {
+                    goToSlide(i, true);
+                });
+            });
+
+            // Arrow buttons
+            if (nextBtn) {
+                nextBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    goToSlide(currentIdx + 1, true);
+                });
+            }
+            if (prevBtn) {
+                prevBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    prevSlide();
+                });
+            }
+
+            // Thumbnail scroll up/down buttons
+            $('.thumbnail--slide').click(function(event) {
+                const dir = $(this).data('thumbnail_slide');
+                if (dir === '+') {
+                    if (thumbHolder) thumbHolder.scrollBy({ top: 86, behavior: 'smooth' });
+                } else if (dir === '-') {
+                    if (thumbHolder) thumbHolder.scrollBy({ top: -86, behavior: 'smooth' });
+                }
+            });
+
+            // Touch swiping support on mobile for smooth fade
+            let touchStartX = 0;
+            let touchEndX = 0;
+            slider.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            slider.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                if (Math.abs(diff) > 40) {
+                    if (diff > 0) {
+                        goToSlide(currentIdx + 1, true);
+                    } else {
+                        goToSlide(currentIdx - 1, true);
+                    }
+                }
+            }, { passive: true });
+
+            // Pause on hover
+            const mainGallery = document.querySelector('.gallery__main-row');
+            if (mainGallery) {
+                mainGallery.addEventListener('mouseenter', stopAutoPlay);
+                mainGallery.addEventListener('mouseleave', startAutoPlay);
+            }
+
+            // Initial setup
+            goToSlide(0);
+            startAutoPlay();
+
             window.addEventListener('resize', () => {
-                updateGalleryHeight(null, false);
+                updateGalleryHeight(currentIdx);
             });
 
             document.querySelectorAll('.slide--product img').forEach(img => {
                 if (img.complete) {
-                    updateGalleryHeight(null, false);
+                    updateGalleryHeight(currentIdx);
                 } else {
-                    img.addEventListener('load', () => updateGalleryHeight(null, false));
+                    img.addEventListener('load', () => updateGalleryHeight(currentIdx));
                 }
             });
         })(jQuery);
@@ -3561,8 +3578,39 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
 </script>
   
   <style>
+    /* Smooth In-Place Cross-Fade Gallery (Every 2s) */
+    .slider--product {
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      grid-template-rows: 1fr !important;
+      position: relative !important;
+      overflow: hidden !important;
+      scroll-snap-type: none !important;
+      scroll-behavior: auto !important;
+    }
+
+    .slider--product .slide--product {
+      grid-area: 1 / 1 / 2 / 2 !important;
+      width: 100% !important;
+      height: 100% !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.65s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      pointer-events: none !important;
+      z-index: 1 !important;
+    }
+
+    .slider--product .slide--product.active-slide,
+    .slider--product .slide--product[data-bstr-slide="active"] {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      z-index: 2 !important;
+    }
+
     .gallery__thumbnails {
       max-height: calc((80px + 0.25rem) * 5);
+      position: relative;
     }
   
     
