@@ -678,7 +678,7 @@ export const CheckoutPage: React.FC = () => {
                                         {viewState === 'PROCESSING' ? (
                                             <Loader2 className="animate-spin" size={20} />
                                         ) : (
-                                            <><Lock size={15} className="text-emerald-400" /><span>Pay $49.00 • Instant Access</span></>
+                                            <><Lock size={15} className="text-emerald-400" /><span>Download Books Now</span></>
                                         )}
                                     </button>
 
