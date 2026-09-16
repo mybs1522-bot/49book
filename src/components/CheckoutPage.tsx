@@ -444,9 +444,9 @@ export const CheckoutPage: React.FC = () => {
                         <div className="flex-1 lg:max-w-[50%]">
                             <div className="lg:sticky lg:top-4">
 
-                                {/* Best part callout */}
+                                {/* One-time payment callout */}
                                 <p className="text-[11px] sm:text-xs text-gray-800 font-medium text-center mb-2 sm:mb-4">
-                                    <span className="font-bold text-gray-950">Best Part:</span> Monthly Updates in Books at no extra charge
+                                    <span className="font-bold text-gray-950">One-time payment.</span> No subscription. Download immediately after payment.
                                 </p>
 
                                 {/* PAGES SLIDER (Book Page Previews) */}
