@@ -79,7 +79,7 @@ export const CheckoutPage: React.FC = () => {
     const cardNumberRef = useRef<any>(null);
     const cardExpiryRef = useRef<any>(null);
     const cardCvcRef = useRef<any>(null);
-    const paymentRequestRef = useRef<any>(null);
+    const expressCheckoutRef = useRef<any>(null);
 
     // --- ENTRANCE ANIMATION & 3DS REDIRECT HANDLING ---
     useEffect(() => {
@@ -133,6 +133,7 @@ export const CheckoutPage: React.FC = () => {
             if (cardNumberRef.current) { try { cardNumberRef.current.destroy(); } catch (e) {} cardNumberRef.current = null; }
             if (cardExpiryRef.current) { try { cardExpiryRef.current.destroy(); } catch (e) {} cardExpiryRef.current = null; }
             if (cardCvcRef.current) { try { cardCvcRef.current.destroy(); } catch (e) {} cardCvcRef.current = null; }
+            if (expressCheckoutRef.current) { try { expressCheckoutRef.current.destroy(); } catch (e) {} expressCheckoutRef.current = null; }
         };
     }, []);
 
@@ -146,8 +147,9 @@ export const CheckoutPage: React.FC = () => {
             const numMount = document.getElementById('card-number-element');
             const expMount = document.getElementById('card-expiry-element');
             const cvcMount = document.getElementById('card-cvc-element');
+            const walletMount = document.getElementById('wallet-button-element');
 
-            if (!numMount || !expMount || !cvcMount) {
+            if (!numMount || !expMount || !cvcMount || !walletMount) {
                 if (retry < 20) setTimeout(() => initializeStripeUI(retry + 1), 100);
                 return;
             }
@@ -156,6 +158,7 @@ export const CheckoutPage: React.FC = () => {
             if (cardNumberRef.current) { try { cardNumberRef.current.destroy(); } catch (e) {} cardNumberRef.current = null; }
             if (cardExpiryRef.current) { try { cardExpiryRef.current.destroy(); } catch (e) {} cardExpiryRef.current = null; }
             if (cardCvcRef.current) { try { cardCvcRef.current.destroy(); } catch (e) {} cardCvcRef.current = null; }
+            if (expressCheckoutRef.current) { try { expressCheckoutRef.current.destroy(); } catch (e) {} expressCheckoutRef.current = null; }
 
             numMount.innerHTML = '';
             expMount.innerHTML = '';
@@ -234,17 +237,19 @@ export const CheckoutPage: React.FC = () => {
                 layout: { maxColumns: 2, maxRows: 1 },
             });
 
-            // Show the wallet section when Express Checkout is ready
-            expressCheckout.on('ready', ({ availablePaymentMethods }: any) => {
-                if (availablePaymentMethods) {
+            expressCheckoutRef.current = expressCheckout;
+
+            // Mount immediately — the element auto-hides if no wallets available
+            if (walletMount) {
+                walletMount.innerHTML = '';
+                expressCheckout.mount('#wallet-button-element');
+            }
+
+            // Show the "Or pay with card" divider when wallets are available
+            expressCheckout.on('ready', (event: any) => {
+                const methods = event?.availablePaymentMethods;
+                if (methods && (methods.applePay || methods.googlePay || methods.link || Object.values(methods).some(Boolean))) {
                     setShowWalletButton(true);
-                    setTimeout(() => {
-                        const walletMount = document.getElementById('wallet-button-element');
-                        if (walletMount) {
-                            walletMount.innerHTML = '';
-                            expressCheckout.mount('#wallet-button-element');
-                        }
-                    }, 50);
                 }
             });
 
@@ -601,16 +606,16 @@ export const CheckoutPage: React.FC = () => {
                             <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-300 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.07)] overflow-hidden">
 
                                 {/* Apple Pay / Google Pay via Express Checkout Element */}
-                                {showWalletButton && (
-                                    <div className="p-4 sm:p-5 pb-0">
-                                        <div id="wallet-button-element" className="mb-1" />
+                                <div className={showWalletButton ? "p-4 sm:p-5 pb-0" : "px-4 sm:px-5"}>
+                                    <div id="wallet-button-element" className="mb-1" />
+                                    {showWalletButton && (
                                         <div className="flex items-center gap-3 my-2 sm:my-3">
                                             <div className="flex-1 h-px bg-gray-300" />
                                             <span className="text-[10px] sm:text-[11px] font-bold text-gray-600 uppercase tracking-wider">Or pay with card</span>
                                             <div className="flex-1 h-px bg-gray-300" />
                                         </div>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
 
                                 <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
 
