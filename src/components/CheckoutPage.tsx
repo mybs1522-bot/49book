@@ -247,10 +247,18 @@ export const CheckoutPage: React.FC = () => {
 
             // Show the "Or pay with card" divider when wallets are available
             expressCheckout.on('ready', (event: any) => {
+                console.log('[Stripe Express Checkout] Ready event:', event);
                 const methods = event?.availablePaymentMethods;
                 if (methods && (methods.applePay || methods.googlePay || methods.link || Object.values(methods).some(Boolean))) {
                     setShowWalletButton(true);
+                } else if (event?.availablePaymentMethods !== undefined) {
+                    // It returned explicitly false/null, meaning no methods available
+                    console.log('[Stripe Express Checkout] No payment methods available for this device/browser.');
                 }
+            });
+
+            expressCheckout.on('loaderror', (event: any) => {
+                console.error('[Stripe Express Checkout] Load error:', event);
             });
 
             // Handle Express Checkout confirm (Apple Pay / Google Pay payment)
