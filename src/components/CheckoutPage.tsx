@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
     Lock, Check, Loader2, Timer, CreditCard, Mail, ShieldCheck, AlertCircle,
     ArrowLeft, BookOpen, CheckCircle2, Download, Star, Shield, Clock,
-    MessageSquare
+    MessageSquare, Sparkles, Package, Truck
 } from 'lucide-react';
 import { trackMetaEvent } from '../utils/meta-tracking';
 import { BOOK_IMAGES } from '../AppHelpers';
+import { PagesSlider } from './PagesSlider';
 
 // --- CONFIGURATION ---
 const STRIPE_PUBLISHABLE_KEY = "pk_live_51PRJCsGGsoQTkhyv6OrT4zvnaaB5Y0MSSkTXi0ytj33oygsfW3dcu6aOFa9q3dr2mXYTCJErnFQJcOcyuDAsQd4B00lIAdclbB";
@@ -66,12 +67,19 @@ export const CheckoutPage: React.FC = () => {
     const [isStripeLoaded, setIsStripeLoaded] = useState(false);
     const [viewState, setViewState] = useState<'FORM' | 'PROCESSING' | 'SUCCESS'>('FORM');
     const [timeLeft, setTimeLeft] = useState({ h: 0, m: 0, s: 0 });
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
     const [hidePayPal, setHidePayPal] = useState(false);
     const [hasAddedPaymentInfo, setHasAddedPaymentInfo] = useState(false);
+    const [cardBrand, setCardBrand] = useState('unknown');
+    const [cardComplete, setCardComplete] = useState({ number: false, expiry: false, cvc: false });
+    const [showWalletButton, setShowWalletButton] = useState(false);
 
     const stripeRef = useRef<any>(null);
     const elementsRef = useRef<any>(null);
+    const cardNumberRef = useRef<any>(null);
+    const cardExpiryRef = useRef<any>(null);
+    const cardCvcRef = useRef<any>(null);
+    const paymentRequestRef = useRef<any>(null);
 
     // --- ENTRANCE ANIMATION & 3DS REDIRECT HANDLING ---
     useEffect(() => {
@@ -120,74 +128,132 @@ export const CheckoutPage: React.FC = () => {
 
     // --- STRIPE INIT ---
     useEffect(() => {
-        if (!stripeRef.current) initializeStripeUI();
+        initializeStripeUI();
+        return () => {
+            if (cardNumberRef.current) { try { cardNumberRef.current.destroy(); } catch (e) {} cardNumberRef.current = null; }
+            if (cardExpiryRef.current) { try { cardExpiryRef.current.destroy(); } catch (e) {} cardExpiryRef.current = null; }
+            if (cardCvcRef.current) { try { cardCvcRef.current.destroy(); } catch (e) {} cardCvcRef.current = null; }
+        };
     }, []);
 
     const initializeStripeUI = async (retry = 0) => {
         try {
             if (!window.Stripe) {
-                if (retry < 5) setTimeout(() => initializeStripeUI(retry + 1), 500);
+                if (retry < 15) setTimeout(() => initializeStripeUI(retry + 1), 200);
                 return;
             }
-            if (stripeRef.current) return;
 
-            stripeRef.current = window.Stripe(STRIPE_PUBLISHABLE_KEY);
-            elementsRef.current = stripeRef.current.elements({
-                mode: 'payment',
-                amount: 4900,
-                currency: 'usd',
-                automatic_payment_methods: { enabled: true },
+            const numMount = document.getElementById('card-number-element');
+            const expMount = document.getElementById('card-expiry-element');
+            const cvcMount = document.getElementById('card-cvc-element');
 
-                appearance: {
-                    theme: 'stripe',
-                    variables: {
-                        fontFamily: '"Inter", -apple-system, sans-serif',
-                        fontSizeBase: '14px',
-                        colorPrimary: '#0570DE',
-                        borderRadius: '8px',
-                    },
-                },
+            if (!numMount || !expMount || !cvcMount) {
+                if (retry < 20) setTimeout(() => initializeStripeUI(retry + 1), 100);
+                return;
+            }
+
+            // Destroy previous elements if any before mounting
+            if (cardNumberRef.current) { try { cardNumberRef.current.destroy(); } catch (e) {} cardNumberRef.current = null; }
+            if (cardExpiryRef.current) { try { cardExpiryRef.current.destroy(); } catch (e) {} cardExpiryRef.current = null; }
+            if (cardCvcRef.current) { try { cardCvcRef.current.destroy(); } catch (e) {} cardCvcRef.current = null; }
+
+            numMount.innerHTML = '';
+            expMount.innerHTML = '';
+            cvcMount.innerHTML = '';
+
+            const stripe = window.Stripe(STRIPE_PUBLISHABLE_KEY);
+            stripeRef.current = stripe;
+
+            const elements = stripe.elements({
+                fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap' }],
             });
+            elementsRef.current = elements;
 
-            // Payment Element — handles cards, Link, Google Pay, etc.
-            const paymentElement = elementsRef.current.create('payment', {
-                layout: 'tabs',
-                fields: {
-                    billingDetails: {
-                        address: 'never',
-                    },
+            const style = {
+                base: {
+                    fontFamily: '"Inter", -apple-system, sans-serif',
+                    fontSize: '15px',
+                    fontWeight: '500',
+                    color: '#09090b',
+                    letterSpacing: '0.01em',
+                    lineHeight: '22px',
+                    '::placeholder': { color: '#71717a', fontWeight: '400' },
+                    iconColor: '#09090b',
                 },
-            });
-            const peMount = document.getElementById('stripe-payment-element');
-            if (peMount) paymentElement.mount('#stripe-payment-element');
+                invalid: { color: '#dc2626', iconColor: '#dc2626' },
+                complete: { color: '#09090b', iconColor: '#16a34a' },
+            };
 
-            // Hide PayPal when user starts entering card digits
-            paymentElement.on('change', (event: any) => {
-                // Only hide PayPal when user has actually started typing (not empty is true when input has content)
-                if (!event.empty) {
+            // Individual Card Elements (clean options without invalid showIcon)
+            const cardNumber = elements.create('cardNumber', { style, placeholder: '1234 1234 1234 1234' });
+            const cardExpiry = elements.create('cardExpiry', { style, placeholder: 'MM / YY' });
+            const cardCvc = elements.create('cardCvc', { style, placeholder: 'CVC' });
+
+            cardNumber.mount('#card-number-element');
+            cardExpiry.mount('#card-expiry-element');
+            cardCvc.mount('#card-cvc-element');
+
+            cardNumberRef.current = cardNumber;
+            cardExpiryRef.current = cardExpiry;
+            cardCvcRef.current = cardCvc;
+
+            cardNumber.on('change', (e: any) => {
+                setCardBrand(e.brand || 'unknown');
+                setCardComplete(prev => ({ ...prev, number: e.complete }));
+                if (e.error) setErrorMessage(e.error.message);
+                else setErrorMessage(null);
+                if (!e.empty) {
                     setHidePayPal(true);
-                    
-                    // Meta AddPaymentInfo (fire only once)
                     if (!hasAddedPaymentInfo) {
-                        trackMetaEvent({
-                            eventName: 'AddPaymentInfo',
-                            content_name: 'Interior Design System - 6 Book Collection',
-                            content_ids: ['interior-design-system-6-books'],
-                            content_type: 'product',
-                            value: 49.00,
-                            currency: 'USD'
-                        });
+                        trackMetaEvent({ eventName: 'AddPaymentInfo', content_name: 'Interior Design System - 6 Book Collection', content_ids: ['interior-design-system-6-books'], content_type: 'product', value: 49.00, currency: 'USD' });
                         setHasAddedPaymentInfo(true);
                     }
                 }
             });
+            cardExpiry.on('change', (e: any) => {
+                setCardComplete(prev => ({ ...prev, expiry: e.complete }));
+                if (e.error) setErrorMessage(e.error.message);
+            });
+            cardCvc.on('change', (e: any) => {
+                setCardComplete(prev => ({ ...prev, cvc: e.complete }));
+                if (e.error) setErrorMessage(e.error.message);
+            });
 
-            // Link authentication element — captures email and enables Link autofill
-            const linkAuth = elementsRef.current.create('linkAuthentication', {});
-            const linkMount = document.getElementById('stripe-link-auth');
-            if (linkMount) linkAuth.mount('#stripe-link-auth');
-            linkAuth.on('change', (event: any) => {
-                if (event.value?.email) setEmail(event.value.email);
+            // Apple Pay / Google Pay via PaymentRequest
+            const paymentRequest = stripe.paymentRequest({
+                country: 'US',
+                currency: 'usd',
+                total: { label: '6 Interior Design Books', amount: 4900 },
+                requestPayerName: true,
+                requestPayerEmail: true,
+            });
+
+            paymentRequest.canMakePayment().then((result: any) => {
+                if (result) {
+                    setShowWalletButton(true);
+                    paymentRequestRef.current = paymentRequest;
+                    setTimeout(() => {
+                        const prMount = document.getElementById('wallet-button-element');
+                        if (prMount && elementsRef.current) {
+                            prMount.innerHTML = '';
+                            const prButton = elementsRef.current.create('paymentRequestButton', {
+                                paymentRequest,
+                                style: { paymentRequestButton: { type: 'buy', theme: 'dark', height: '48px' } }
+                            });
+                            prButton.mount('#wallet-button-element');
+                        }
+                    }, 50);
+                }
+            });
+
+            paymentRequest.on('paymentmethod', async (ev: any) => {
+                try {
+                    const res = await fetch(BACKEND_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: [{ id: 'lifetime-bundle' }], email: ev.payerEmail, name: ev.payerName || ev.payerEmail.split('@')[0] }) });
+                    const { clientSecret } = await res.json();
+                    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, { payment_method: ev.paymentMethod.id }, { handleActions: false });
+                    if (error) { ev.complete('fail'); setErrorMessage(error.message || 'Payment failed.'); }
+                    else { ev.complete('success'); if (paymentIntent.status === 'succeeded') { setEmail(ev.payerEmail || ''); setViewState('SUCCESS'); trackMetaEvent({ eventName: 'Purchase', email: ev.payerEmail, value: 49.00, currency: 'USD', content_name: 'Interior Design System - 6 Book Collection', content_ids: ['interior-design-system-6-books'], content_type: 'product', order_id: paymentIntent.id }); fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-mail", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: ev.payerEmail, name: ev.payerName || ev.payerEmail.split('@')[0], orderId: paymentIntent.id }) }).catch(() => {}); setTimeout(() => { window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc"; }, 2500); } }
+                } catch { ev.complete('fail'); }
             });
 
             setIsStripeLoaded(true);
@@ -199,12 +265,10 @@ export const CheckoutPage: React.FC = () => {
     };
 
     const handlePaypalSubmit = (e: React.FormEvent) => {
-        let hasError = false;
-        if (!name.trim()) { setNameError(true); hasError = true; }
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setEmailError(true); hasError = true; }
-        if (hasError) {
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             e.preventDefault();
-            setErrorMessage("Please fill in all fields to receive your books.");
+            setEmailError(true);
+            setErrorMessage("Please enter a valid email address.");
             return;
         }
 
@@ -226,8 +290,9 @@ export const CheckoutPage: React.FC = () => {
     };
 
     const handleCardPay = async () => {
-        if (!name.trim()) { setNameError(true); setErrorMessage("Please enter your name."); return; }
-        if (!stripeRef.current || !elementsRef.current) {
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setEmailError(true); setErrorMessage("Please enter a valid email."); return; }
+        if (!cardComplete.number || !cardComplete.expiry || !cardComplete.cvc) { setErrorMessage("Please complete your card details."); return; }
+        if (!stripeRef.current || !cardNumberRef.current) {
             setErrorMessage("Payment gateway loading. Please wait a moment.");
             return;
         }
@@ -235,19 +300,13 @@ export const CheckoutPage: React.FC = () => {
         setErrorMessage(null);
 
         try {
-            // 1. Submit elements (validates card + Link)
-            const { error: submitError } = await elementsRef.current.submit();
-            if (submitError) {
-                setErrorMessage(submitError.message || "Please check your payment details.");
-                setViewState('FORM');
-                return;
-            }
+            const customerName = name.trim() || email.split('@')[0] || 'Customer';
 
-            // 2. Create PaymentIntent on server
+            // 1. Create PaymentIntent on server
             const res = await fetch(BACKEND_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ items: [{ id: 'lifetime-bundle' }], email, name })
+                body: JSON.stringify({ items: [{ id: 'lifetime-bundle' }], email, name: customerName })
             });
             if (!res.ok) {
                 if (res.status === 404) throw new Error("Payment server unavailable. Please try PayPal.");
@@ -256,27 +315,17 @@ export const CheckoutPage: React.FC = () => {
             }
             const { clientSecret } = await res.json();
 
-            // 3. Confirm payment with elements
-            const result = await stripeRef.current.confirmPayment({
-                elements: elementsRef.current,
-                clientSecret,
-                confirmParams: {
-                    return_url: window.location.origin + '/checkout?success=true',
-                    receipt_email: email,
-                    payment_method_data: {
-                        billing_details: {
-                            address: {
-                                country: 'US',
-                                state: 'CA',
-                                city: 'Los Angeles',
-                                line1: '123 Main St',
-                                line2: '',
-                                postal_code: '90001',
-                            },
-                        },
+            // 2. Confirm payment with card element
+            const result = await stripeRef.current.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: cardNumberRef.current,
+                    billing_details: {
+                        name: customerName,
+                        email,
+                        address: { country: 'US', state: 'CA', city: 'Los Angeles', line1: '123 Main St', postal_code: '90001' },
                     },
                 },
-                redirect: 'if_required',
+                receipt_email: email,
             });
 
             if (result.error) {
@@ -297,7 +346,7 @@ export const CheckoutPage: React.FC = () => {
                 fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-mail", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, name, orderId: result.paymentIntent.id })
+                    body: JSON.stringify({ email, name: customerName, orderId: result.paymentIntent.id })
                 }).catch(err => console.error("Email trigger failed:", err));
                 setTimeout(() => {
                     window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc";
@@ -318,38 +367,41 @@ export const CheckoutPage: React.FC = () => {
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
                 .checkout-container * { font-family: 'Inter', -apple-system, sans-serif; }
-                .stripe-input-wrapper { min-height: 20px; }
+                .stripe-input-wrapper { min-height: 24px; }
+                #card-number-element, #card-expiry-element, #card-cvc-element { min-height: 24px; width: 100%; }
+                .__PrivateStripeElement { width: 100% !important; }
+                .__PrivateStripeElement iframe { min-height: 24px !important; }
                 .book-scroll { display: flex; gap: 6px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 4px; }
                 .book-scroll::-webkit-scrollbar { display: none; }
                 .book-scroll > div { scroll-snap-align: start; flex: 1 1 0; min-width: 0; }
                 @media (min-width: 640px) { .book-scroll { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; overflow: visible; } }
             `}</style>
 
-            {/* === HEADER === */}
-            <header className="bg-white border-b border-gray-200">
-                <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-                    <button onClick={goBack} className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors group">
-                        <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+            {/* === STICKY TOPBAR (WHITE BACKGROUND, SAME FONT) === */}
+            <div className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-xs">
+                {/* Header Row */}
+                <header className="max-w-5xl mx-auto px-4 sm:px-6 h-13 flex items-center justify-between">
+                    <button onClick={goBack} className="flex items-center gap-2 text-sm text-gray-800 hover:text-black font-semibold transition-colors group">
+                        <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform text-gray-900" />
                         <span className="hidden sm:inline">Back</span>
                     </button>
                     <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-lg bg-gray-800 flex items-center justify-center">
-                            <BookOpen size={14} className="text-white" />
-                        </div>
-                        <span className="font-semibold text-sm text-gray-900">Interior Design Books</span>
+                        <span className="font-bold text-sm sm:text-base text-gray-950 tracking-tight">6 Design Books</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-xs text-gray-600 font-medium">
-                        <Lock size={12} />
+                    <div className="flex items-center gap-1.5 text-xs text-gray-900 font-bold">
+                        <Lock size={13} className="text-emerald-700" />
                         <span className="hidden sm:inline">Secure Checkout</span>
                     </div>
-                </div>
-            </header>
+                </header>
 
-            {/* === TIMER === */}
-            <div className="flex items-center justify-center gap-1.5 py-1.5 text-gray-600">
-                <Timer size={11} />
-                <span className="text-[11px] font-semibold tracking-wide">Offer ends in</span>
-                <span className="font-mono text-[11px] font-bold text-gray-900">{pad(timeLeft.h)}:{pad(timeLeft.m)}:{pad(timeLeft.s)}</span>
+                {/* Sticky Timer Bar on White Background */}
+                <div className="border-t border-gray-100 py-2 bg-white flex items-center justify-center gap-2 text-xs font-semibold text-gray-900">
+                    <Timer size={13} className="text-gray-900 shrink-0" />
+                    <span className="text-gray-800 font-semibold tracking-tight">Offer ends in</span>
+                    <span className="font-mono font-black text-gray-950 bg-gray-100 border border-gray-300 px-2 py-0.5 rounded text-xs tracking-wider">
+                        {pad(timeLeft.h)}:{pad(timeLeft.m)}:{pad(timeLeft.s)}
+                    </span>
+                </div>
             </div>
 
             {/* === MAIN CONTENT === */}
@@ -393,66 +445,29 @@ export const CheckoutPage: React.FC = () => {
                             <div className="lg:sticky lg:top-4">
 
                                 {/* Best part callout */}
-                                <p className="text-xs text-gray-600 font-medium text-center mb-4">
-                                    <span className="font-bold text-gray-900">Best Part:</span> Monthly Updates in Books at no extra charge
+                                <p className="text-xs text-gray-800 font-medium text-center mb-4">
+                                    <span className="font-bold text-gray-950">Best Part:</span> Monthly Updates in Books at no extra charge
                                 </p>
 
-                                {/* WHO IS THIS FOR (All 6 Icons in a Single Line) */}
-                                <div 
-                                    className="mb-4 rounded-2xl border border-gray-200/90 shadow-sm bg-[#fdfdfc] p-3.5 sm:p-4.5 relative overflow-hidden"
-                                    style={{
-                                        backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px)`,
-                                        backgroundSize: '22px 22px'
-                                    }}
-                                >
-                                    <div className="text-center mb-3">
-                                        <span className="inline-block text-[10.5px] font-extrabold tracking-[0.14em] text-[#ea580c] uppercase mb-1">
-                                            WHO IS THIS FOR?
-                                        </span>
-                                        <h3 className="text-sm sm:text-base font-extrabold text-gray-900 tracking-tight leading-snug">
-                                            Trusted by <span className="text-[#ea580c]">Homeowners & Professionals</span> Alike
-                                        </h3>
-                                    </div>
-
-                                    {/* All 6 icons in a single line */}
-                                    <div className="grid grid-cols-6 gap-1 sm:gap-1.5 items-stretch">
-                                        {WHO_IS_THIS_FOR.map((item, idx) => (
-                                            <div
-                                                key={idx}
-                                                className="bg-white rounded-lg sm:rounded-xl border border-gray-200/80 py-1.5 px-0.5 sm:py-2 sm:px-1 flex flex-col items-center justify-start text-center shadow-[0_2px_6px_rgba(0,0,0,0.02)] hover:border-orange-300 hover:shadow-md transition-all group overflow-hidden"
-                                            >
-                                                <div className="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-lg sm:rounded-xl bg-gradient-to-br from-[#fff7ed] to-[#ffedd5] border border-orange-200/60 flex items-center justify-center mb-1 shrink-0 group-hover:scale-105 transition-transform">
-                                                    <img
-                                                        src={item.icon}
-                                                        alt={item.label}
-                                                        className="w-5 h-5 sm:w-6 sm:h-6 object-contain drop-shadow-sm"
-                                                        loading="lazy"
-                                                    />
-                                                </div>
-                                                <span className="text-[7.5px] sm:text-[8.5px] font-bold text-gray-800 leading-[1.15] px-0.5 break-words">
-                                                    {item.label}
-                                                </span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
+                                {/* PAGES SLIDER (Book Page Previews) */}
+                                <PagesSlider />
 
                                 {/* PREMIUM MOVIE TICKET PASS */}
-                                <div className="relative bg-white rounded-2xl border border-gray-300/80 shadow-[0_10px_30px_rgba(0,0,0,0.06)] overflow-hidden transition-all hover:shadow-[0_14px_40px_rgba(0,0,0,0.09)]">
+                                <div className="relative bg-white rounded-2xl border border-gray-300 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.07)] overflow-hidden transition-all hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)]">
                                     {/* Ticket Upper Section (Header & Price) */}
                                     <div className="p-4 sm:p-5 pb-3.5">
                                         <div className="flex items-center justify-between gap-3">
                                             <div>
-                                                <h4 className="text-base sm:text-lg font-black text-gray-900 leading-snug">
+                                                <h4 className="text-base sm:text-lg font-black text-gray-950 leading-snug">
                                                     6 Interior Design Books
                                                 </h4>
                                             </div>
                                             <div className="text-right shrink-0">
                                                 <div className="flex items-baseline justify-end gap-1.5">
-                                                    <span className="text-xs text-gray-400 line-through font-semibold">$294</span>
-                                                    <span className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">$49<span className="text-base font-bold text-gray-500">.00</span></span>
+                                                    <span className="text-xs text-gray-500 line-through font-bold">$294</span>
+                                                    <span className="text-2xl sm:text-3xl font-black text-gray-950 tracking-tight">$49<span className="text-base font-bold text-gray-600">.00</span></span>
                                                 </div>
-                                                <span className="inline-block mt-0.5 text-[9.5px] font-extrabold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded border border-emerald-200">
+                                                <span className="inline-block mt-0.5 text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded border border-emerald-300">
                                                     SAVE 83% ($245 OFF)
                                                 </span>
                                             </div>
@@ -462,81 +477,83 @@ export const CheckoutPage: React.FC = () => {
                                     {/* Perforated Tear Line with Semicircular Ticket Notches */}
                                     <div className="relative flex items-center justify-between my-1">
                                         {/* Left Notch */}
-                                        <div className="w-3.5 h-7 bg-gray-50 border-r border-y border-gray-300/80 rounded-r-full -ml-[1px]" />
+                                        <div className="w-3.5 h-7 bg-gray-50 border-r border-y border-gray-300 rounded-r-full -ml-[1px]" />
                                         {/* Dashed Line */}
                                         <div className="flex-1 border-t-2 border-dashed border-gray-300 mx-2 relative">
-                                            <span className="absolute left-1/2 -top-2.5 -translate-x-1/2 bg-white px-2 text-[8px] font-mono font-bold text-gray-400 uppercase tracking-widest">
-                                                PERFORATED TICKET STUB
+                                            <span className="absolute left-1/2 -top-2.5 -translate-x-1/2 bg-white px-2 text-[9px] font-mono font-bold text-gray-700 uppercase tracking-widest">
+                                                Lifetime Access Pass
                                             </span>
                                         </div>
                                         {/* Right Notch */}
-                                        <div className="w-3.5 h-7 bg-gray-50 border-l border-y border-gray-300/80 rounded-l-full -mr-[1px]" />
+                                        <div className="w-3.5 h-7 bg-gray-50 border-l border-y border-gray-300 rounded-l-full -mr-[1px]" />
                                     </div>
 
                                     {/* Ticket Lower Section (Included Perks) */}
-                                    <div className="p-4 sm:p-5 pt-3 bg-gradient-to-b from-[#fafaf9]/80 to-white">
-                                        <p className="text-[10.5px] font-extrabold text-gray-500 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                                            <span className="w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center">
+                                    <div className="p-4 sm:p-5 pt-3 bg-gradient-to-b from-stone-50/80 to-white">
+                                        <p className="text-[10.5px] font-black text-gray-900 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                                            <span className="w-4 h-4 bg-emerald-600 rounded-full flex items-center justify-center shadow-2xs">
                                                 <Check size={10} className="text-white" strokeWidth={3} />
                                             </span>
                                             FREE BONUS INCLUDED
                                         </p>
 
                                         <div className="space-y-2">
-                                            <div className="flex items-center justify-between p-2.5 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                                            <div className="flex items-center justify-between p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-200">
                                                 <div className="flex items-center gap-2 min-w-0">
                                                     <div className="w-6 h-6 rounded-md bg-emerald-100 flex items-center justify-center shrink-0">
-                                                        <Star size={13} className="text-emerald-600" />
+                                                        <Star size={13} className="text-emerald-700" />
                                                     </div>
-                                                    <span className="text-xs font-bold text-gray-800">Sketchup-Vray Course</span>
+                                                    <span className="text-xs font-bold text-gray-950">Sketchup-Vray Course</span>
                                                 </div>
-                                                <span className="text-[9.5px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ml-2">
+                                                <span className="text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ml-2 border border-emerald-200">
                                                     FREE BONUS
                                                 </span>
                                             </div>
 
-                                            <div className="flex items-center justify-between p-2.5 rounded-lg bg-emerald-50/60 border border-emerald-100">
+                                            <div className="flex items-center justify-between p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-200">
                                                 <div className="flex items-center gap-2 min-w-0">
                                                     <div className="w-6 h-6 rounded-md bg-emerald-100 flex items-center justify-center shrink-0">
-                                                        <Star size={13} className="text-emerald-600" />
+                                                        <Sparkles size={13} className="text-emerald-700" />
                                                     </div>
-                                                    <span className="text-xs font-bold text-gray-800">Live Class Lead Gen Course</span>
+                                                    <span className="text-xs font-bold text-gray-950">3ds Max Course</span>
                                                 </div>
-                                                <span className="text-[9.5px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ml-2">
+                                                <span className="text-[9.5px] font-extrabold text-emerald-800 bg-emerald-100 px-1.5 py-0.5 rounded shrink-0 whitespace-nowrap ml-2 border border-emerald-200">
                                                     FREE BONUS
                                                 </span>
                                             </div>
                                         </div>
 
-                                        {/* Authentic Vector Barcode */}
-                                        <div className="mt-3.5 pt-3 border-t border-gray-100 flex flex-col items-center">
-                                            <svg className="h-6 sm:h-7 w-48 text-gray-800 max-w-full" viewBox="0 0 176 28" fill="currentColor">
-                                                <rect x="0" y="0" width="3" height="28"/>
-                                                <rect x="5" y="0" width="1.5" height="28"/>
-                                                <rect x="9" y="0" width="4" height="28"/>
-                                                <rect x="15" y="0" width="2" height="28"/>
-                                                <rect x="19" y="0" width="1.5" height="28"/>
-                                                <rect x="23" y="0" width="3.5" height="28"/>
-                                                <rect x="29" y="0" width="2" height="28"/>
-                                                <rect x="33" y="0" width="1" height="28"/>
-                                                <rect x="36" y="0" width="4" height="28"/>
-                                                <rect x="42" y="0" width="2" height="28"/>
-                                                <rect x="46" y="0" width="1.5" height="28"/>
-                                                <rect x="50" y="0" width="3" height="28"/>
-                                                <rect x="55" y="0" width="4" height="28"/>
-                                                <rect x="61" y="0" width="1" height="28"/>
-                                                <rect x="64" y="0" width="3" height="28"/>
-                                                <rect x="69" y="0" width="2" height="28"/>
-                                                <rect x="73" y="0" width="4" height="28"/>
-                                                <rect x="79" y="0" width="1.5" height="28"/>
-                                                <rect x="83" y="0" width="2" height="28"/>
-                                                <rect x="87" y="0" width="3.5" height="28"/>
-                                                <rect x="93" y="0" width="1" height="28"/>
-                                                <rect x="96" y="0" width="4" height="28"/>
-                                                <rect x="102" y="0" width="2" height="28"/>
+                                        {/* Barcode Accent */}
+                                        <div className="mt-3.5 pt-3 border-t border-gray-200 flex flex-col items-center">
+                                            <svg className="w-48 h-6 opacity-75" viewBox="0 0 180 28" fill="currentColor">
+                                                <rect x="0" y="0" width="2" height="28"/>
+                                                <rect x="4" y="0" width="1" height="28"/>
+                                                <rect x="7" y="0" width="3" height="28"/>
+                                                <rect x="12" y="0" width="1.5" height="28"/>
+                                                <rect x="15" y="0" width="4" height="28"/>
+                                                <rect x="21" y="0" width="2" height="28"/>
+                                                <rect x="25" y="0" width="1" height="28"/>
+                                                <rect x="28" y="0" width="3.5" height="28"/>
+                                                <rect x="33" y="0" width="2" height="28"/>
+                                                <rect x="37" y="0" width="1.5" height="28"/>
+                                                <rect x="41" y="0" width="3" height="28"/>
+                                                <rect x="46" y="0" width="1" height="28"/>
+                                                <rect x="49" y="0" width="4" height="28"/>
+                                                <rect x="55" y="0" width="2" height="28"/>
+                                                <rect x="59" y="0" width="1.5" height="28"/>
+                                                <rect x="63" y="0" width="3" height="28"/>
+                                                <rect x="68" y="0" width="2" height="28"/>
+                                                <rect x="72" y="0" width="1" height="28"/>
+                                                <rect x="75" y="0" width="3.5" height="28"/>
+                                                <rect x="80" y="0" width="2" height="28"/>
+                                                <rect x="84" y="0" width="1.5" height="28"/>
+                                                <rect x="88" y="0" width="4" height="28"/>
+                                                <rect x="94" y="0" width="2" height="28"/>
+                                                <rect x="98" y="0" width="1" height="28"/>
+                                                <rect x="101" y="0" width="3" height="28"/>
                                                 <rect x="106" y="0" width="1.5" height="28"/>
-                                                <rect x="110" y="0" width="3" height="28"/>
-                                                <rect x="115" y="0" width="4" height="28"/>
+                                                <rect x="110" y="0" width="2" height="28"/>
+                                                <rect x="114" y="0" width="4" height="28"/>
                                                 <rect x="121" y="0" width="1.5" height="28"/>
                                                 <rect x="125" y="0" width="3" height="28"/>
                                                 <rect x="130" y="0" width="2" height="28"/>
@@ -551,86 +568,126 @@ export const CheckoutPage: React.FC = () => {
                                                 <rect x="170" y="0" width="3" height="28"/>
                                                 <rect x="174" y="0" width="2" height="28"/>
                                             </svg>
-                                            <span className="font-mono text-[9px] font-bold tracking-[0.25em] text-gray-400 mt-1 uppercase">
-                                                * 84920-VIP-TICKET-2026 *
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Trust badges */}
-                                <div className="flex items-center justify-between mt-3 text-[10px] sm:text-xs text-gray-600 font-semibold gap-1 whitespace-nowrap">
-                                    <span className="flex items-center gap-1"><Download size={12} className="shrink-0" /> Instant PDF</span>
-                                    <span className="flex items-center gap-1 text-blue-600"><Shield size={12} className="shrink-0" /> Lifetime Updates</span>
-                                    <span className="flex items-center gap-1"><ShieldCheck size={12} className="shrink-0" /> 30-Day Guarantee</span>
+                                <div className="flex items-center justify-between mt-3 text-[11px] sm:text-xs text-gray-900 font-bold gap-1 whitespace-nowrap">
+                                    <span className="flex items-center gap-1.5"><Download size={13} className="shrink-0 text-gray-950" /> Instant PDF</span>
+                                    <span className="flex items-center gap-1.5 text-blue-700 font-extrabold"><Shield size={13} className="shrink-0" /> Lifetime Updates</span>
+                                    <span className="flex items-center gap-1.5 text-emerald-800 font-bold"><ShieldCheck size={13} className="shrink-0" /> 30-Day Guarantee</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* ========== RIGHT COLUMN: PAYMENT FORM ========== */}
                         <div className="flex-1 lg:max-w-[50%]">
-                            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                            <div className="bg-white rounded-2xl border border-gray-300 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.07)] overflow-hidden">
 
-                                {/* Contact information */}
-                                <div className="px-5 pt-5 space-y-4">
-                                    <div>
-                                        <h3 className="text-sm font-semibold text-gray-900 mb-2">Contact information</h3>
-                                        <div className="space-y-2">
-                                            {/* Stripe Link Authentication */}
-                                            <div id="stripe-link-auth" />
+                                {/* Apple Pay / Google Pay wallet button */}
+                                {showWalletButton && (
+                                    <div className="p-5 pb-0">
+                                        <div id="wallet-button-element" className="mb-1" />
+                                        <div className="flex items-center gap-3 my-3">
+                                            <div className="flex-1 h-px bg-gray-300" />
+                                            <span className="text-[11px] font-bold text-gray-600 uppercase tracking-wider">Or pay with card</span>
+                                            <div className="flex-1 h-px bg-gray-300" />
                                         </div>
                                     </div>
+                                )}
 
-                                    {/* Payment method — Stripe Payment Element */}
-                                    <div>
-                                        <h3 className="text-sm font-semibold text-gray-900 mb-2">Payment method</h3>
-                                        <div id="stripe-payment-element" />
-                                    </div>
+                                <div className="p-5 sm:p-6 space-y-4">
 
-                                    {/* Cardholder name */}
+                                    {/* Email */}
                                     <div>
-                                        <label className="text-xs font-medium text-gray-600 mb-1 block">Cardholder name</label>
+                                        <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">Email address</label>
                                         <input
-                                            type="text"
-                                            value={name}
-                                            onChange={(e) => { setName(e.target.value); setNameError(false); setErrorMessage(null); }}
-                                            placeholder="Full name on card"
-                                            className={`block w-full px-3.5 py-3 bg-white border text-sm rounded-lg transition-all focus:outline-none focus:ring-2 ${nameError
-                                                ? 'border-red-300 focus:ring-red-100 focus:border-red-400'
-                                                : 'border-gray-300 focus:ring-blue-100 focus:border-blue-500 hover:border-gray-400'
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => { setEmail(e.target.value); setEmailError(false); setErrorMessage(null); }}
+                                            placeholder="you@example.com"
+                                            className={`block w-full px-4 py-3.5 bg-white border text-[15px] font-medium text-gray-950 rounded-xl transition-all focus:outline-none focus:ring-1 ${emailError
+                                                ? 'border-red-400 focus:ring-red-200 focus:border-red-500'
+                                                : 'border-gray-300 focus:ring-gray-950 focus:border-gray-950 hover:border-gray-400'
                                                 }`}
                                         />
                                     </div>
 
+                                    {/* Card number */}
+                                    <div>
+                                        <div className="flex items-center justify-between mb-1.5">
+                                            <label className="text-xs font-bold text-gray-950 tracking-wide uppercase">Card number</label>
+                                            <div className="flex items-center gap-1.5">
+                                                {cardBrand === 'visa' && <img src="https://js.stripe.com/v3/fingerprinted/img/visa-365725566f9578a9589553aa9296d178.svg" alt="Visa" className="h-5" />}
+                                                {cardBrand === 'mastercard' && <img src="https://js.stripe.com/v3/fingerprinted/img/mastercard-4d8844094130711885b5e41b28c9848f.svg" alt="Mastercard" className="h-5" />}
+                                                {cardBrand === 'amex' && <img src="https://js.stripe.com/v3/fingerprinted/img/amex-a49b82f46c5cd6a96a6e418a6ca1717c.svg" alt="Amex" className="h-5" />}
+                                                {cardBrand === 'unknown' && (
+                                                    <div className="flex gap-1 opacity-60">
+                                                        <img src="https://js.stripe.com/v3/fingerprinted/img/visa-365725566f9578a9589553aa9296d178.svg" alt="Visa" className="h-4" />
+                                                        <img src="https://js.stripe.com/v3/fingerprinted/img/mastercard-4d8844094130711885b5e41b28c9848f.svg" alt="MC" className="h-4" />
+                                                        <img src="https://js.stripe.com/v3/fingerprinted/img/amex-a49b82f46c5cd6a96a6e418a6ca1717c.svg" alt="Amex" className="h-4" />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div
+                                            onClick={() => cardNumberRef.current?.focus()}
+                                            className="border border-gray-300 rounded-xl px-4 py-3.5 hover:border-gray-400 transition-colors focus-within:border-gray-950 focus-within:ring-1 focus-within:ring-gray-950 bg-white cursor-text min-h-[48px] flex items-center"
+                                        >
+                                            <div id="card-number-element" className="w-full" />
+                                        </div>
+                                    </div>
+
+                                    {/* Expiry + CVC row */}
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">Expiry</label>
+                                            <div
+                                                onClick={() => cardExpiryRef.current?.focus()}
+                                                className="border border-gray-300 rounded-xl px-4 py-3.5 hover:border-gray-400 transition-colors focus-within:border-gray-950 focus-within:ring-1 focus-within:ring-gray-950 bg-white cursor-text min-h-[48px] flex items-center"
+                                            >
+                                                <div id="card-expiry-element" className="w-full" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">CVC</label>
+                                            <div
+                                                onClick={() => cardCvcRef.current?.focus()}
+                                                className="border border-gray-300 rounded-xl px-4 py-3.5 hover:border-gray-400 transition-colors focus-within:border-gray-950 focus-within:ring-1 focus-within:ring-gray-950 bg-white cursor-text min-h-[48px] flex items-center"
+                                            >
+                                                <div id="card-cvc-element" className="w-full" />
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     {/* Error */}
                                     {errorMessage && (
-                                        <div className="p-3 bg-red-50 text-red-600 rounded-lg text-xs font-medium flex items-center gap-2 border border-red-100">
-                                            <AlertCircle size={14} className="shrink-0" />
+                                        <div className="p-3.5 bg-red-50 text-red-700 rounded-xl text-xs font-semibold flex items-center gap-2 border border-red-200">
+                                            <AlertCircle size={15} className="shrink-0 text-red-600" />
                                             {errorMessage}
                                         </div>
                                     )}
-                                </div>
 
-                                {/* Download button + PayPal */}
-                                <div className="px-5 pb-5 pt-3 space-y-2">
+                                    {/* Pay button */}
                                     <button
                                         onClick={handleCardPay}
                                         disabled={viewState === 'PROCESSING'}
-                                        className="w-full py-3.5 bg-[#0570DE] hover:bg-[#0462c7] text-white rounded-lg font-semibold text-sm transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed shadow-sm hover:shadow-md active:scale-[0.98]"
+                                        className="w-full py-4 bg-gray-950 hover:bg-black text-white rounded-xl font-bold text-[15px] transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed shadow-md hover:shadow-lg active:scale-[0.99] mt-2 cursor-pointer"
                                     >
                                         {viewState === 'PROCESSING' ? (
                                             <Loader2 className="animate-spin" size={20} />
                                         ) : (
-                                            <><Download size={18} /><span>Download</span></>
+                                            <><Lock size={15} className="text-emerald-400" /><span>Pay $49.00 • Instant Access</span></>
                                         )}
                                     </button>
 
                                     {/* OR divider */}
                                     {!hidePayPal && (
-                                        <div className="flex items-center gap-2">
-                                            <div className="flex-1 h-px bg-gray-200" />
-                                            <span className="text-[10px] font-semibold text-gray-400 uppercase">OR</span>
-                                            <div className="flex-1 h-px bg-gray-200" />
+                                        <div className="flex items-center gap-3 pt-1">
+                                            <div className="flex-1 h-px bg-gray-300" />
+                                            <span className="text-[11px] font-bold text-gray-600 uppercase tracking-widest">Or</span>
+                                            <div className="flex-1 h-px bg-gray-300" />
                                         </div>
                                     )}
 
@@ -651,29 +708,21 @@ export const CheckoutPage: React.FC = () => {
                                         <input type="hidden" name="email" value={email} />
                                         <button
                                             type="submit"
-                                            className="w-full py-3.5 bg-[#ffc439] hover:bg-[#f0b72e] text-gray-900 rounded-lg font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md active:scale-[0.98]"
+                                            className="w-full py-3.5 bg-[#ffc439] hover:bg-[#f0b72e] text-gray-950 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md active:scale-[0.99] cursor-pointer"
                                         >
-                                            Download with <img src={PAYPAL_LOGO_URL} alt="PayPal" className="h-5 object-contain" />
+                                            Pay with <img src={PAYPAL_LOGO_URL} alt="PayPal" className="h-5 object-contain" />
                                         </button>
                                     </form>
                                     )}
 
-                                    {/* Powered by Stripe */}
-                                    <div className="flex items-center justify-center gap-2 mt-2 text-xs text-gray-600 font-medium">
-                                        <span>Powered by</span>
-                                        <span className="font-bold text-gray-500">stripe</span>
-                                        <span className="mx-1">•</span>
-                                        <span>Terms</span>
-                                        <span className="mx-1">•</span>
-                                        <span>Privacy</span>
+                                    {/* Footer */}
+                                    <div className="flex items-center justify-center gap-2 pt-2 text-xs text-gray-700 font-semibold">
+                                        <Lock size={12} className="text-emerald-700" />
+                                        <span>Guaranteed Safe & Secure Checkout</span>
+                                        <span>•</span>
+                                        <span className="font-extrabold text-gray-900">256-bit SSL</span>
                                     </div>
                                 </div>
-                            </div>
-
-                            {/* Security note */}
-                            <div className="flex items-center justify-center gap-2 mt-2 text-xs text-gray-600 font-medium">
-                                <Lock size={11} />
-                                <span>256-bit SSL encrypted • Your payment info is secure</span>
                             </div>
                         </div>
                     </div>

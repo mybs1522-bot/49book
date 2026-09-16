@@ -2,9 +2,38 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
+// Custom plugin to rewrite clean URLs to corresponding HTML files in dev server
+function cleanUrlsPlugin() {
+  return {
+    name: 'clean-urls-middleware',
+    configureServer(server: any) {
+      server.middlewares.use((req: any, _res: any, next: any) => {
+        if (!req.url) return next();
+        const [urlPath, query] = req.url.split('?');
+        const qs = query ? `?${query}` : '';
+
+        if (urlPath === '/checkout' || urlPath === '/checkout/') {
+          req.url = '/checkout/index.html' + qs;
+        } else if (urlPath === '/success' || urlPath === '/success/') {
+          req.url = '/success/index.html' + qs;
+        } else if (urlPath === '/thank-you' || urlPath === '/thank-you/') {
+          req.url = '/thank-you/index.html' + qs;
+        } else if (urlPath === '/contact' || urlPath === '/contact/') {
+          req.url = '/contact/index.html' + qs;
+        } else if (urlPath.startsWith('/pages/') && !urlPath.endsWith('.html')) {
+          req.url = urlPath + '.html' + qs;
+        } else if (urlPath.startsWith('/products/') && !urlPath.endsWith('.html')) {
+          req.url = urlPath + '.html' + qs;
+        }
+        next();
+      });
+    },
+  };
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), cleanUrlsPlugin()],
   appType: 'mpa',
   resolve: {
     alias: {
