@@ -16,8 +16,12 @@ Deno.serve(async (req) => {
             return new Response(JSON.stringify({ error: 'Configuration missing' }), { status: 500 })
         }
 
+        const client_ip_address = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || ''
+        const client_user_agent = req.headers.get('user-agent') || ''
+
         // Prepare payload
         const payload = {
+            test_event_code: 'TEST51115', // Temporary for testing
             data: [
                 {
                     event_name: eventName,
@@ -26,6 +30,8 @@ Deno.serve(async (req) => {
                     event_id: event_id,
                     event_source_url: req.headers.get('referer') || '',
                     user_data: {
+                        client_ip_address,
+                        client_user_agent,
                         ...user_data,
                         em: user_data.em ? [await hashString(user_data.em)] : []
                     },
