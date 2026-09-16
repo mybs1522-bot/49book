@@ -21,7 +21,6 @@ Deno.serve(async (req) => {
 
         // Prepare payload
         const payload = {
-            test_event_code: 'TEST51115', // Temporary for testing
             data: [
                 {
                     event_name: eventName,
