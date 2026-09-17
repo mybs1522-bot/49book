@@ -21,12 +21,26 @@ export interface MetaEventData {
     [key: string]: any;
 }
 
+const isBotUserAgent = () => {
+    if (typeof window === 'undefined' || !window.navigator) return false;
+    const ua = window.navigator.userAgent.toLowerCase();
+    return /bot|crawler|spider|crawling|facebookexternalhit|whatsapp|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|chrome-lighthouse|ptst/i.test(ua);
+};
+
 /**
  * Tracks an event to both Meta Pixel (browser) and Meta Conversion API (server).
  */
 export const trackMetaEvent = async (data: MetaEventData) => {
-    const eventId = generateEventId();
-    const { eventName, email, value, currency, content_ids, content_type, ...customData } = data;
+    if (isBotUserAgent()) {
+        console.log(`[Meta Tracking] Blocked bot traffic for event: ${data.eventName}`);
+        return;
+    }
+
+    const { eventName, email, value, currency, content_ids, content_type, order_id, ...customData } = data;
+    
+    // Use order_id as the eventId if available, otherwise generate a unique one.
+    // This perfectly deduplicates page refreshes or 'Back' button navigations!
+    const eventId = order_id || generateEventId();
 
     // 1. Fire Pixel Event (Browser)
     if (typeof window.fbq === 'function') {
