@@ -1204,8 +1204,8 @@ h1.product__title {
 }
 
 .gallery__thumbnails-side {
-  flex: 0 0 clamp(68px, 18.5vw, 88px) !important;
-  width: clamp(68px, 18.5vw, 88px) !important;
+  flex: 0 0 clamp(68px, 18.5vw, 84px) !important;
+  width: clamp(68px, 18.5vw, 84px) !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -1219,7 +1219,8 @@ h1.product__title {
   align-items: center !important;
   gap: 8px !important;
   width: 100% !important;
-  max-height: 520px !important;
+  height: calc(4 * clamp(68px, 18.5vw, 84px) + 3 * 8px) !important;
+  max-height: calc(4 * clamp(68px, 18.5vw, 84px) + 3 * 8px) !important;
   padding: 0 !important;
   margin: 0 !important;
   overflow-y: auto !important;
@@ -1238,9 +1239,9 @@ h1.product__title {
 }
 
 .gallery__thumbnail {
-  flex: 0 0 clamp(68px, 18.5vw, 88px) !important;
+  flex: 0 0 clamp(68px, 18.5vw, 84px) !important;
   width: 100% !important;
-  height: clamp(68px, 18.5vw, 88px) !important;
+  height: clamp(68px, 18.5vw, 84px) !important;
   aspect-ratio: 1 / 1 !important;
   border-radius: 12px !important;
   overflow: hidden !important;
@@ -1286,7 +1287,7 @@ h1.product__title {
   justify-content: center !important;
 }
 
-/* Phone / Mobile device styling - Exactly 3 square thumbnails */
+/* Phone / Mobile device styling - 4 square thumbnails */
 @media (max-width: 767px) {
   .thumbnail--slide {
     display: none !important;
@@ -1301,8 +1302,8 @@ h1.product__title {
   }
   .gallery__thumbnails {
     width: 64px !important;
-    height: calc(3 * 64px + 2 * 6px) !important;
-    max-height: calc(3 * 64px + 2 * 6px) !important;
+    height: calc(4 * 64px + 3 * 6px) !important;
+    max-height: calc(4 * 64px + 3 * 6px) !important;
     gap: 6px !important;
     overflow-y: auto !important;
   }
@@ -3728,9 +3729,15 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
     }
 
     .gallery__thumbnails {
-      max-height: 100% !important;
-      height: 100% !important;
+      max-height: calc(4 * clamp(68px, 18.5vw, 84px) + 3 * 8px) !important;
+      height: calc(4 * clamp(68px, 18.5vw, 84px) + 3 * 8px) !important;
       position: relative !important;
+    }
+    @media (max-width: 767px) {
+      .gallery__thumbnails {
+        max-height: calc(4 * 64px + 3 * 6px) !important;
+        height: calc(4 * 64px + 3 * 6px) !important;
+      }
     }
 
     .gallery__thumbnail {
