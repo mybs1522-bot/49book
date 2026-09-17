@@ -540,59 +540,57 @@ shopify-payment-terms {
   }
 }
 
-/* 3. Luxury Swatches (Cards) */
+/* 3. Luxury Swatches (Cards) - Aesthetic & Minimal */
 .luxury-swatches-grid {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin: 16px 0 20px 0;
+  gap: 10px;
+  margin: 14px 0 18px 0;
   width: 100%;
 }
 .luxury-swatch-card {
   position: relative;
   background: #ffffff;
-  border: 2px solid #e5e7eb;
-  border-radius: 14px;
-  padding: 14px 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
 }
 .luxury-swatch-card:hover {
-  border-color: #fdba74;
-  background: #fffdfa;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(234, 88, 12, 0.06);
+  border-color: #cbd5e1;
+  background: #fafafa;
 }
 .luxury-swatch-card.swatch--active {
-  border-color: #ea580c !important;
-  background: #fffbf7 !important;
-  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15), 0 8px 20px rgba(234, 88, 12, 0.08) !important;
+  border: 1.5px solid #09090b !important;
+  background: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
 }
 .luxury-card-badge {
   position: absolute;
-  top: -10px;
-  right: 16px;
-  background: linear-gradient(135deg, #ea580c, #c2410c);
+  top: -8px;
+  right: 12px;
+  background: #09090b;
   color: #ffffff;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  padding: 3px 10px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2.5px 8px;
   border-radius: 9999px;
-  box-shadow: 0 2px 8px rgba(234, 88, 12, 0.35);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
   text-transform: uppercase;
 }
 .luxury-card-badge.sold-out {
-  background: #64748b !important;
-  box-shadow: 0 2px 6px rgba(100, 116, 139, 0.25) !important;
+  background: #71717a !important;
+  box-shadow: none !important;
 }
 .luxury-soldout-tag {
-  font-size: 10px;
-  font-weight: 700;
-  color: #dc2626;
-  background: #fee2e2;
-  padding: 2px 7px;
+  font-size: 9px;
+  font-weight: 600;
+  color: #71717a;
+  background: #f4f4f5;
+  padding: 1px 6px;
   border-radius: 4px;
   margin-left: 6px;
   display: inline-block;
@@ -600,26 +598,26 @@ shopify-payment-terms {
   vertical-align: middle;
 }
 .luxury-swatch-card[data-swatch-soldout="true"] {
-  background: #fcfcfd;
-  border-color: #e5e7eb;
+  background: #ffffff;
+  border-color: #e2e8f0;
 }
 .luxury-swatch-card[data-swatch-soldout="true"]:hover {
   border-color: #cbd5e1;
-  background: #f8fafc;
+  background: #fafafa;
   transform: none;
   box-shadow: none;
 }
 .luxury-card-inner {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   pointer-events: none;
 }
 .luxury-card-radio {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
-  border: 2px solid #d1d5db;
+  border: 1.5px solid #d4d4d8;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -628,12 +626,12 @@ shopify-payment-terms {
   background: #ffffff;
 }
 .luxury-swatch-card.swatch--active .luxury-card-radio {
-  border-color: #ea580c;
-  background: #ea580c;
+  border-color: #09090b !important;
+  background: #09090b !important;
 }
 .radio-dot {
-  width: 8px;
-  height: 8px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: #ffffff;
   opacity: 0;
@@ -641,8 +639,8 @@ shopify-payment-terms {
   transition: all 0.2s ease;
 }
 .luxury-swatch-card.swatch--active .radio-dot {
-  opacity: 1;
-  transform: scale(1);
+  opacity: 1 !important;
+  transform: scale(1) !important;
 }
 .luxury-card-content {
   flex-grow: 1;
@@ -654,24 +652,28 @@ shopify-payment-terms {
   margin-bottom: 2px;
 }
 .luxury-card-title {
-  font-size: 15px;
-  font-weight: 800;
+  font-size: 13.5px;
+  font-weight: 700;
   color: #09090b;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: inherit;
   letter-spacing: -0.01em;
 }
 .luxury-card-price {
-  font-size: 16px;
-  font-weight: 800;
-  color: #ea580c;
-  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #09090b;
+  font-family: inherit;
+}
+.luxury-swatch-card:not(.swatch--active) .luxury-card-price {
+  color: #71717a !important;
+  font-weight: 500 !important;
 }
 .luxury-card-subtitle {
   display: block;
-  font-size: 12.5px;
-  color: #6b7280;
-  font-weight: 500;
-  line-height: 1.3;
+  font-size: 11px;
+  color: #71717a;
+  font-weight: 450;
+  line-height: 1.35;
 }
 
 /* Responsive Mobile Swatches (Side-by-Side: E-Book & Hardcopy) */
@@ -681,74 +683,88 @@ shopify-payment-terms {
     flex-direction: row !important;
     align-items: stretch !important;
     gap: 8px !important;
-    margin: 14px 0 16px 0 !important;
+    margin: 12px 0 16px 0 !important;
     width: 100% !important;
   }
   .luxury-swatch-card {
     flex: 1 1 50% !important;
     min-width: 0 !important;
-    padding: 10px 8px !important;
-    border-radius: 12px !important;
+    padding: 10px 10px !important;
+    border-radius: 10px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
   .luxury-swatch-card.swatch--active {
-    flex: 1.25 1 56% !important;
-    padding: 12px 10px !important;
-    border-color: #ea580c !important;
-    background: #fffbf7 !important;
+    flex: 1.28 1 57% !important;
+    padding: 10px 10px !important;
+    border: 1.5px solid #09090b !important;
+    background: #ffffff !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04) !important;
   }
   .luxury-swatch-card:not(.swatch--active) {
-    flex: 0.85 1 44% !important;
-    background: #f8fafc !important;
-    border-color: #e2e8f0 !important;
+    flex: 0.82 1 43% !important;
+    background: #fafafa !important;
+    border: 1px solid #e2e8f0 !important;
   }
   .luxury-card-inner {
-    gap: 8px !important;
+    gap: 7px !important;
     width: 100% !important;
     align-items: center !important;
   }
   .luxury-card-radio {
-    width: 18px !important;
-    height: 18px !important;
+    width: 14px !important;
+    height: 14px !important;
     flex-shrink: 0 !important;
+    border-width: 1.5px !important;
+  }
+  .luxury-card-radio .radio-dot {
+    width: 4px !important;
+    height: 4px !important;
   }
   .luxury-card-top-row {
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
     justify-content: center !important;
-    gap: 2px !important;
+    gap: 1px !important;
     margin-bottom: 0 !important;
   }
   .luxury-card-title {
-    font-size: 13.5px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
     line-height: 1.2 !important;
     white-space: nowrap !important;
   }
   .luxury-card-price {
-    font-size: 14px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
     line-height: 1.2 !important;
+    color: #09090b !important;
+  }
+  .luxury-swatch-card:not(.swatch--active) .luxury-card-price {
+    color: #71717a !important;
+    font-weight: 500 !important;
   }
   /* Show subtitle and badge only on the selected card */
   .luxury-swatch-card.swatch--active .luxury-card-subtitle {
     display: block !important;
-    font-size: 10.5px !important;
-    line-height: 1.25 !important;
-    color: #6b7280 !important;
-    margin-top: 4px !important;
+    font-size: 9.5px !important;
+    line-height: 1.3 !important;
+    color: #71717a !important;
+    margin-top: 3px !important;
+    font-weight: 450 !important;
   }
   .luxury-swatch-card:not(.swatch--active) .luxury-card-subtitle {
     display: none !important;
   }
   .luxury-swatch-card.swatch--active .luxury-card-badge {
     display: block !important;
-    top: -8px !important;
+    top: -7px !important;
     right: 8px !important;
-    font-size: 8px !important;
-    padding: 2px 6px !important;
+    font-size: 7.5px !important;
+    padding: 1.5px 6px !important;
     letter-spacing: 0.04em !important;
   }
   .luxury-swatch-card:not(.swatch--active) .luxury-card-badge,
@@ -3407,7 +3423,7 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
                                     <div class="luxury-card-top-row">
                                         <span class="luxury-card-title">Hardcopy <span class="luxury-soldout-tag">Out of Stock</span></span>
                                         
-                                            <span class="luxury-card-price" style="color: #94a3b8; text-decoration: line-through;">$199.00</span>
+                                            <span class="luxury-card-price">$199.00</span>
                                         
                                     </div>
                                     <span class="luxury-card-subtitle">
@@ -4737,7 +4753,7 @@ font__family--title font__size--large
                                     <div class="luxury-card-top-row">
                                         <span class="luxury-card-title">Hardcopy <span class="luxury-soldout-tag">Out of Stock</span></span>
                                         
-                                            <span class="luxury-card-price" style="color: #94a3b8; text-decoration: line-through;">$199.00</span>
+                                            <span class="luxury-card-price">$199.00</span>
                                         
                                     </div>
                                     <span class="luxury-card-subtitle">

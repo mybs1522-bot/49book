@@ -382,13 +382,13 @@ function injectModalStyles() {
 
     /* Active styling for sold-out Hardcopy swatch */
     .luxury-swatch-card[data-swatch-soldout="true"].swatch--active {
-      border-color: #64748b !important;
-      background: #f8fafc !important;
-      box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.2), 0 8px 20px rgba(0, 0, 0, 0.05) !important;
+      border: 1.5px solid #09090b !important;
+      background: #fafafa !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
     }
     .luxury-swatch-card[data-swatch-soldout="true"].swatch--active .luxury-card-radio {
-      border-color: #64748b !important;
-      background: #64748b !important;
+      border-color: #09090b !important;
+      background: #09090b !important;
     }
     .luxury-swatch-card[data-swatch-soldout="true"].swatch--active .radio-dot {
       opacity: 1 !important;
