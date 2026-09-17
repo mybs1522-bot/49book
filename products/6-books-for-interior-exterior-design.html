@@ -4075,6 +4075,10 @@ font__family--title font__size--large
         Avoid costly layout mistakes, Do's &amp; Don'ts, find practical dimensions, and turn design ideas into spaces that work.
       </h2>
 
+      <div class="pe-sketch-banner-wrap">
+        <img src="/images/four-design-pillars-sketch.png" alt="Space Planning, Tips Tricks & Ideas, History of Architecture, Don'ts and Do's" class="pe-sketch-banner-img" loading="lazy">
+      </div>
+
         <div class="pe-solution-card">
           <p class="pe-solution-lead">
             A home is the heart of your life—don't let one wrong decision turn your dream into daily frustration.
@@ -4097,7 +4101,27 @@ font__family--title font__size--large
     .sticky--container .product-editorial-block {
       display: none !important;
     }
-    .pe-headline-primary { font-size: clamp(16.5px, 2.2vw, 22px); font-weight: 800; color: #0f172a; line-height: 1.4; letter-spacing: -0.02em; margin: 0 auto 16px auto; max-width: 580px; }
+    .pe-headline-primary { font-size: clamp(16.5px, 2.2vw, 22px); font-weight: 800; color: #0f172a; line-height: 1.4; letter-spacing: -0.02em; margin: 0 auto 12px auto; max-width: 580px; }
+    .pe-sketch-banner-wrap {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      margin: 8px auto 18px auto !important;
+      width: 100% !important;
+    }
+    .pe-sketch-banner-img {
+      max-width: 330px !important;
+      width: 100% !important;
+      height: auto !important;
+      display: block !important;
+      object-fit: contain !important;
+      border-radius: 6px !important;
+    }
+    @media (max-width: 480px) {
+      .pe-sketch-banner-img {
+        max-width: 275px !important;
+      }
+    }
     .pe-headline-light {
       font-weight: 500;
       color: #334155;
