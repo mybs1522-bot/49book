@@ -1211,6 +1211,7 @@ h1.product__title {
   align-items: center !important;
   position: relative !important;
   box-sizing: border-box !important;
+  height: 100% !important;
 }
 
 .gallery__thumbnails {
@@ -1219,7 +1220,8 @@ h1.product__title {
   align-items: center !important;
   gap: 8px !important;
   width: 100% !important;
-  max-height: 520px !important;
+  height: 100% !important;
+  max-height: 100% !important;
   padding: 0 !important;
   margin: 0 !important;
   overflow-y: auto !important;
@@ -1238,9 +1240,9 @@ h1.product__title {
 }
 
 .gallery__thumbnail {
-  flex: 0 0 clamp(68px, 18.5vw, 88px) !important;
+  flex: 0 0 calc((100% - 16px) / 3) !important;
   width: 100% !important;
-  height: clamp(68px, 18.5vw, 88px) !important;
+  height: calc((100% - 16px) / 3) !important;
   aspect-ratio: 1 / 1 !important;
   border-radius: 12px !important;
   overflow: hidden !important;
@@ -3480,27 +3482,27 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
         }
 
         function updateGalleryHeight(index) {
-            if (window.innerWidth >= 790) {
-                if (holder) { holder.style.height = ''; holder.style.maxHeight = ''; }
-                if (thumbHolder) { thumbHolder.style.maxHeight = ''; }
-                return;
-            }
-            const activeSlide = slides[index];
+            const activeSlide = slides[index !== undefined ? index : currentIdx];
             if (!activeSlide || !holder) return;
             const img = activeSlide.querySelector('img');
             let imgHeight = 0;
             if (img && img.naturalWidth && img.naturalHeight) {
-                const currentW = activeSlide.offsetWidth || slider.offsetWidth || (window.innerWidth - 100);
+                const currentW = activeSlide.offsetWidth || slider.offsetWidth || (window.innerWidth >= 768 ? 480 : window.innerWidth - 80);
                 imgHeight = Math.round((img.naturalHeight / img.naturalWidth) * currentW);
             } else if (img && img.offsetHeight > 50) {
                 imgHeight = img.offsetHeight;
+            } else if (holder.offsetHeight > 50) {
+                imgHeight = holder.offsetHeight;
             } else {
-                imgHeight = 320;
+                imgHeight = 360;
             }
-            holder.style.height = imgHeight + 'px';
-            holder.style.maxHeight = imgHeight + 'px';
-            if (thumbHolder) {
-                thumbHolder.style.maxHeight = Math.max(imgHeight, 280) + 'px';
+            if (imgHeight > 0) {
+                holder.style.height = imgHeight + 'px';
+                holder.style.maxHeight = imgHeight + 'px';
+                if (thumbHolder) {
+                    thumbHolder.style.height = imgHeight + 'px';
+                    thumbHolder.style.maxHeight = imgHeight + 'px';
+                }
             }
         }
 
@@ -3712,7 +3714,8 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
     }
 
     .gallery__thumbnails {
-      max-height: calc((80px + 0.25rem) * 5) !important;
+      max-height: 100% !important;
+      height: 100% !important;
       position: relative !important;
     }
 
