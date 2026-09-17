@@ -507,18 +507,28 @@ function updateOutOfStockState(isSoldOut, optionName) {
   // 5. Main Price Displays
   const mainPrices = document.querySelectorAll('[data-product-price]');
   const salePrices = document.querySelectorAll('[data-product-price-sale]');
-  const saleTags = document.querySelectorAll('[data-tag-sale], .product__badge, .product__tag');
+  const saleTags = document.querySelectorAll('[data-tag-sale], [data-tag-product], .tag--sale, .tag, .product__badge, .product__tag');
 
   mainPrices.forEach(p => {
     p.textContent = isSoldOut ? '$199.00' : '$49.00';
   });
 
   salePrices.forEach(sp => {
-    sp.style.setProperty('display', isSoldOut ? 'none' : '', 'important');
+    if (isSoldOut) {
+      sp.style.setProperty('display', 'none', 'important');
+    } else {
+      sp.style.removeProperty('display');
+      sp.classList.remove('hide');
+    }
   });
 
   saleTags.forEach(st => {
-    st.style.setProperty('display', isSoldOut ? 'none' : '', 'important');
+    if (isSoldOut) {
+      st.style.setProperty('display', 'none', 'important');
+    } else {
+      st.style.removeProperty('display');
+      st.classList.remove('hide');
+    }
   });
 }
 

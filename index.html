@@ -3251,10 +3251,35 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
     <script>
     (function() {
       function updateDoubledCutPrice() {
+        var activeSwatch = document.querySelector('.luxury-swatch-card.swatch--active, [data-swatch-option].swatch--active, [data-swatch-option].selected');
+        var isHardcopy = activeSwatch && (
+          (activeSwatch.dataset.swatchOption && activeSwatch.dataset.swatchOption.toLowerCase().includes('hard')) ||
+          activeSwatch.dataset.swatchSoldout === 'true'
+        );
+
         var priceEls = document.querySelectorAll('[data-product-price="10507180605757"]');
         var cutPriceEls = document.querySelectorAll('[data-product-price-sale="10507180605757"]');
         var tagEls = document.querySelectorAll('[data-tag-product="10507180605757"]');
-        if (!priceEls.length || !cutPriceEls.length) return;
+        if (!priceEls.length) return;
+
+        if (isHardcopy) {
+          cutPriceEls.forEach(function(cp) {
+            cp.style.setProperty('display', 'none', 'important');
+          });
+          tagEls.forEach(function(tag) {
+            tag.style.setProperty('display', 'none', 'important');
+          });
+          return;
+        } else {
+          cutPriceEls.forEach(function(cp) {
+            cp.style.removeProperty('display');
+          });
+          tagEls.forEach(function(tag) {
+            tag.style.removeProperty('display');
+          });
+        }
+
+        if (!cutPriceEls.length) return;
 
         priceEls.forEach(function(priceEl, index) {
           var cutPriceEl = cutPriceEls[index] || cutPriceEls[0];
@@ -4578,10 +4603,35 @@ font__family--title font__size--large
     <script>
     (function() {
       function updateDoubledCutPrice() {
+        var activeSwatch = document.querySelector('.luxury-swatch-card.swatch--active, [data-swatch-option].swatch--active, [data-swatch-option].selected');
+        var isHardcopy = activeSwatch && (
+          (activeSwatch.dataset.swatchOption && activeSwatch.dataset.swatchOption.toLowerCase().includes('hard')) ||
+          activeSwatch.dataset.swatchSoldout === 'true'
+        );
+
         var priceEls = document.querySelectorAll('[data-product-price="10507180605757"]');
         var cutPriceEls = document.querySelectorAll('[data-product-price-sale="10507180605757"]');
         var tagEls = document.querySelectorAll('[data-tag-product="10507180605757"]');
-        if (!priceEls.length || !cutPriceEls.length) return;
+        if (!priceEls.length) return;
+
+        if (isHardcopy) {
+          cutPriceEls.forEach(function(cp) {
+            cp.style.setProperty('display', 'none', 'important');
+          });
+          tagEls.forEach(function(tag) {
+            tag.style.setProperty('display', 'none', 'important');
+          });
+          return;
+        } else {
+          cutPriceEls.forEach(function(cp) {
+            cp.style.removeProperty('display');
+          });
+          tagEls.forEach(function(tag) {
+            tag.style.removeProperty('display');
+          });
+        }
+
+        if (!cutPriceEls.length) return;
 
         priceEls.forEach(function(priceEl, index) {
           var cutPriceEl = cutPriceEls[index] || cutPriceEls[0];
