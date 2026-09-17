@@ -3723,9 +3723,7 @@ font__family--title font__size--large
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
     border: 1.5px solid #e2e8f0;
     background: #ffffff;
-    animation: topBookZoomRipple 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    animation-delay: var(--ripple-delay, 0s);
-    will-change: transform, box-shadow;
+    
     transition: border-color 0.2s ease, transform 0.2s ease;
   }
 
@@ -3757,27 +3755,10 @@ font__family--title font__size--large
     transition: color 0.2s ease;
   }
 
-  @keyframes topBookZoomRipple {
-    0%, 100% {
-      transform: scale(1) translateY(0);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-      border-color: #e2e8f0;
-    }
-    20% {
-      transform: scale(1.12) translateY(-5px);
-      box-shadow: 0 10px 20px rgba(234, 88, 12, 0.28), 0 3px 6px rgba(0, 0, 0, 0.1);
-      border-color: #ea580c;
-    }
-    40% {
-      transform: scale(1) translateY(0);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-      border-color: #e2e8f0;
-    }
-  }
+  
 
   .top-rating-book-item:hover .top-rating-book-cover {
-    animation-play-state: paused;
-    transform: scale(1.18) translateY(-7px);
+    
     box-shadow: 0 14px 26px rgba(234, 88, 12, 0.35);
     border-color: #ea580c;
   }

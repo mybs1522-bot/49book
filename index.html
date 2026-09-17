@@ -2839,9 +2839,44 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
           <p class="pe-solution-lead">
             A home is the heart of your life—don't let one wrong decision turn your dream into daily frustration.
           </p>
+          <div class="pe-solution-divider"></div>
           <p class="pe-solution-text">
-            These 6 step-by-step books guide you like a professional designer.
+            These 6 step-by-step books guide you like a professional designer:
           </p>
+          <ul class="pe-solution-bullets">
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="pe-bullet-content"><strong>Exact Real Dimensions &amp; Clearances</strong> — Erase guesswork so furniture and fixtures fit perfectly.</span>
+            </li>
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="pe-bullet-content"><strong>800+ Hand-Drawn Diagrams</strong> — Step-by-step visual plans for every room, nook &amp; layout.</span>
+            </li>
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="pe-bullet-content"><strong>Avoid Costly Contractor Mistakes</strong> — Direct workers with complete clarity and confidence.</span>
+            </li>
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="pe-bullet-content"><strong>Complete 6-Volume System</strong> — Kitchens, Living, Bedrooms, Washrooms, Study &amp; Exteriors.</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -2938,26 +2973,70 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
       background: #fdfbf7;
       border: 1px solid #ede5d8;
       border-radius: 14px;
-      padding: 14px 18px;
-      max-width: 520px;
+      padding: 16px 18px;
+      max-width: 540px;
       margin: 0 auto 14px auto;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+      text-align: left;
     }
     .pe-solution-lead {
       font-size: 13.5px;
-      font-weight: 500;
-      color: #475569;
+      font-weight: 600;
+      color: #334155;
       line-height: 1.5;
-      margin: 0 0 7px 0;
+      margin: 0 0 10px 0;
+      text-align: center;
+    }
+    .pe-solution-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+      margin: 10px 0 12px 0;
     }
     .pe-solution-text {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(15px, 2.2vw, 17.5px);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 13.5px;
       font-weight: 700;
-      color: #09090b;
-      letter-spacing: -0.02em;
-      line-height: 1.45;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+      margin: 0 0 10px 0;
+      text-align: left;
+    }
+    .pe-solution-bullets {
+      list-style: none;
+      padding: 0;
       margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pe-bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #475569;
+    }
+    .pe-tick-badge {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: #10b981;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+    .pe-bullet-content {
+      color: #334155;
+    }
+    .pe-bullet-content strong {
+      color: #0f172a;
+      font-weight: 700;
     }
     .pe-text-orange {
       color: inherit;
@@ -2983,16 +3062,28 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
         padding: 1px 5px;
         border-radius: 4px;
       }
+      .pe-solution-card {
+        padding: 14px 14px;
+      }
       .pe-solution-lead {
         font-size: 13px;
         line-height: 1.45;
-        margin: 0 0 6px 0;
+        margin: 0 0 8px 0;
       }
       .pe-solution-text {
-        font-size: 14.5px;
+        font-size: 13px;
       }
-      .pe-solution-card {
-        padding: 12px 14px;
+      .pe-bullet-item {
+        font-size: 12.5px;
+        gap: 8px;
+      }
+      .pe-tick-badge {
+        width: 18px;
+        height: 18px;
+      }
+      .pe-tick-badge svg {
+        width: 12px;
+        height: 12px;
       }
     }
 
@@ -3971,13 +4062,10 @@ font__family--title font__size--large
     aspect-ratio: 1 / 1.38;
     border-radius: 6px;
     overflow: hidden;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
     border: 1.5px solid #e2e8f0;
     background: #ffffff;
-    animation: topBookZoomRipple 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    animation-delay: var(--ripple-delay, 0s);
-    will-change: transform, box-shadow;
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
   .top-rating-book-cover img {
@@ -4008,29 +4096,9 @@ font__family--title font__size--large
     transition: color 0.2s ease;
   }
 
-  @keyframes topBookZoomRipple {
-    0%, 100% {
-      transform: scale(1) translateY(0);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-      border-color: #e2e8f0;
-    }
-    20% {
-      transform: scale(1.12) translateY(-5px);
-      box-shadow: 0 10px 20px rgba(234, 88, 12, 0.28), 0 3px 6px rgba(0, 0, 0, 0.1);
-      border-color: #ea580c;
-    }
-    40% {
-      transform: scale(1) translateY(0);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-      border-color: #e2e8f0;
-    }
-  }
-
   .top-rating-book-item:hover .top-rating-book-cover {
-    animation-play-state: paused;
-    transform: scale(1.18) translateY(-7px);
-    box-shadow: 0 14px 26px rgba(234, 88, 12, 0.35);
     border-color: #ea580c;
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.15);
   }
 
   .top-rating-book-item:hover .top-rating-book-name {
@@ -4069,9 +4137,44 @@ font__family--title font__size--large
           <p class="pe-solution-lead">
             A home is the heart of your life—don't let one wrong decision turn your dream into daily frustration.
           </p>
+          <div class="pe-solution-divider"></div>
           <p class="pe-solution-text">
-            These 6 step-by-step books guide you like a professional designer.
+            These 6 step-by-step books guide you like a professional designer:
           </p>
+          <ul class="pe-solution-bullets">
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="pe-bullet-content"><strong>Exact Real Dimensions &amp; Clearances</strong> — Erase guesswork so furniture and fixtures fit perfectly.</span>
+            </li>
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="pe-bullet-content"><strong>800+ Hand-Drawn Diagrams</strong> — Step-by-step visual plans for every room, nook &amp; layout.</span>
+            </li>
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="pe-bullet-content"><strong>Avoid Costly Contractor Mistakes</strong> — Direct workers with complete clarity and confidence.</span>
+            </li>
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="pe-bullet-content"><strong>Complete 6-Volume System</strong> — Kitchens, Living, Bedrooms, Washrooms, Study &amp; Exteriors.</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -4168,26 +4271,70 @@ font__family--title font__size--large
       background: #fdfbf7;
       border: 1px solid #ede5d8;
       border-radius: 14px;
-      padding: 14px 18px;
-      max-width: 520px;
+      padding: 16px 18px;
+      max-width: 540px;
       margin: 0 auto 14px auto;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+      text-align: left;
     }
     .pe-solution-lead {
       font-size: 13.5px;
-      font-weight: 500;
-      color: #475569;
+      font-weight: 600;
+      color: #334155;
       line-height: 1.5;
-      margin: 0 0 7px 0;
+      margin: 0 0 10px 0;
+      text-align: center;
+    }
+    .pe-solution-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+      margin: 10px 0 12px 0;
     }
     .pe-solution-text {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(15px, 2.2vw, 17.5px);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 13.5px;
       font-weight: 700;
-      color: #09090b;
-      letter-spacing: -0.02em;
-      line-height: 1.45;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+      margin: 0 0 10px 0;
+      text-align: left;
+    }
+    .pe-solution-bullets {
+      list-style: none;
+      padding: 0;
       margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pe-bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #475569;
+    }
+    .pe-tick-badge {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: #10b981;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+    .pe-bullet-content {
+      color: #334155;
+    }
+    .pe-bullet-content strong {
+      color: #0f172a;
+      font-weight: 700;
     }
     .pe-text-orange {
       color: inherit;
@@ -4213,16 +4360,28 @@ font__family--title font__size--large
         padding: 1px 5px;
         border-radius: 4px;
       }
+      .pe-solution-card {
+        padding: 14px 14px;
+      }
       .pe-solution-lead {
         font-size: 13px;
         line-height: 1.45;
-        margin: 0 0 6px 0;
+        margin: 0 0 8px 0;
       }
       .pe-solution-text {
-        font-size: 14.5px;
+        font-size: 13px;
       }
-      .pe-solution-card {
-        padding: 12px 14px;
+      .pe-bullet-item {
+        font-size: 12.5px;
+        gap: 8px;
+      }
+      .pe-tick-badge {
+        width: 18px;
+        height: 18px;
+      }
+      .pe-tick-badge svg {
+        width: 12px;
+        height: 12px;
       }
     }
 
@@ -6267,13 +6426,10 @@ window.executeDirectBuyNow = function(e, btn) {
   aspect-ratio: 1 / 1.38;
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
   border: 1.5px solid #e2e8f0;
   background: #ffffff;
-  animation: lp6ZoomRipple 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  animation-delay: var(--ripple-delay, 0s);
-  will-change: transform, box-shadow;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .lp6-mini-book-cover img {
@@ -6304,29 +6460,9 @@ window.executeDirectBuyNow = function(e, btn) {
   transition: color 0.2s ease;
 }
 
-@keyframes lp6ZoomRipple {
-  0%, 100% {
-    transform: scale(1) translateY(0);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-    border-color: #e2e8f0;
-  }
-  20% {
-    transform: scale(1.12) translateY(-6px);
-    box-shadow: 0 12px 22px rgba(234, 88, 12, 0.28), 0 3px 8px rgba(0, 0, 0, 0.1);
-    border-color: #ea580c;
-  }
-  40% {
-    transform: scale(1) translateY(0);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-    border-color: #e2e8f0;
-  }
-}
-
 .lp6-mini-book-item:hover .lp6-mini-book-cover {
-  animation-play-state: paused;
-  transform: scale(1.18) translateY(-8px);
-  box-shadow: 0 14px 26px rgba(234, 88, 12, 0.35);
   border-color: #ea580c;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.15);
 }
 
 .lp6-mini-book-item:hover .lp6-mini-book-name {

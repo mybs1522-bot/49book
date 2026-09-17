@@ -2952,6 +2952,48 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
       padding: 2px 10px;
       border-radius: 6px;
     }
+    
+    .pe-solution-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+      margin: 10px 0 12px 0;
+    }
+    .pe-solution-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pe-bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #475569;
+    }
+    .pe-tick-badge {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: #10b981;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+    .pe-bullet-content {
+      color: #334155;
+    }
+    .pe-bullet-content strong {
+      color: #0f172a;
+      font-weight: 700;
+    }
     .pe-solution-card {
       background: #fdfbf7;
       border: 1px solid #ede5d8;
@@ -3009,7 +3051,49 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
       .pe-solution-text {
         font-size: 14.5px;
       }
-      .pe-solution-card {
+      
+    .pe-solution-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+      margin: 10px 0 12px 0;
+    }
+    .pe-solution-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pe-bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #475569;
+    }
+    .pe-tick-badge {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: #10b981;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+    .pe-bullet-content {
+      color: #334155;
+    }
+    .pe-bullet-content strong {
+      color: #0f172a;
+      font-weight: 700;
+    }
+    .pe-solution-card {
         padding: 12px 14px;
       }
     }
@@ -3992,9 +4076,7 @@ font__family--title font__size--large
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
     border: 1.5px solid #e2e8f0;
     background: #ffffff;
-    animation: topBookZoomRipple 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    animation-delay: var(--ripple-delay, 0s);
-    will-change: transform, box-shadow;
+    
     transition: border-color 0.2s ease, transform 0.2s ease;
   }
 
@@ -4026,27 +4108,10 @@ font__family--title font__size--large
     transition: color 0.2s ease;
   }
 
-  @keyframes topBookZoomRipple {
-    0%, 100% {
-      transform: scale(1) translateY(0);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-      border-color: #e2e8f0;
-    }
-    20% {
-      transform: scale(1.12) translateY(-5px);
-      box-shadow: 0 10px 20px rgba(234, 88, 12, 0.28), 0 3px 6px rgba(0, 0, 0, 0.1);
-      border-color: #ea580c;
-    }
-    40% {
-      transform: scale(1) translateY(0);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-      border-color: #e2e8f0;
-    }
-  }
+  
 
   .top-rating-book-item:hover .top-rating-book-cover {
-    animation-play-state: paused;
-    transform: scale(1.18) translateY(-7px);
+    
     box-shadow: 0 14px 26px rgba(234, 88, 12, 0.35);
     border-color: #ea580c;
   }
@@ -4182,6 +4247,48 @@ font__family--title font__size--large
       padding: 2px 10px;
       border-radius: 6px;
     }
+    
+    .pe-solution-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+      margin: 10px 0 12px 0;
+    }
+    .pe-solution-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pe-bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #475569;
+    }
+    .pe-tick-badge {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: #10b981;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+    .pe-bullet-content {
+      color: #334155;
+    }
+    .pe-bullet-content strong {
+      color: #0f172a;
+      font-weight: 700;
+    }
     .pe-solution-card {
       background: #fdfbf7;
       border: 1px solid #ede5d8;
@@ -4239,7 +4346,49 @@ font__family--title font__size--large
       .pe-solution-text {
         font-size: 14.5px;
       }
-      .pe-solution-card {
+      
+    .pe-solution-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+      margin: 10px 0 12px 0;
+    }
+    .pe-solution-bullets {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pe-bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #475569;
+    }
+    .pe-tick-badge {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: #10b981;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+    .pe-bullet-content {
+      color: #334155;
+    }
+    .pe-bullet-content strong {
+      color: #0f172a;
+      font-weight: 700;
+    }
+    .pe-solution-card {
         padding: 12px 14px;
       }
     }
@@ -6365,8 +6514,7 @@ window.executeDirectBuyNow = function(e, btn) {
 }
 
 .lp6-mini-book-item:hover .lp6-mini-book-cover {
-  animation-play-state: paused;
-  transform: scale(1.18) translateY(-8px);
+  
   box-shadow: 0 14px 26px rgba(234, 88, 12, 0.35);
   border-color: #ea580c;
 }
@@ -9053,3 +9201,5 @@ setTimeout(
 </script>
 
 </body></html>
+
+

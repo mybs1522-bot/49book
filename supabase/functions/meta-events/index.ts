@@ -19,6 +19,12 @@ Deno.serve(async (req) => {
         const client_ip_address = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || ''
         const client_user_agent = req.headers.get('user-agent') || ''
 
+        // Block known bots from hitting CAPI
+        if (/bot|crawler|spider|crawling|facebookexternalhit|whatsapp|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|chrome-lighthouse|ptst/i.test(client_user_agent)) {
+            console.log(`[Meta CAPI] Blocked bot traffic from UA: ${client_user_agent}`)
+            return new Response(JSON.stringify({ status: 'ignored_bot' }), { status: 200 })
+        }
+
         // Prepare payload
         const payload = {
             data: [
