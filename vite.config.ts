@@ -55,6 +55,9 @@ export default defineConfig({
     },
   },
   server: {
+    fs: {
+      allow: ['..', '.']
+    },
     // Explicitly configure proxy to forward API requests to backend
     proxy: {
       '/create-payment-intent': {

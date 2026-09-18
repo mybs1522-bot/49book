@@ -244,13 +244,17 @@ nav.breadcrumb {
 }
 
 /* Rating Stars - Enforce single line across desktop & mobile */
+.product__review-stars {
+  margin-top: 0 !important;
+  margin-bottom: 6px !important;
+}
 .book-editorial-rating-wrapper {
   display: inline-flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   align-items: center !important;
   gap: 7px !important;
-  margin: 6px 0 16px 0 !important;
+  margin: 0 !important;
   cursor: pointer !important;
   user-select: none !important;
   white-space: nowrap !important;
@@ -302,15 +306,44 @@ nav.breadcrumb {
   white-space: nowrap !important;
 }
 
+.product-bundle-tagline-wrap {
+  margin: 4px 0 10px 0 !important;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .product__review-stars {
+    margin-top: 0 !important;
+    margin-bottom: 4px !important;
+  }
+  .book-editorial-rating-wrapper {
+    gap: 5px !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
+  }
+  .product-bundle-tagline-wrap {
+    margin: 3px 0 8px 0 !important;
+  }
+}
+
 @media (max-width: 480px) {
   .product__row {
     padding: 20px 14px !important;
     margin: 10px auto 20px auto !important;
   }
+  .product__review-stars {
+    margin-top: 0 !important;
+    margin-bottom: 4px !important;
+  }
   .book-editorial-rating-wrapper {
     gap: 5px !important;
+    margin: 0 !important;
     white-space: nowrap !important;
     flex-wrap: nowrap !important;
+  }
+  .product-bundle-tagline-wrap {
+    margin: 3px 0 8px 0 !important;
   }
   .rating-stars-gold, .star-gold {
     font-size: 13px !important;
@@ -2856,12 +2889,21 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
         Avoid costly layout mistakes, Do's &amp; Don'ts, find practical dimensions, and turn design ideas into spaces that work.
       </h2>
 
+      <div class="pe-sketch-banner-wrap">
+        <img src="/images/four-design-pillars-sketch.png" alt="Space Planning, Tips Tricks &amp; Ideas, History of Architecture, Don'ts and Do's" class="pe-sketch-banner-img" loading="lazy">
+      </div>
+
+      <div class="pe-statement-block">
+        <h3 class="pe-statement-heading">
+          Handmade Diagrams. Real Dimensions. No Guesswork. <mark class="pe-mark-yellow">No Regrets.</mark>
+        </h3>
+
         <div class="pe-solution-card">
           <p class="pe-solution-lead">
             A home is the heart of your life—don't let one wrong decision turn your dream into daily frustration.
           </p>
           <p class="pe-solution-text">
-            These 6 step-by-step books guide you like a professional designer.
+            <strong>These 6 step-by-step books</strong> <span class="pe-text-orange">guide you like a</span> <span class="pe-text-green">professional designer</span>.
           </p>
         </div>
       </div>
@@ -3876,422 +3918,15 @@ font__family--title font__size--large
     <span class="rating-dot-separator">•</span>
     <span class="rating-bestseller-badge">Verified Readers</span>
   </div>
-
-  <!-- 6 Books Showcase with Zoom Ripple Animation -->
-  <div class="top-rating-books-ripple-wrap">
-    <div class="top-rating-books-track">
-      <div class="top-rating-book-item" style="--ripple-delay: 0s;" onclick="scrollToCurriculum(0)">
-        <div class="top-rating-book-cover">
-          <img src="//books.avadalearn.com/cdn/shop/t/5/assets/living_room.png?v=12713700197870801871789300790" alt="Living Room Book" loading="lazy" width="70" height="98">
-        </div>
-        <span class="top-rating-book-name">Living</span>
-        <span class="top-rating-book-pages">140+ Pages</span>
-      </div>
-      <div class="top-rating-book-item" style="--ripple-delay: 0.25s;" onclick="scrollToCurriculum(1)">
-        <div class="top-rating-book-cover">
-          <img src="//books.avadalearn.com/cdn/shop/t/5/assets/kitchen.png?v=134652424762773963641789300789" alt="Kitchen Book" loading="lazy" width="70" height="98">
-        </div>
-        <span class="top-rating-book-name">Kitchen</span>
-        <span class="top-rating-book-pages">165+ Pages</span>
-      </div>
-      <div class="top-rating-book-item" style="--ripple-delay: 0.5s;" onclick="scrollToCurriculum(2)">
-        <div class="top-rating-book-cover">
-          <img src="//books.avadalearn.com/cdn/shop/t/5/assets/bedroom.png?v=107091792554266078841789300784" alt="Bedroom Book" loading="lazy" width="70" height="98">
-        </div>
-        <span class="top-rating-book-name">Bedroom</span>
-        <span class="top-rating-book-pages">135+ Pages</span>
-      </div>
-      <div class="top-rating-book-item" style="--ripple-delay: 0.75s;" onclick="scrollToCurriculum(3)">
-        <div class="top-rating-book-cover">
-          <img src="//books.avadalearn.com/cdn/shop/t/5/assets/washroom.png?v=75612207395455960871789300792" alt="Washroom Book" loading="lazy" width="70" height="98">
-        </div>
-        <span class="top-rating-book-name">Washroom</span>
-        <span class="top-rating-book-pages">120+ Pages</span>
-      </div>
-      <div class="top-rating-book-item" style="--ripple-delay: 1.0s;" onclick="scrollToCurriculum(4)">
-        <div class="top-rating-book-cover">
-          <img src="//books.avadalearn.com/cdn/shop/t/5/assets/study.png?v=24404003677058608541789300791" alt="Study Book" loading="lazy" width="70" height="98">
-        </div>
-        <span class="top-rating-book-name">Study</span>
-        <span class="top-rating-book-pages">130+ Pages</span>
-      </div>
-      <div class="top-rating-book-item" style="--ripple-delay: 1.25s;" onclick="scrollToCurriculum(5)">
-        <div class="top-rating-book-cover">
-          <img src="//books.avadalearn.com/cdn/shop/t/5/assets/elevations.png?v=58681267879273619001789300785" alt="Exteriors &amp; Landscapes Book" loading="lazy" width="70" height="98">
-        </div>
-        <span class="top-rating-book-name">Exteriors</span>
-        <span class="top-rating-book-pages">150+ Pages</span>
-      </div>
-    </div>
-  </div>
 </div>
 
-<script>
-  function scrollToProductReviews(event) {
-    if (event) event.preventDefault();
-    
-    // 1. Find and activate Reviews tab
-    var tabs = document.querySelectorAll('.tab--product');
-    var reviewsTab = null;
-    tabs.forEach(function(tab) {
-      if (tab.textContent.toLowerCase().indexOf('review') !== -1) {
-        reviewsTab = tab;
-      }
-    });
+<div class="product-bundle-tagline-wrap">
+  <p class="product-editorial-tagline" style="font-size: clamp(14px, 2.2vw, 16px); font-weight: 600; color: #334155; margin: 0; line-height: 1.45;">
+    One Book each to Design <strong style="color: #0f172a; font-weight: 800;">Kitchens, Living Spaces, Bedrooms, Washrooms, Study &amp; Exteriors</strong>
+  </p>
+</div>
 
-    if (reviewsTab) {
-      reviewsTab.click();
-    } else {
-      var tabByAttr = document.querySelector('[onclick*="tab_reviews"]') || document.querySelector('[onclick*="tab--"]:last-of-type');
-      if (tabByAttr) tabByAttr.click();
-    }
-
-    // 2. Ensure content container is active/displayed
-    var reviewContainer = document.getElementById('tab--tab_reviews');
-    if (reviewContainer) {
-      reviewContainer.classList.add('tab--show');
-    }
-
-    // 3. Smooth scroll with offset for sticky header
-    setTimeout(function() {
-      var target = document.getElementById('bstr-reviews-component') || reviewContainer || reviewsTab;
-      if (target) {
-        var headerOffset = 80;
-        var elementPosition = target.getBoundingClientRect().top;
-        var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
-    }, 50);
-  }
-
-  function scrollToCurriculum(idx) {
-    var aboutTab = document.querySelector('[onclick*="tab_synopsis"]') || document.querySelector('.tab--product');
-    if (aboutTab) aboutTab.click();
-    if (window.lp6SelectCurriculum) window.lp6SelectCurriculum(idx);
-    var target = document.getElementById('landing-page-6books');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-</script>
-
-<style>
-  .book-editorial-rating-wrapper {
-    cursor: pointer;
-    transition: opacity 0.2s ease;
-  }
-  .book-editorial-rating-wrapper:hover .rating-count-text {
-    text-decoration: underline;
-    color: #ea580c;
-  }
-
-  /* Top Rating Books Ripple Animation */
-  .top-rating-books-ripple-wrap {
-    margin: 10px 0 8px 0;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  .top-rating-books-track {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
-    gap: clamp(6px, 1.8vw, 12px);
-    padding: 8px 2px 4px 2px;
-  }
-
-  .top-rating-book-item {
-    flex: 0 0 clamp(42px, 12.5vw, 62px);
-    width: clamp(42px, 12.5vw, 62px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .top-rating-book-cover {
-    width: 100%;
-    aspect-ratio: 1 / 1.38;
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-    border: 1.5px solid #e2e8f0;
-    background: #ffffff;
-    
-    transition: border-color 0.2s ease, transform 0.2s ease;
-  }
-
-  .top-rating-book-cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .top-rating-book-name {
-    font-size: clamp(9px, 2vw, 10.5px);
-    font-weight: 700;
-    color: #475569;
-    margin-top: 4px;
-    text-align: center;
-    line-height: 1.15;
-    transition: color 0.2s ease;
-  }
-
-  .top-rating-book-pages {
-    font-size: clamp(7.5px, 1.8vw, 9.5px);
-    font-weight: 600;
-    color: #64748b;
-    margin-top: 2px;
-    text-align: center;
-    line-height: 1.15;
-    white-space: nowrap;
-    transition: color 0.2s ease;
-  }
-
-  
-
-  .top-rating-book-item:hover .top-rating-book-cover {
-    
-    box-shadow: 0 14px 26px rgba(234, 88, 12, 0.35);
-    border-color: #ea580c;
-  }
-
-  .top-rating-book-item:hover .top-rating-book-name {
-    color: #ea580c;
-  }
-
-  .top-rating-book-item:hover .top-rating-book-pages {
-    color: #ea580c;
-  }
-</style>
-
-    
-      
-      
-      <style>.product__price--ppPrice .product__price.product__price--sale {
-        color: #ea580c;
-    }.product__price--ppPrice .product__price--old {
-        color: #8c918e;
-    }</style>
-    
-    
-    
-
-    
-    <div class="product-editorial-block">
-      <h2 class="pe-headline-primary">
-        Avoid costly layout mistakes, Do's &amp; Don'ts, find practical dimensions, and turn design ideas into spaces that work.
-      </h2>
-
-      <div class="pe-sketch-banner-wrap">
-        <img src="/images/four-design-pillars-sketch.png" alt="Space Planning, Tips Tricks & Ideas, History of Architecture, Don'ts and Do's" class="pe-sketch-banner-img" loading="lazy">
-      </div>
-
-        <div class="pe-solution-card">
-          <p class="pe-solution-lead">
-            A home is the heart of your life—don't let one wrong decision turn your dream into daily frustration.
-          </p>
-          <p class="pe-solution-text">
-            These 6 step-by-step books guide you like a professional designer.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <style>
-    .product-editorial-block {
-      margin: 8px 0 18px 0;
-      text-align: center;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      box-sizing: border-box;
-      width: 100%;
-    }
-    .sticky--container .product-editorial-block {
-      display: none !important;
-    }
-    .pe-headline-primary { font-size: clamp(16.5px, 2.2vw, 22px); font-weight: 800; color: #0f172a; line-height: 1.4; letter-spacing: -0.02em; margin: 0 auto 12px auto; max-width: 580px; }
-    .pe-sketch-banner-wrap {
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      margin: 8px auto 18px auto !important;
-      width: 100% !important;
-    }
-    .pe-sketch-banner-img {
-      max-width: 330px !important;
-      width: 100% !important;
-      height: auto !important;
-      display: block !important;
-      object-fit: contain !important;
-      border-radius: 6px !important;
-    }
-    @media (max-width: 480px) {
-      .pe-sketch-banner-img {
-        max-width: 275px !important;
-      }
-    }
-    .pe-headline-light {
-      font-weight: 500;
-      color: #334155;
-    }
-    .pe-headline-books {
-      font-weight: 900;
-      color: #0f172a;
-    }
-    .pe-highlight-beige {
-      display: inline-block;
-      background: #fef08a;
-      color: #0f172a;
-      padding: 2px 10px;
-      border-radius: 6px;
-      margin-top: 4px;
-    }
-    .pe-dash-indicator {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      margin: 12px 0;
-    }
-    .pe-dash {
-      display: inline-block;
-      width: 22px;
-      height: 4px;
-      border-radius: 999px;
-    }
-    .pe-dash.dark {
-      background: #334155;
-    }
-    .pe-dash.green {
-      background: #10b981;
-    }
-    .pe-subhead-tagline {
-      font-size: 14px;
-      font-weight: 500;
-      color: #475569;
-      margin: 0 0 20px 0;
-      letter-spacing: -0.01em;
-      line-height: 1.5;
-    }
-    .pe-subhead-tagline strong {
-      font-size: 16px;
-      font-weight: 800;
-      color: #0f172a;
-      display: inline-block;
-      margin-bottom: 2px;
-    }
-    .pe-statement-block {
-      margin-top: 8px;
-    }
-    .pe-statement-heading {
-      font-size: clamp(16px, 1.8vw, 22px);
-      font-weight: 900;
-      color: #0f172a;
-      line-height: 1.35;
-      letter-spacing: -0.025em;
-      margin: 0 auto 12px auto;
-      white-space: normal;
-      max-width: 100%;
-      word-wrap: break-word;
-    }
-    .pe-mark-yellow {
-      display: inline-block;
-      background: #facc15;
-      color: #0f172a;
-      padding: 2px 10px;
-      border-radius: 6px;
-    }
-    
-    .pe-solution-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
-      margin: 10px 0 12px 0;
-    }
-    .pe-solution-bullets {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .pe-bullet-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 9px;
-      font-size: 13px;
-      line-height: 1.45;
-      color: #475569;
-    }
-    .pe-tick-badge {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #ecfdf5;
-      color: #10b981;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 1px;
-      border: 1px solid rgba(16, 185, 129, 0.25);
-    }
-    .pe-bullet-content {
-      color: #334155;
-    }
-    .pe-bullet-content strong {
-      color: #0f172a;
-      font-weight: 700;
-    }
-    .pe-solution-card {
-      background: #fdfbf7;
-      border: 1px solid #ede5d8;
-      border-radius: 14px;
-      padding: 14px 18px;
-      max-width: 520px;
-      margin: 0 auto 14px auto;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-    }
-    .pe-solution-lead {
-      font-size: 13.5px;
-      font-weight: 500;
-      color: #475569;
-      line-height: 1.5;
-      margin: 0 0 7px 0;
-    }
-    .pe-solution-text {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(15px, 2.2vw, 17.5px);
-      font-weight: 700;
-      color: #09090b;
-      letter-spacing: -0.02em;
-      line-height: 1.45;
-      margin: 0;
-    }
-    .pe-text-orange {
-      color: inherit;
-    }
-    .pe-text-green {
-      color: inherit;
-    }
-    @media (max-width: 767px) {
-  .thumbnail--slide { display: none !important; }
-  .gallery__main-row { gap: 8px !important; align-items: flex-start !important; }
-  .gallery__thumbnails-side { flex: 0 0 64px !important; width: 64px !important; }
-  .gallery__thumbnails { width: 64px !important; height: calc(4 * 64px + 3 * 6px) !important; max-height: calc(4 * 64px + 3 * 6px) !important; gap: 6px !important; overflow-y: auto !important; }
-  .gallery__thumbnail { flex: 0 0 64px !important; width: 64px !important; height: 64px !important; aspect-ratio: 1 / 1 !important; border-radius: 10px !important; scroll-snap-align: start !important; }
-  .gallery__thumbnail img { width: 100% !important; height: 100% !important; object-fit: cover !important; border-radius: 8px !important; display: block !important; }
-  .slide--product img { border-radius: 12px !important; aspect-ratio: auto !important; object-fit: contain !important; }
-}
-    </style>
-    
-
-    <div class="product__price--holder product__price--ppPrice
+<div class="product__price--holder product__price--ppPrice
     font__family--base font__size--medium 
     ">
     
@@ -4591,6 +4226,443 @@ button--filled button--primary__filled
 <span data-button-text="">Buy Now</span> 
 </button>
         </div>
+        
+            
+            <div class="product__shoppay-installments" style="margin-top: 8px; margin-bottom: 2px; text-align: center; width: 100%;">
+              
+            </div>
+        
+    
+</div>
+
+  <!-- 6 Books Showcase with Zoom Ripple Animation -->
+  <div class="top-rating-books-ripple-wrap">
+    <div class="top-rating-books-track">
+      <div class="top-rating-book-item" style="--ripple-delay: 0s;" onclick="scrollToCurriculum(0)">
+        <div class="top-rating-book-cover">
+          <img src="//books.avadalearn.com/cdn/shop/t/5/assets/living_room.png?v=12713700197870801871789300790" alt="Living Room Book" loading="lazy" width="70" height="98">
+        </div>
+        <span class="top-rating-book-name">Living</span>
+        <span class="top-rating-book-pages">140+ Pages</span>
+      </div>
+      <div class="top-rating-book-item" style="--ripple-delay: 0.25s;" onclick="scrollToCurriculum(1)">
+        <div class="top-rating-book-cover">
+          <img src="//books.avadalearn.com/cdn/shop/t/5/assets/kitchen.png?v=134652424762773963641789300789" alt="Kitchen Book" loading="lazy" width="70" height="98">
+        </div>
+        <span class="top-rating-book-name">Kitchen</span>
+        <span class="top-rating-book-pages">165+ Pages</span>
+      </div>
+      <div class="top-rating-book-item" style="--ripple-delay: 0.5s;" onclick="scrollToCurriculum(2)">
+        <div class="top-rating-book-cover">
+          <img src="//books.avadalearn.com/cdn/shop/t/5/assets/bedroom.png?v=107091792554266078841789300784" alt="Bedroom Book" loading="lazy" width="70" height="98">
+        </div>
+        <span class="top-rating-book-name">Bedroom</span>
+        <span class="top-rating-book-pages">135+ Pages</span>
+      </div>
+      <div class="top-rating-book-item" style="--ripple-delay: 0.75s;" onclick="scrollToCurriculum(3)">
+        <div class="top-rating-book-cover">
+          <img src="//books.avadalearn.com/cdn/shop/t/5/assets/washroom.png?v=75612207395455960871789300792" alt="Washroom Book" loading="lazy" width="70" height="98">
+        </div>
+        <span class="top-rating-book-name">Washroom</span>
+        <span class="top-rating-book-pages">120+ Pages</span>
+      </div>
+      <div class="top-rating-book-item" style="--ripple-delay: 1.0s;" onclick="scrollToCurriculum(4)">
+        <div class="top-rating-book-cover">
+          <img src="//books.avadalearn.com/cdn/shop/t/5/assets/study.png?v=24404003677058608541789300791" alt="Study Book" loading="lazy" width="70" height="98">
+        </div>
+        <span class="top-rating-book-name">Study</span>
+        <span class="top-rating-book-pages">130+ Pages</span>
+      </div>
+      <div class="top-rating-book-item" style="--ripple-delay: 1.25s;" onclick="scrollToCurriculum(5)">
+        <div class="top-rating-book-cover">
+          <img src="//books.avadalearn.com/cdn/shop/t/5/assets/elevations.png?v=58681267879273619001789300785" alt="Exteriors &amp; Landscapes Book" loading="lazy" width="70" height="98">
+        </div>
+        <span class="top-rating-book-name">Exteriors</span>
+        <span class="top-rating-book-pages">150+ Pages</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function scrollToProductReviews(event) {
+    if (event) event.preventDefault();
+    
+    // 1. Find and activate Reviews tab
+    var tabs = document.querySelectorAll('.tab--product');
+    var reviewsTab = null;
+    tabs.forEach(function(tab) {
+      if (tab.textContent.toLowerCase().indexOf('review') !== -1) {
+        reviewsTab = tab;
+      }
+    });
+
+    if (reviewsTab) {
+      reviewsTab.click();
+    } else {
+      var tabByAttr = document.querySelector('[onclick*="tab_reviews"]') || document.querySelector('[onclick*="tab--"]:last-of-type');
+      if (tabByAttr) tabByAttr.click();
+    }
+
+    // 2. Ensure content container is active/displayed
+    var reviewContainer = document.getElementById('tab--tab_reviews');
+    if (reviewContainer) {
+      reviewContainer.classList.add('tab--show');
+    }
+
+    // 3. Smooth scroll with offset for sticky header
+    setTimeout(function() {
+      var target = document.getElementById('bstr-reviews-component') || reviewContainer || reviewsTab;
+      if (target) {
+        var headerOffset = 80;
+        var elementPosition = target.getBoundingClientRect().top;
+        var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 50);
+  }
+
+  function scrollToCurriculum(idx) {
+    var aboutTab = document.querySelector('[onclick*="tab_synopsis"]') || document.querySelector('.tab--product');
+    if (aboutTab) aboutTab.click();
+    if (window.lp6SelectCurriculum) window.lp6SelectCurriculum(idx);
+    var target = document.getElementById('landing-page-6books');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+</script>
+
+<style>
+  .book-editorial-rating-wrapper {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  .book-editorial-rating-wrapper:hover .rating-count-text {
+    text-decoration: underline;
+    color: #ea580c;
+  }
+
+  /* Top Rating Books Ripple Animation */
+  .top-rating-books-ripple-wrap {
+    margin: 10px 0 8px 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .top-rating-books-track {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: clamp(6px, 1.8vw, 12px);
+    padding: 8px 2px 4px 2px;
+  }
+
+  .top-rating-book-item {
+    flex: 0 0 clamp(42px, 12.5vw, 62px);
+    width: clamp(42px, 12.5vw, 62px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .top-rating-book-cover {
+    width: 100%;
+    aspect-ratio: 1 / 1.38;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    border: 1.5px solid #e2e8f0;
+    background: #ffffff;
+    
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .top-rating-book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .top-rating-book-name {
+    font-size: clamp(9px, 2vw, 10.5px);
+    font-weight: 700;
+    color: #475569;
+    margin-top: 4px;
+    text-align: center;
+    line-height: 1.15;
+    transition: color 0.2s ease;
+  }
+
+  .top-rating-book-pages {
+    font-size: clamp(7.5px, 1.8vw, 9.5px);
+    font-weight: 600;
+    color: #64748b;
+    margin-top: 2px;
+    text-align: center;
+    line-height: 1.15;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  
+
+  .top-rating-book-item:hover .top-rating-book-cover {
+    
+    box-shadow: 0 14px 26px rgba(234, 88, 12, 0.35);
+    border-color: #ea580c;
+  }
+
+  .top-rating-book-item:hover .top-rating-book-name {
+    color: #ea580c;
+  }
+
+  .top-rating-book-item:hover .top-rating-book-pages {
+    color: #ea580c;
+  }
+</style>
+
+    
+    <div class="product-editorial-block">
+      <h2 class="pe-headline-primary">
+        Avoid costly layout mistakes, Do's &amp; Don'ts, find practical dimensions, and turn design ideas into spaces that work.
+      </h2>
+
+      <div class="pe-sketch-banner-wrap">
+        <img src="/images/four-design-pillars-sketch.png" alt="Space Planning, Tips Tricks & Ideas, History of Architecture, Don'ts and Do's" class="pe-sketch-banner-img" loading="lazy">
+      </div>
+
+      <div class="pe-statement-block">
+        <h3 class="pe-statement-heading">
+          Handmade Diagrams. Real Dimensions. No Guesswork. <mark class="pe-mark-yellow">No Regrets.</mark>
+        </h3>
+
+        <div class="pe-solution-card">
+          <p class="pe-solution-lead">
+            A home is the heart of your life—don't let one wrong decision turn your dream into daily frustration.
+          </p>
+          <p class="pe-solution-text">
+            <strong>These 6 step-by-step books</strong> <span class="pe-text-orange">guide you like a</span> <span class="pe-text-green">professional designer</span>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <style>
+    .product-editorial-block {
+      margin: 8px 0 18px 0;
+      text-align: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .sticky--container .product-editorial-block {
+      display: none !important;
+    }
+    .pe-headline-primary { font-size: clamp(16.5px, 2.2vw, 22px); font-weight: 800; color: #0f172a; line-height: 1.4; letter-spacing: -0.02em; margin: 0 auto 12px auto; max-width: 580px; }
+    .pe-sketch-banner-wrap {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      margin: 8px auto 18px auto !important;
+      width: 100% !important;
+    }
+    .pe-sketch-banner-img {
+      max-width: 330px !important;
+      width: 100% !important;
+      height: auto !important;
+      display: block !important;
+      object-fit: contain !important;
+      border-radius: 6px !important;
+    }
+    @media (max-width: 480px) {
+      .pe-sketch-banner-img {
+        max-width: 275px !important;
+      }
+    }
+    .pe-headline-light {
+      font-weight: 500;
+      color: #334155;
+    }
+    .pe-headline-books {
+      font-weight: 900;
+      color: #0f172a;
+    }
+    .pe-highlight-beige {
+      display: inline-block;
+      background: #fef08a;
+      color: #0f172a;
+      padding: 2px 10px;
+      border-radius: 6px;
+      margin-top: 4px;
+    }
+    .pe-dash-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      margin: 12px 0;
+    }
+    .pe-dash {
+      display: inline-block;
+      width: 22px;
+      height: 4px;
+      border-radius: 999px;
+    }
+    .pe-dash.dark {
+      background: #334155;
+    }
+    .pe-dash.green {
+      background: #10b981;
+    }
+    .pe-subhead-tagline {
+      font-size: 14px;
+      font-weight: 500;
+      color: #475569;
+      margin: 0 0 20px 0;
+      letter-spacing: -0.01em;
+      line-height: 1.5;
+    }
+    .pe-subhead-tagline strong {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+    .pe-statement-block {
+      margin-top: 8px;
+    }
+    .pe-statement-heading {
+      font-size: clamp(16px, 1.8vw, 22px);
+      font-weight: 900;
+      color: #0f172a;
+      line-height: 1.35;
+      letter-spacing: -0.025em;
+      margin: 0 auto 12px auto;
+      white-space: normal;
+      max-width: 100%;
+      word-wrap: break-word;
+    }
+    .pe-mark-yellow {
+      display: inline-block;
+      background: #facc15;
+      color: #0f172a;
+      padding: 2px 10px;
+      border-radius: 6px;
+      font-weight: 900;
+    }
+    .pe-solution-card {
+      background: #fdfcf8;
+      border: 1.5px solid #ede8df;
+      border-radius: 16px;
+      padding: 18px 22px;
+      max-width: 580px;
+      margin: 0 auto;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+      text-align: center;
+    }
+    .pe-solution-lead {
+      font-size: clamp(13px, 1.6vw, 15px);
+      font-weight: 500;
+      color: #334155;
+      line-height: 1.5;
+      margin: 0 0 10px 0;
+      text-align: center;
+    }
+    .pe-solution-text {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: clamp(15px, 2vw, 18px);
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+      line-height: 1.45;
+      margin: 0;
+      text-align: center;
+    }
+    .pe-text-orange {
+      color: #ea580c !important;
+      font-weight: 800;
+    }
+    .pe-text-green {
+      color: #059669 !important;
+      font-weight: 800;
+    }
+    .pe-bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #475569;
+    }
+    .pe-tick-badge {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ecfdf5;
+      color: #10b981;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+    .pe-bullet-content {
+      color: #334155;
+    }
+    .pe-bullet-content strong {
+      color: #0f172a;
+      font-weight: 700;
+    }
+    .pe-solution-card {
+      background: #fdfbf7;
+      border: 1px solid #ede5d8;
+      border-radius: 14px;
+      padding: 14px 18px;
+      max-width: 520px;
+      margin: 0 auto 14px auto;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    }
+    .pe-solution-lead {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #475569;
+      line-height: 1.5;
+      margin: 0 0 7px 0;
+    }
+    .pe-solution-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(15px, 2.2vw, 17.5px);
+      font-weight: 700;
+      color: #09090b;
+      letter-spacing: -0.02em;
+      line-height: 1.45;
+      margin: 0;
+    }
+    .pe-text-orange {
+      color: inherit;
+    }
+    .pe-text-green {
+      color: inherit;
+    }
+    @media (max-width: 767px) {
+  .thumbnail--slide { display: none !important; }
+  .gallery__main-row { gap: 8px !important; align-items: flex-start !important; }
+  .gallery__thumbnails-side { flex: 0 0 64px !important; width: 64px !important; }
+  .gallery__thumbnails { width: 64px !important; height: calc(4 * 64px + 3 * 6px) !important; max-height: calc(4 * 64px + 3 * 6px) !important; gap: 6px !important; overflow-y: auto !important; }
+  .gallery__thumbnail { flex: 0 0 64px !important; width: 64px !important; height: 64px !important; aspect-ratio: 1 / 1 !important; border-radius: 10px !important; scroll-snap-align: start !important; }
+  .gallery__thumbnail img { width: 100% !important; height: 100% !important; object-fit: cover !important; border-radius: 8px !important; display: block !important; }
+  .slide--product img { border-radius: 12px !important; aspect-ratio: auto !important; object-fit: contain !important; }
+}
+    </style>
+    
         
             
             <div class="product__shoppay-installments" style="margin-top: 8px; margin-bottom: 2px; text-align: center; width: 100%;">
@@ -5824,8 +5896,12 @@ window.executeDirectBuyNow = function(e, btn) {
     </div>
 
     <h2 class="lp6-headline-primary">
-      <span class="lp6-headline-light">Books You Can Refer to Design</span> <strong class="lp6-headline-books">Kitchens, Living Spaces, Bedrooms, Washrooms, Study &amp; Exteriors</strong>
+      Avoid costly layout mistakes, Do's &amp; Don'ts, find practical dimensions, and turn design ideas into spaces that work.
     </h2>
+
+    <div class="pe-sketch-banner-wrap">
+      <img src="/images/four-design-pillars-sketch.png" alt="Space Planning, Tips Tricks &amp; Ideas, History of Architecture, Don'ts and Do's" class="pe-sketch-banner-img" loading="lazy">
+    </div>
 
     <!-- Problem / Pain Point & No Regrets -->
     <div class="lp6-statement-block">
@@ -5838,7 +5914,7 @@ window.executeDirectBuyNow = function(e, btn) {
           A home is the heart of your life—don't let one wrong decision turn your dream into daily frustration.
         </p>
         <p class="lp6-solution-text">
-          These 6 step-by-step books guide you like a professional designer.
+          <strong>These 6 step-by-step books</strong> <span class="lp6-text-orange">guide you like a</span> <span class="lp6-text-green">professional designer</span>.
         </p>
 
         <!-- 6 Books in small size with consistent zoom ripple animation -->
@@ -6317,46 +6393,50 @@ window.executeDirectBuyNow = function(e, btn) {
 }
 
 .lp6-mark-yellow {
-  background: #fde047;
+  background: #facc15;
   color: #0f172a;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 6px;
+  font-weight: 900;
+  display: inline-block;
 }
 
 .lp6-solution-card {
-  background: #f8fafc;
+  background: #fcfbf7;
   border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 16px 20px;
+  border-radius: 18px;
+  padding: 20px 24px;
   max-width: 680px;
   margin: 0 auto;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .lp6-solution-lead {
-  font-size: clamp(13px, 1.8vw, 15px);
+  font-size: clamp(14px, 1.8vw, 16px);
   font-weight: 500;
-  color: #475569;
+  color: #334155;
   line-height: 1.5;
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
 }
 
 .lp6-solution-text {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(15px, 2.2vw, 18px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(16px, 2.2vw, 20px);
   font-weight: 700;
-  color: #09090b;
+  color: #0f172a;
   letter-spacing: -0.02em;
   line-height: 1.45;
   margin: 0;
 }
 
 .lp6-text-orange {
-  color: inherit;
+  color: #ea580c !important;
+  font-weight: 800;
 }
 
 .lp6-text-green {
-  color: inherit;
+  color: #059669 !important;
+  font-weight: 800;
 }
 
 /* Mini 6 Books Ripple Animation */

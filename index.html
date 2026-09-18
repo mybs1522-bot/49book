@@ -226,13 +226,17 @@ nav.breadcrumb {
 }
 
 /* Rating Stars - Enforce single line across desktop & mobile */
+.product__review-stars {
+  margin-top: 0 !important;
+  margin-bottom: 6px !important;
+}
 .book-editorial-rating-wrapper {
   display: inline-flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   align-items: center !important;
   gap: 7px !important;
-  margin: 6px 0 16px 0 !important;
+  margin: 0 !important;
   cursor: pointer !important;
   user-select: none !important;
   white-space: nowrap !important;
@@ -284,15 +288,44 @@ nav.breadcrumb {
   white-space: nowrap !important;
 }
 
+.product-bundle-tagline-wrap {
+  margin: 4px 0 10px 0 !important;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .product__review-stars {
+    margin-top: 0 !important;
+    margin-bottom: 4px !important;
+  }
+  .book-editorial-rating-wrapper {
+    gap: 5px !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
+  }
+  .product-bundle-tagline-wrap {
+    margin: 3px 0 8px 0 !important;
+  }
+}
+
 @media (max-width: 480px) {
   .product__row {
     padding: 20px 14px !important;
     margin: 10px auto 20px auto !important;
   }
+  .product__review-stars {
+    margin-top: 0 !important;
+    margin-bottom: 4px !important;
+  }
   .book-editorial-rating-wrapper {
     gap: 5px !important;
+    margin: 0 !important;
     white-space: nowrap !important;
     flex-wrap: nowrap !important;
+  }
+  .product-bundle-tagline-wrap {
+    margin: 3px 0 8px 0 !important;
   }
   .rating-stars-gold, .star-gold {
     font-size: 13px !important;
@@ -2978,49 +3011,22 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
         Avoid costly layout mistakes, Do's &amp; Don'ts, find practical dimensions, and turn design ideas into spaces that work.
       </h2>
 
+      <div class="pe-sketch-banner-wrap">
+        <img src="/images/four-design-pillars-sketch.png" alt="Space Planning, Tips Tricks &amp; Ideas, History of Architecture, Don'ts and Do's" class="pe-sketch-banner-img" loading="lazy">
+      </div>
+
       <div class="pe-statement-block">
+        <h3 class="pe-statement-heading">
+          Handmade Diagrams. Real Dimensions. No Guesswork. <mark class="pe-mark-yellow">No Regrets.</mark>
+        </h3>
+
         <div class="pe-solution-card">
           <p class="pe-solution-lead">
             A home is the heart of your life—don't let one wrong decision turn your dream into daily frustration.
           </p>
-          <div class="pe-solution-divider"></div>
           <p class="pe-solution-text">
-            These 6 step-by-step books guide you like a professional designer:
+            <strong>These 6 step-by-step books</strong> <span class="pe-text-orange">guide you like a</span> <span class="pe-text-green">professional designer</span>.
           </p>
-          <ul class="pe-solution-bullets">
-            <li class="pe-bullet-item">
-              <span class="pe-tick-badge">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </span>
-              <span class="pe-bullet-content"><strong>Exact Real Dimensions &amp; Clearances</strong> — Erase guesswork so furniture and fixtures fit perfectly.</span>
-            </li>
-            <li class="pe-bullet-item">
-              <span class="pe-tick-badge">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </span>
-              <span class="pe-bullet-content"><strong>800+ Hand-Drawn Diagrams</strong> — Step-by-step visual plans for every room, nook &amp; layout.</span>
-            </li>
-            <li class="pe-bullet-item">
-              <span class="pe-tick-badge">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </span>
-              <span class="pe-bullet-content"><strong>Avoid Costly Contractor Mistakes</strong> — Direct workers with complete clarity and confidence.</span>
-            </li>
-            <li class="pe-bullet-item">
-              <span class="pe-tick-badge">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </span>
-              <span class="pe-bullet-content"><strong>Complete 6-Volume System</strong> — Kitchens, Living, Bedrooms, Washrooms, Study &amp; Exteriors.</span>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
@@ -4098,6 +4104,309 @@ font__family--title font__size--large
     <span class="rating-dot-separator">•</span>
     <span class="rating-bestseller-badge">Verified Readers</span>
   </div>
+</div>
+
+<div class="product-bundle-tagline-wrap">
+  <p class="product-editorial-tagline" style="font-size: clamp(14px, 2.2vw, 16px); font-weight: 600; color: #334155; margin: 0; line-height: 1.45;">
+    One Book each to Design <strong style="color: #0f172a; font-weight: 800;">Kitchens, Living Spaces, Bedrooms, Washrooms, Study &amp; Exteriors</strong>
+  </p>
+</div>
+
+    <style>.product__price--ppPrice .product__price.product__price--sale {
+        color: #ea580c;
+    }.product__price--ppPrice .product__price--old {
+        color: #8c918e;
+    }</style>
+    
+    <div class="product__price--holder product__price--ppPrice
+    font__family--base font__size--medium 
+    ">
+    
+    
+    <span data-product-price="10507180605757" class="product__price product__price--sale jsPrice">$49.00</span>
+    <span data-product-price-sale="10507180605757" class="product__price--old jsPrice">$98.00</span>
+    
+
+    <span data-tag-product="10507180605757" data-tag-type="percent" class="tag tag--sale">-50% OFF</span>
+    </div>
+
+    <script>
+    (function() {
+      function updateDoubledCutPrice() {
+        var activeSwatch = document.querySelector('.luxury-swatch-card.swatch--active, [data-swatch-option].swatch--active, [data-swatch-option].selected');
+        var isHardcopy = activeSwatch && (
+          (activeSwatch.dataset.swatchOption && activeSwatch.dataset.swatchOption.toLowerCase().includes('hard')) ||
+          activeSwatch.dataset.swatchSoldout === 'true'
+        );
+
+        var priceEls = document.querySelectorAll('[data-product-price="10507180605757"]');
+        var cutPriceEls = document.querySelectorAll('[data-product-price-sale="10507180605757"]');
+        var tagEls = document.querySelectorAll('[data-tag-product="10507180605757"]');
+        if (!priceEls.length) return;
+
+        if (isHardcopy) {
+          cutPriceEls.forEach(function(cp) {
+            cp.style.setProperty('display', 'none', 'important');
+          });
+          tagEls.forEach(function(tag) {
+            tag.style.setProperty('display', 'none', 'important');
+          });
+          return;
+        } else {
+          cutPriceEls.forEach(function(cp) {
+            cp.style.removeProperty('display');
+          });
+          tagEls.forEach(function(tag) {
+            tag.style.removeProperty('display');
+          });
+        }
+
+        if (!cutPriceEls.length) return;
+
+        priceEls.forEach(function(priceEl, index) {
+          var cutPriceEl = cutPriceEls[index] || cutPriceEls[0];
+          if (!cutPriceEl) return;
+          var priceText = priceEl.textContent.trim();
+          var match = priceText.match(/([^\d.,\s]*)\s*([\d.,]+)\s*([^\d.,\s]*)/);
+          if (match) {
+            var prefix = match[1] || '';
+            var numStr = match[2];
+            var suffix = match[3] || '';
+            
+            var cleanNumStr = numStr;
+            if (cleanNumStr.indexOf(',') !== -1 && cleanNumStr.indexOf('.') !== -1) {
+              if (cleanNumStr.lastIndexOf('.') > cleanNumStr.lastIndexOf(',')) {
+                cleanNumStr = cleanNumStr.replace(/,/g, '');
+              } else {
+                cleanNumStr = cleanNumStr.replace(/\./g, '').replace(',', '.');
+              }
+            } else if (cleanNumStr.indexOf(',') !== -1) {
+              var parts = cleanNumStr.split(',');
+              if (parts[1] && parts[1].length === 2) {
+                cleanNumStr = cleanNumStr.replace(',', '.');
+              } else {
+                cleanNumStr = cleanNumStr.replace(/,/g, '');
+              }
+            }
+            
+            var numVal = parseFloat(cleanNumStr);
+            if (!isNaN(numVal) && numVal > 0) {
+              var doubledVal = numVal * 2;
+              var hasDecimals = numStr.includes('.') || numStr.includes(',');
+              var decCount = hasDecimals ? (cleanNumStr.split('.')[1] ? cleanNumStr.split('.')[1].length : 2) : 0;
+              
+              var formattedDoubled;
+              if (numStr.includes(',') && !numStr.includes('.')) {
+                formattedDoubled = doubledVal.toFixed(decCount).replace('.', ',');
+              } else {
+                formattedDoubled = doubledVal.toLocaleString('en-US', {
+                  minimumFractionDigits: decCount,
+                  maximumFractionDigits: decCount
+                });
+              }
+              
+              var newCutPriceText = prefix + formattedDoubled + (suffix ? ' ' + suffix : '');
+              if (cutPriceEl.textContent.trim() !== newCutPriceText) {
+                cutPriceEl.textContent = newCutPriceText;
+              }
+              cutPriceEl.classList.remove('hide');
+            }
+          }
+        });
+
+        tagEls.forEach(function(tagEl) {
+          if (tagEl.dataset.tagType === 'percent' || !tagEl.dataset.tagType) {
+            if (tagEl.textContent.trim() !== '-50% OFF') {
+              tagEl.textContent = '-50% OFF';
+            }
+          }
+          tagEl.classList.remove('hide');
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateDoubledCutPrice);
+      } else {
+        updateDoubledCutPrice();
+      }
+      window.addEventListener('load', updateDoubledCutPrice);
+
+      ['booster:variant:select', 'booster:price:update', 'booster:swatch:update', 'booster:content:update'].forEach(function(evt) {
+        document.addEventListener(evt, function() { setTimeout(updateDoubledCutPrice, 10); });
+      });
+
+      var isUpdating = false;
+      var observer = new MutationObserver(function() {
+        if (isUpdating) return;
+        isUpdating = true;
+        updateDoubledCutPrice();
+        setTimeout(function() { isUpdating = false; }, 50);
+      });
+
+      document.querySelectorAll('[data-product-price="10507180605757"], [data-product-price-sale="10507180605757"]').forEach(function(el) {
+        observer.observe(el, { characterData: true, childList: true, subtree: true });
+      });
+    })();
+    </script>
+    
+    <noscript data-bstr-preselect="53066848436541" data-bstr-swatch="10507180605757" data-bstr-initd="true">
+{"53066848436541": {"sku": null, "available": true ,"id": 53066848436541, "price_raw": 4900, "sale_raw": 9800, "price": "$49.00", "sale": "$98.00", "options": ["E-Book"] },"53067294572861": {"sku": null, "available": false ,"id": 53067294572861, "price_raw": 19900, "sale_raw": 39800, "price": "$199.00", "sale": "$398.00", "options": ["Hardcopy"] }}
+</noscript>
+
+<div class="product__swatches">
+    
+    
+        
+        
+        
+        
+        
+        <div class="swatches__holder">
+        <h4 class="h-reset swatches__title">Format <span data-swatch-selected-name="10507180605757-0"> - E-Book</span></h4>
+        
+                
+                
+                <div class="luxury-swatches-grid">
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="luxury-swatch-card is-popular swatch--active" data-swatch-option="E-Book" data-swatch-index="10507180605757-0" data-booster-initd="true">
+                            
+                                <div class="luxury-card-badge">★ INSTANT ACCESS</div>
+                            
+                            <div class="luxury-card-inner">
+                                <div class="luxury-card-radio">
+                                    <span class="radio-dot"></span>
+                                </div>
+                                <div class="luxury-card-content">
+                                    <div class="luxury-card-top-row">
+                                        <span class="luxury-card-title">E-Book</span>
+                                        
+                                            <span class="luxury-card-price">$49.00</span>
+                                        
+                                    </div>
+                                    <span class="luxury-card-subtitle">
+                                        
+                                            
+                                                ⚡ Instant PDF Download · 800+ Pages · Lifetime Updates
+                                            
+                                        
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="luxury-swatch-card" data-swatch-option="Hardcopy" data-swatch-index="10507180605757-0" data-swatch-soldout="true" data-booster-initd="true">
+                            
+                                
+                                    <div class="luxury-card-badge sold-out">OUT OF STOCK</div>
+                                
+                            
+                            <div class="luxury-card-inner">
+                                <div class="luxury-card-radio">
+                                    <span class="radio-dot"></span>
+                                </div>
+                                <div class="luxury-card-content">
+                                    <div class="luxury-card-top-row">
+                                        <span class="luxury-card-title">Hardcopy <span class="luxury-soldout-tag">Out of Stock</span></span>
+                                        
+                                            <span class="luxury-card-price">$199.00</span>
+                                        
+                                    </div>
+                                    <span class="luxury-card-subtitle">
+                                        
+                                            
+                                                📦 Deluxe Printed Edition (Currently Out of Stock)
+                                            
+                                        
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    
+                
+                </div>
+        
+        </div>
+    
+</div>
+
+<div class="product__atc ">
+    
+        <input style="display: none;" name="id" data-bstr-variant-input="10507180605757" value="53066848436541">
+
+        <!-- Transparent Pill Urgency Timer Just Above Buy Now Button -->
+        
+        
+        
+        
+        
+
+        <div class="arch-pill-timer-wrap">
+          <div class="arch-pill-timer">
+            <div class="arch-pill-price-group">
+              <span class="arch-pill-price-cut">$98</span>
+              <span class="arch-pill-price-active">$49</span>
+            </div>
+            <span class="arch-pill-label">OFFER ENDS IN:</span>
+            <div class="arch-pill-clock-wrap" aria-live="polite">
+              <span class="arch-pill-clock-unit"><strong id="atcPillHours">07</strong><small>H</small></span><!--
+              --><span class="arch-pill-clock-sep">:</span><!--
+              --><span class="arch-pill-clock-unit"><strong id="atcPillMinutes">37</strong><small>M</small></span><!--
+              --><span class="arch-pill-clock-sep">:</span><!--
+              --><span class="arch-pill-clock-unit"><strong id="atcPillSeconds">37</strong><small>S</small></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="product__atc-row">
+            <div class="quantity--input">
+                <button class="quantity--input__button quantity--input__incr" onclick="BoosterTheme.cart.quantityHandler(event, false, false)">-</button>
+                <input max="-3" class="quantity--input__input" value="1" data-qty-input="" type="number" name="quantity" min="1" aria-label="Quantity input"><!--
+                --><button class="quantity--input__button quantity--input__decr" onclick="BoosterTheme.cart.quantityHandler(event, true, false)">+</button>
+            </div>
+            
+
+
+
+
+
+
+
+
+<button data-buy-button="10507180605757" data-original-text="Buy Now" class="button button--addToCart button--primary 
+
+button--filled button--primary__filled
+ button--buy-now " type="button" onclick="executeDirectBuyNow(event, this);">
+
+<svg class="buy-now-button-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px; flex-shrink: 0;">
+  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+  <line x1="3" y1="6" x2="21" y2="6"></line>
+  <path d="M16 10a4 4 0 0 1-8 0"></path>
+</svg>
+
+<span data-button-text="">Buy Now</span> 
+</button>
+        </div>
+        
+            
+            <div class="product__shoppay-installments" style="margin-top: 8px; margin-bottom: 2px; text-align: center; width: 100%;">
+              
+            </div>
+        
+    
+</div>
 
   <!-- 6 Books Showcase with Zoom Ripple Animation -->
   <div class="top-rating-books-ripple-wrap">
@@ -4146,7 +4455,6 @@ font__family--title font__size--large
       </div>
     </div>
   </div>
-</div>
 
 <script>
   function scrollToProductReviews(event) {
@@ -4288,19 +4596,6 @@ font__family--title font__size--large
   }
 </style>
 
-    
-      
-      
-      <style>.product__price--ppPrice .product__price.product__price--sale {
-        color: #ea580c;
-    }.product__price--ppPrice .product__price--old {
-        color: #8c918e;
-    }</style>
-    
-    
-    
-
-    
     <div class="product-editorial-block">
       <h2 class="pe-headline-primary">
         Avoid costly layout mistakes, Do's &amp; Don'ts, find practical dimensions, and turn design ideas into spaces that work.
@@ -4311,48 +4606,17 @@ font__family--title font__size--large
       </div>
 
       <div class="pe-statement-block">
+        <h3 class="pe-statement-heading">
+          Handmade Diagrams. Real Dimensions. No Guesswork. <mark class="pe-mark-yellow">No Regrets.</mark>
+        </h3>
+
         <div class="pe-solution-card">
           <p class="pe-solution-lead">
             A home is the heart of your life—don't let one wrong decision turn your dream into daily frustration.
           </p>
-          <div class="pe-solution-divider"></div>
           <p class="pe-solution-text">
-            These 6 step-by-step books guide you like a professional designer:
+            <strong>These 6 step-by-step books</strong> <span class="pe-text-orange">guide you like a</span> <span class="pe-text-green">professional designer</span>.
           </p>
-          <ul class="pe-solution-bullets">
-            <li class="pe-bullet-item">
-              <span class="pe-tick-badge">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </span>
-              <span class="pe-bullet-content"><strong>Exact Real Dimensions &amp; Clearances</strong> — Erase guesswork so furniture and fixtures fit perfectly.</span>
-            </li>
-            <li class="pe-bullet-item">
-              <span class="pe-tick-badge">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </span>
-              <span class="pe-bullet-content"><strong>800+ Hand-Drawn Diagrams</strong> — Step-by-step visual plans for every room, nook &amp; layout.</span>
-            </li>
-            <li class="pe-bullet-item">
-              <span class="pe-tick-badge">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </span>
-              <span class="pe-bullet-content"><strong>Avoid Costly Contractor Mistakes</strong> — Direct workers with complete clarity and confidence.</span>
-            </li>
-            <li class="pe-bullet-item">
-              <span class="pe-tick-badge">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              </span>
-              <span class="pe-bullet-content"><strong>Complete 6-Volume System</strong> — Kitchens, Living, Bedrooms, Washrooms, Study &amp; Exteriors.</span>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
@@ -4469,53 +4733,40 @@ font__family--title font__size--large
       border-radius: 6px;
     }
     .pe-solution-card {
-      background: #fdfbf7;
-      border: 1px solid #ede5d8;
-      border-radius: 14px;
-      padding: 16px 18px;
-      max-width: 540px;
-      margin: 0 auto 14px auto;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-      text-align: left;
+      background: #fdfcf8;
+      border: 1.5px solid #ede8df;
+      border-radius: 16px;
+      padding: 18px 22px;
+      max-width: 580px;
+      margin: 0 auto;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+      text-align: center;
     }
     .pe-solution-lead {
-      font-size: 13.5px;
-      font-weight: 600;
+      font-size: clamp(13px, 1.6vw, 15px);
+      font-weight: 500;
       color: #334155;
       line-height: 1.5;
       margin: 0 0 10px 0;
       text-align: center;
     }
-    .pe-solution-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
-      margin: 10px 0 12px 0;
-    }
     .pe-solution-text {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 13.5px;
+      font-size: clamp(15px, 2vw, 18px);
       font-weight: 700;
       color: #0f172a;
       letter-spacing: -0.01em;
-      line-height: 1.4;
-      margin: 0 0 10px 0;
-      text-align: left;
-    }
-    .pe-solution-bullets {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .pe-bullet-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 9px;
-      font-size: 13px;
       line-height: 1.45;
-      color: #475569;
+      margin: 0;
+      text-align: center;
+    }
+    .pe-text-orange {
+      color: #ea580c !important;
+      font-weight: 800;
+    }
+    .pe-text-green {
+      color: #059669 !important;
+      font-weight: 800;
     }
     .pe-tick-badge {
       flex-shrink: 0;
@@ -4586,308 +4837,6 @@ font__family--title font__size--large
       }
     }
     </style>
-    
-
-    <div class="product__price--holder product__price--ppPrice
-    font__family--base font__size--medium 
-    ">
-    
-    
-    <span data-product-price="10507180605757" class="product__price product__price--sale jsPrice">$49.00</span>
-    <span data-product-price-sale="10507180605757" class="product__price--old jsPrice">$98.00</span>
-    
-
-    <span data-tag-product="10507180605757" data-tag-type="percent" class="tag tag--sale">-50% OFF</span>
-    </div>
-
-    <script>
-    (function() {
-      function updateDoubledCutPrice() {
-        var activeSwatch = document.querySelector('.luxury-swatch-card.swatch--active, [data-swatch-option].swatch--active, [data-swatch-option].selected');
-        var isHardcopy = activeSwatch && (
-          (activeSwatch.dataset.swatchOption && activeSwatch.dataset.swatchOption.toLowerCase().includes('hard')) ||
-          activeSwatch.dataset.swatchSoldout === 'true'
-        );
-
-        var priceEls = document.querySelectorAll('[data-product-price="10507180605757"]');
-        var cutPriceEls = document.querySelectorAll('[data-product-price-sale="10507180605757"]');
-        var tagEls = document.querySelectorAll('[data-tag-product="10507180605757"]');
-        if (!priceEls.length) return;
-
-        if (isHardcopy) {
-          cutPriceEls.forEach(function(cp) {
-            cp.style.setProperty('display', 'none', 'important');
-          });
-          tagEls.forEach(function(tag) {
-            tag.style.setProperty('display', 'none', 'important');
-          });
-          return;
-        } else {
-          cutPriceEls.forEach(function(cp) {
-            cp.style.removeProperty('display');
-          });
-          tagEls.forEach(function(tag) {
-            tag.style.removeProperty('display');
-          });
-        }
-
-        if (!cutPriceEls.length) return;
-
-        priceEls.forEach(function(priceEl, index) {
-          var cutPriceEl = cutPriceEls[index] || cutPriceEls[0];
-          if (!cutPriceEl) return;
-          var priceText = priceEl.textContent.trim();
-          var match = priceText.match(/([^\d.,\s]*)\s*([\d.,]+)\s*([^\d.,\s]*)/);
-          if (match) {
-            var prefix = match[1] || '';
-            var numStr = match[2];
-            var suffix = match[3] || '';
-            
-            var cleanNumStr = numStr;
-            if (cleanNumStr.indexOf(',') !== -1 && cleanNumStr.indexOf('.') !== -1) {
-              if (cleanNumStr.lastIndexOf('.') > cleanNumStr.lastIndexOf(',')) {
-                cleanNumStr = cleanNumStr.replace(/,/g, '');
-              } else {
-                cleanNumStr = cleanNumStr.replace(/\./g, '').replace(',', '.');
-              }
-            } else if (cleanNumStr.indexOf(',') !== -1) {
-              var parts = cleanNumStr.split(',');
-              if (parts[1] && parts[1].length === 2) {
-                cleanNumStr = cleanNumStr.replace(',', '.');
-              } else {
-                cleanNumStr = cleanNumStr.replace(/,/g, '');
-              }
-            }
-            
-            var numVal = parseFloat(cleanNumStr);
-            if (!isNaN(numVal) && numVal > 0) {
-              var doubledVal = numVal * 2;
-              var hasDecimals = numStr.includes('.') || numStr.includes(',');
-              var decCount = hasDecimals ? (cleanNumStr.split('.')[1] ? cleanNumStr.split('.')[1].length : 2) : 0;
-              
-              var formattedDoubled;
-              if (numStr.includes(',') && !numStr.includes('.')) {
-                formattedDoubled = doubledVal.toFixed(decCount).replace('.', ',');
-              } else {
-                formattedDoubled = doubledVal.toLocaleString('en-US', {
-                  minimumFractionDigits: decCount,
-                  maximumFractionDigits: decCount
-                });
-              }
-              
-              var newCutPriceText = prefix + formattedDoubled + (suffix ? ' ' + suffix : '');
-              if (cutPriceEl.textContent.trim() !== newCutPriceText) {
-                cutPriceEl.textContent = newCutPriceText;
-              }
-              cutPriceEl.classList.remove('hide');
-            }
-          }
-        });
-
-        tagEls.forEach(function(tagEl) {
-          if (tagEl.dataset.tagType === 'percent' || !tagEl.dataset.tagType) {
-            if (tagEl.textContent.trim() !== '-50% OFF') {
-              tagEl.textContent = '-50% OFF';
-            }
-          }
-          tagEl.classList.remove('hide');
-        });
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', updateDoubledCutPrice);
-      } else {
-        updateDoubledCutPrice();
-      }
-      window.addEventListener('load', updateDoubledCutPrice);
-
-      ['booster:variant:select', 'booster:price:update', 'booster:swatch:update', 'booster:content:update'].forEach(function(evt) {
-        document.addEventListener(evt, function() { setTimeout(updateDoubledCutPrice, 10); });
-      });
-
-      var isUpdating = false;
-      var observer = new MutationObserver(function() {
-        if (isUpdating) return;
-        isUpdating = true;
-        updateDoubledCutPrice();
-        setTimeout(function() { isUpdating = false; }, 50);
-      });
-
-      document.querySelectorAll('[data-product-price="10507180605757"], [data-product-price-sale="10507180605757"]').forEach(function(el) {
-        observer.observe(el, { characterData: true, childList: true, subtree: true });
-      });
-    })();
-    </script>
-    
-    
-    
-      
-      
-      
-
-
-
-
-
-
-
-<noscript data-bstr-preselect="53066848436541" data-bstr-swatch="10507180605757" data-bstr-initd="true">
-{"53066848436541": {"sku": null, "available": true ,"id": 53066848436541, "price_raw": 4900, "sale_raw": 9800, "price": "$49.00", "sale": "$98.00", "options": ["E-Book"] },"53067294572861": {"sku": null, "available": false ,"id": 53067294572861, "price_raw": 19900, "sale_raw": 39800, "price": "$199.00", "sale": "$398.00", "options": ["Hardcopy"] }}
-</noscript>
-
-<div class="product__swatches">
-    
-    
-        
-        
-        
-        
-        
-        <div class="swatches__holder">
-        <h4 class="h-reset swatches__title">Format <span data-swatch-selected-name="10507180605757-0"> - E-Book</span></h4>
-        
-                
-                
-                <div class="luxury-swatches-grid">
-                
-                    
-                    
-                    
-                    
-                    
-                    
-                        <div class="luxury-swatch-card is-popular swatch--active" data-swatch-option="E-Book" data-swatch-index="10507180605757-0" data-booster-initd="true">
-                            
-                                <div class="luxury-card-badge">★ INSTANT ACCESS</div>
-                            
-                            <div class="luxury-card-inner">
-                                <div class="luxury-card-radio">
-                                    <span class="radio-dot"></span>
-                                </div>
-                                <div class="luxury-card-content">
-                                    <div class="luxury-card-top-row">
-                                        <span class="luxury-card-title">E-Book</span>
-                                        
-                                            <span class="luxury-card-price">$49.00</span>
-                                        
-                                    </div>
-                                    <span class="luxury-card-subtitle">
-                                        
-                                            
-                                                ⚡ Instant PDF Download · 800+ Pages · Lifetime Updates
-                                            
-                                        
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                
-                    
-                    
-                    
-                    
-                    
-                    
-                        <div class="luxury-swatch-card" data-swatch-option="Hardcopy" data-swatch-index="10507180605757-0" data-swatch-soldout="true" data-booster-initd="true">
-                            
-                                
-                                    <div class="luxury-card-badge sold-out">OUT OF STOCK</div>
-                                
-                            
-                            <div class="luxury-card-inner">
-                                <div class="luxury-card-radio">
-                                    <span class="radio-dot"></span>
-                                </div>
-                                <div class="luxury-card-content">
-                                    <div class="luxury-card-top-row">
-                                        <span class="luxury-card-title">Hardcopy <span class="luxury-soldout-tag">Out of Stock</span></span>
-                                        
-                                            <span class="luxury-card-price">$199.00</span>
-                                        
-                                    </div>
-                                    <span class="luxury-card-subtitle">
-                                        
-                                            
-                                                📦 Deluxe Printed Edition (Currently Out of Stock)
-                                            
-                                        
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                
-                </div>
-        
-        </div>
-    
-</div>
-
-
-
-
-
-    
-      
-      
-      <div class="product__atc ">
-    
-        <input style="display: none;" name="id" data-bstr-variant-input="10507180605757" value="53066848436541">
-
-        <!-- Transparent Pill Urgency Timer Just Above Buy Now Button -->
-        
-        
-        
-        
-        
-
-        <div class="arch-pill-timer-wrap">
-          <div class="arch-pill-timer">
-            <div class="arch-pill-price-group">
-              <span class="arch-pill-price-cut">$98</span>
-              <span class="arch-pill-price-active">$49</span>
-            </div>
-            <span class="arch-pill-label">OFFER ENDS IN:</span>
-            <div class="arch-pill-clock-wrap" aria-live="polite">
-              <span class="arch-pill-clock-unit"><strong id="atcPillHours">07</strong><small>H</small></span><!--
-              --><span class="arch-pill-clock-sep">:</span><!--
-              --><span class="arch-pill-clock-unit"><strong id="atcPillMinutes">37</strong><small>M</small></span><!--
-              --><span class="arch-pill-clock-sep">:</span><!--
-              --><span class="arch-pill-clock-unit"><strong id="atcPillSeconds">37</strong><small>S</small></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="product__atc-row">
-            <div class="quantity--input">
-                <button class="quantity--input__button quantity--input__incr" onclick="BoosterTheme.cart.quantityHandler(event, false, false)">-</button>
-                <input max="-3" class="quantity--input__input" value="1" data-qty-input="" type="number" name="quantity" min="1" aria-label="Quantity input"><!--
-                --><button class="quantity--input__button quantity--input__decr" onclick="BoosterTheme.cart.quantityHandler(event, true, false)">+</button>
-            </div>
-            
-
-
-
-
-
-
-
-
-<button data-buy-button="10507180605757" data-original-text="Buy Now" class="button button--addToCart button--primary 
-
-button--filled button--primary__filled
- button--buy-now " type="button" onclick="executeDirectBuyNow(event, this);">
-
-<svg class="buy-now-button-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px; flex-shrink: 0;">
-  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-  <line x1="3" y1="6" x2="21" y2="6"></line>
-  <path d="M16 10a4 4 0 0 1-8 0"></path>
-</svg>
-
-<span data-button-text="">Buy Now</span> 
-</button>
-        </div>
         
             
             <div class="product__shoppay-installments" style="margin-top: 8px; margin-bottom: 2px; text-align: center; width: 100%;">
@@ -6055,8 +6004,12 @@ window.executeDirectBuyNow = function(e, btn) {
     </div>
 
     <h2 class="lp6-headline-primary">
-      <span class="lp6-headline-light">Books You Can Refer to Design</span> <strong class="lp6-headline-books">Kitchens, Living Spaces, Bedrooms, Washrooms, Study &amp; Exteriors</strong>
+      Avoid costly layout mistakes, Do's &amp; Don'ts, find practical dimensions, and turn design ideas into spaces that work.
     </h2>
+
+    <div class="pe-sketch-banner-wrap">
+      <img src="/images/four-design-pillars-sketch.png" alt="Space Planning, Tips Tricks &amp; Ideas, History of Architecture, Don'ts and Do's" class="pe-sketch-banner-img" loading="lazy">
+    </div>
 
     <!-- Problem / Pain Point & No Regrets -->
     <div class="lp6-statement-block">
@@ -6069,7 +6022,7 @@ window.executeDirectBuyNow = function(e, btn) {
           A home is the heart of your life—don't let one wrong decision turn your dream into daily frustration.
         </p>
         <p class="lp6-solution-text">
-          These 6 step-by-step books guide you like a professional designer.
+          <strong>These 6 step-by-step books</strong> <span class="lp6-text-orange">guide you like a</span> <span class="lp6-text-green">professional designer</span>.
         </p>
 
         <!-- 6 Books in small size with consistent zoom ripple animation -->
@@ -6558,46 +6511,50 @@ window.executeDirectBuyNow = function(e, btn) {
 }
 
 .lp6-mark-yellow {
-  background: #fde047;
+  background: #facc15;
   color: #0f172a;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 6px;
+  font-weight: 900;
+  display: inline-block;
 }
 
 .lp6-solution-card {
-  background: #f8fafc;
+  background: #fcfbf7;
   border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 16px 20px;
+  border-radius: 18px;
+  padding: 20px 24px;
   max-width: 680px;
   margin: 0 auto;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .lp6-solution-lead {
-  font-size: clamp(13px, 1.8vw, 15px);
+  font-size: clamp(14px, 1.8vw, 16px);
   font-weight: 500;
-  color: #475569;
+  color: #334155;
   line-height: 1.5;
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
 }
 
 .lp6-solution-text {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(15px, 2.2vw, 18px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(16px, 2.2vw, 20px);
   font-weight: 700;
-  color: #09090b;
+  color: #0f172a;
   letter-spacing: -0.02em;
   line-height: 1.45;
   margin: 0;
 }
 
 .lp6-text-orange {
-  color: inherit;
+  color: #ea580c !important;
+  font-weight: 800;
 }
 
 .lp6-text-green {
-  color: inherit;
+  color: #059669 !important;
+  font-weight: 800;
 }
 
 /* Mini 6 Books Ripple Animation */
