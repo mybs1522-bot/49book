@@ -429,6 +429,23 @@ nav.breadcrumb {
   padding: 5px 14px;
   border-radius: 9999px;
   text-transform: none;
+  white-space: nowrap;
+  max-width: 100%;
+}
+@media (max-width: 480px) {
+  .eyebrow-pill {
+    font-size: 10px;
+    padding: 4px 10px;
+    gap: 6px;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 360px) {
+  .eyebrow-pill {
+    font-size: 8.8px;
+    padding: 3px 8px;
+    gap: 5px;
+  }
 }
 .eyebrow-dot {
   width: 6px;
@@ -970,18 +987,20 @@ shopify-payment-terms {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
 }
 .arch-image-top-bar__text {
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  font-size: 12.5px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.02em !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  line-height: 1.35 !important;
+  font-family: 'Caveat', cursive, sans-serif !important;
+  font-size: 19px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  color: #18181b !important;
+  -webkit-text-fill-color: #18181b !important;
+  line-height: 1.3 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 5px !important;
-  flex-wrap: wrap !important;
+  white-space: nowrap !important;
+  flex-wrap: nowrap !important;
+  max-width: 100% !important;
 }
 .arch-heart-emoji {
   display: inline-block !important;
@@ -990,16 +1009,20 @@ shopify-payment-terms {
 }
 @media (max-width: 640px) {
   .arch-image-top-bar {
-    padding: 7px 10px !important;
-    margin: 0 0 8px 0 !important;
-    border-radius: 6px !important;
+    padding: 3px 6px !important;
+    margin-bottom: 6px !important;
   }
   .arch-image-top-bar__text {
-    font-size: 11.5px !important;
-    letter-spacing: 0.01em !important;
+    font-size: clamp(11.5px, 3.4vw, 15px) !important;
+    gap: 3px !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
   }
-  .arch-heart-emoji {
-    font-size: 12px !important;
+}
+@media (max-width: 360px) {
+  .arch-image-top-bar__text {
+    font-size: 10px !important;
+    gap: 2px !important;
   }
 }
 

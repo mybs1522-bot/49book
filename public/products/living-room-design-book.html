@@ -482,6 +482,23 @@ nav.breadcrumb {
   padding: 5px 14px;
   border-radius: 9999px;
   text-transform: none;
+  white-space: nowrap;
+  max-width: 100%;
+}
+@media (max-width: 480px) {
+  .eyebrow-pill {
+    font-size: 10px;
+    padding: 4px 10px;
+    gap: 6px;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 360px) {
+  .eyebrow-pill {
+    font-size: 8.8px;
+    padding: 3px 8px;
+    gap: 5px;
+  }
 }
 .eyebrow-dot {
   width: 6px;
@@ -619,11 +636,11 @@ shopify-payment-terms {
   letter-spacing: 0.02em;
   vertical-align: middle;
 }
-.luxury-swatch-card[data-swatch-soldout="true"] {
+.luxury-swatch-card[] {
   background: #ffffff;
   border-color: #e2e8f0;
 }
-.luxury-swatch-card[data-swatch-soldout="true"]:hover {
+.luxury-swatch-card[]:hover {
   border-color: #cbd5e1;
   background: #fafafa;
   transform: none;
@@ -698,100 +715,53 @@ shopify-payment-terms {
   line-height: 1.35;
 }
 
-/* Responsive Mobile Swatches (Side-by-Side: E-Book & Hardcopy) */
+/* Responsive Mobile Swatches (Stacked One Above One) */
 @media (max-width: 767px) {
   .luxury-swatches-grid {
     display: flex !important;
-    flex-direction: row !important;
-    align-items: stretch !important;
-    gap: 8px !important;
+    flex-direction: column !important;
+    gap: 10px !important;
     margin: 12px 0 16px 0 !important;
     width: 100% !important;
   }
   .luxury-swatch-card {
-    flex: 1 1 50% !important;
-    min-width: 0 !important;
-    padding: 10px 10px !important;
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    padding: 12px 14px !important;
     border-radius: 10px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  }
-  .luxury-swatch-card.swatch--active {
-    flex: 1.28 1 57% !important;
-    padding: 10px 10px !important;
-    border: 1.5px solid #09090b !important;
-    background: #ffffff !important;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04) !important;
-  }
-  .luxury-swatch-card:not(.swatch--active) {
-    flex: 0.82 1 43% !important;
-    background: #fafafa !important;
-    border: 1px solid #e2e8f0 !important;
   }
   .luxury-card-inner {
-    gap: 7px !important;
-    width: 100% !important;
+    display: flex !important;
     align-items: center !important;
-  }
-  .luxury-card-radio {
-    width: 14px !important;
-    height: 14px !important;
-    flex-shrink: 0 !important;
-    border-width: 1.5px !important;
-  }
-  .luxury-card-radio .radio-dot {
-    width: 4px !important;
-    height: 4px !important;
+    gap: 10px !important;
+    width: 100% !important;
   }
   .luxury-card-top-row {
     display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    justify-content: center !important;
-    gap: 1px !important;
-    margin-bottom: 0 !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 2px !important;
   }
   .luxury-card-title {
-    font-size: 13px !important;
+    font-size: 13.5px !important;
     font-weight: 700 !important;
-    line-height: 1.2 !important;
-    white-space: nowrap !important;
   }
   .luxury-card-price {
-    font-size: 13px !important;
+    font-size: 13.5px !important;
     font-weight: 700 !important;
-    line-height: 1.2 !important;
-    color: #09090b !important;
   }
-  .luxury-swatch-card:not(.swatch--active) .luxury-card-price {
-    color: #71717a !important;
-    font-weight: 500 !important;
-  }
-  /* Show subtitle and badge only on the selected card */
-  .luxury-swatch-card.swatch--active .luxury-card-subtitle {
+  .luxury-card-subtitle {
     display: block !important;
-    font-size: 9.5px !important;
-    line-height: 1.3 !important;
+    font-size: 10.5px !important;
+    line-height: 1.35 !important;
     color: #71717a !important;
-    margin-top: 3px !important;
-    font-weight: 450 !important;
   }
-  .luxury-swatch-card:not(.swatch--active) .luxury-card-subtitle {
-    display: none !important;
-  }
-  .luxury-swatch-card.swatch--active .luxury-card-badge {
+  .luxury-card-badge {
     display: block !important;
-    top: -7px !important;
-    right: 8px !important;
-    font-size: 7.5px !important;
-    padding: 1.5px 6px !important;
-    letter-spacing: 0.04em !important;
   }
-  .luxury-swatch-card:not(.swatch--active) .luxury-card-badge,
-  .luxury-swatch-card:not(.swatch--active) .luxury-soldout-tag {
-    display: none !important;
+  .luxury-soldout-tag {
+    display: inline-block !important;
   }
 }
 
@@ -1122,18 +1092,20 @@ shopify-payment-terms {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
 }
 .arch-image-top-bar__text {
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  font-size: 12.5px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.02em !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  line-height: 1.35 !important;
+  font-family: 'Caveat', cursive, sans-serif !important;
+  font-size: 19px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  color: #18181b !important;
+  -webkit-text-fill-color: #18181b !important;
+  line-height: 1.3 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 5px !important;
-  flex-wrap: wrap !important;
+  white-space: nowrap !important;
+  flex-wrap: nowrap !important;
+  max-width: 100% !important;
 }
 .arch-heart-emoji {
   display: inline-block !important;
@@ -1142,16 +1114,20 @@ shopify-payment-terms {
 }
 @media (max-width: 640px) {
   .arch-image-top-bar {
-    padding: 7px 10px !important;
-    margin: 0 0 8px 0 !important;
-    border-radius: 6px !important;
+    padding: 3px 6px !important;
+    margin-bottom: 6px !important;
   }
   .arch-image-top-bar__text {
-    font-size: 11.5px !important;
-    letter-spacing: 0.01em !important;
+    font-size: clamp(11.5px, 3.4vw, 15px) !important;
+    gap: 3px !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
   }
-  .arch-heart-emoji {
-    font-size: 12px !important;
+}
+@media (max-width: 360px) {
+  .arch-image-top-bar__text {
+    font-size: 10px !important;
+    gap: 2px !important;
   }
 }
 
@@ -3172,7 +3148,7 @@ Lifetime updates included
 
 
 <noscript data-bstr-preselect="53066560110909" data-bstr-swatch="10506984882493" data-bstr-initd="true">
-{"53066560110909": {"sku": null, "available": true ,"id": 53066560110909, "price_raw": 1400, "sale_raw": 2800, "price": "$14.00", "sale": "$28.00", "options": ["E-Book"] },"53066649403709": {"sku": null, "available": false ,"id": 53066649403709, "price_raw": 3900, "sale_raw": 7800, "price": "$39.00", "sale": "$78.00", "options": ["Hardcopy"] }}
+{"53066560110909": {"sku": null, "available": true ,"id": 53066560110909, "price_raw": 1400, "sale_raw": 2800, "price": "$14.00", "sale": "$28.00", "options": ["E-Book"] },"53066649403709": {"sku": null, "available": true ,"id": 53066649403709, "price_raw": 3900, "sale_raw": 7800, "price": "$39.00", "sale": "$78.00", "options": ["Hardcopy"] }}
 </noscript>
 
 <div class="product__swatches">
@@ -3229,10 +3205,10 @@ Lifetime updates included
                     
                     
                     
-                        <div class="luxury-swatch-card" data-swatch-option="Hardcopy" data-swatch-index="10506984882493-0" data-swatch-soldout="true" data-booster-initd="true">
+                        <div class="luxury-swatch-card" data-swatch-option="Hardcopy" data-swatch-index="10506984882493-0"  data-booster-initd="true">
                             
                                 
-                                    <div class="luxury-card-badge sold-out">OUT OF STOCK</div>
+                                    <div class="luxury-card-badge">★ DELUXE PRINT</div>
                                 
                             
                             <div class="luxury-card-inner">
@@ -3241,7 +3217,7 @@ Lifetime updates included
                                 </div>
                                 <div class="luxury-card-content">
                                     <div class="luxury-card-top-row">
-                                        <span class="luxury-card-title">Hardcopy <span class="luxury-soldout-tag">Out of Stock</span></span>
+                                        <span class="luxury-card-title">Hardcopy </span>
                                         
                                             <span class="luxury-card-price" style="color: #94a3b8; text-decoration: line-through;">$39.00</span>
                                         
@@ -3249,7 +3225,7 @@ Lifetime updates included
                                     <span class="luxury-card-subtitle">
                                         
                                             
-                                                📦 Deluxe Printed Edition (Currently Out of Stock)
+                                                📦 Deluxe Printed Edition · Free Worldwide Shipping
                                             
                                         
                                     </span>
@@ -3566,19 +3542,23 @@ Lifetime updates included
       line-height: 1;
     }
     @media (max-width: 640px) {
-      .arch-image-top-bar {
-        padding: 7px 10px;
-        margin-bottom: 8px;
-        border-radius: 6px;
-      }
-      .arch-image-top-bar__text {
-        font-size: 11.5px;
-        letter-spacing: 0.01em;
-      }
-      .arch-heart-emoji {
-        font-size: 12px;
-      }
-    }
+  .arch-image-top-bar {
+    padding: 3px 6px !important;
+    margin-bottom: 6px !important;
+  }
+  .arch-image-top-bar__text {
+    font-size: clamp(11.5px, 3.4vw, 15px) !important;
+    gap: 3px !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
+  }
+}
+@media (max-width: 360px) {
+  .arch-image-top-bar__text {
+    font-size: 10px !important;
+    gap: 2px !important;
+  }
+}
   </style>
 </div>
 
@@ -4000,7 +3980,7 @@ font__family--title font__size--large
 
 
 <noscript data-bstr-preselect="53066560110909" data-bstr-swatch="10506984882493" data-bstr-initd="true">
-{"53066560110909": {"sku": null, "available": true ,"id": 53066560110909, "price_raw": 1400, "sale_raw": 2800, "price": "$14.00", "sale": "$28.00", "options": ["E-Book"] },"53066649403709": {"sku": null, "available": false ,"id": 53066649403709, "price_raw": 3900, "sale_raw": 7800, "price": "$39.00", "sale": "$78.00", "options": ["Hardcopy"] }}
+{"53066560110909": {"sku": null, "available": true ,"id": 53066560110909, "price_raw": 1400, "sale_raw": 2800, "price": "$14.00", "sale": "$28.00", "options": ["E-Book"] },"53066649403709": {"sku": null, "available": true ,"id": 53066649403709, "price_raw": 3900, "sale_raw": 7800, "price": "$39.00", "sale": "$78.00", "options": ["Hardcopy"] }}
 </noscript>
 
 <div class="product__swatches">
@@ -4057,10 +4037,10 @@ font__family--title font__size--large
                     
                     
                     
-                        <div class="luxury-swatch-card" data-swatch-option="Hardcopy" data-swatch-index="10506984882493-0" data-swatch-soldout="true" data-booster-initd="true">
+                        <div class="luxury-swatch-card" data-swatch-option="Hardcopy" data-swatch-index="10506984882493-0"  data-booster-initd="true">
                             
                                 
-                                    <div class="luxury-card-badge sold-out">OUT OF STOCK</div>
+                                    <div class="luxury-card-badge">★ DELUXE PRINT</div>
                                 
                             
                             <div class="luxury-card-inner">
@@ -4069,7 +4049,7 @@ font__family--title font__size--large
                                 </div>
                                 <div class="luxury-card-content">
                                     <div class="luxury-card-top-row">
-                                        <span class="luxury-card-title">Hardcopy <span class="luxury-soldout-tag">Out of Stock</span></span>
+                                        <span class="luxury-card-title">Hardcopy </span>
                                         
                                             <span class="luxury-card-price" style="color: #94a3b8; text-decoration: line-through;">$39.00</span>
                                         
@@ -4077,7 +4057,7 @@ font__family--title font__size--large
                                     <span class="luxury-card-subtitle">
                                         
                                             
-                                                📦 Deluxe Printed Edition (Currently Out of Stock)
+                                                📦 Deluxe Printed Edition · Free Worldwide Shipping
                                             
                                         
                                     </span>

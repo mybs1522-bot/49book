@@ -1,6 +1,6 @@
 /**
  * Modular Checkout & Swatch State Handler for Vercel
- * Integrated with Stripe & PayPal with Instant E-Book Delivery
+ * Integrated with Stripe & PayPal with Instant E-Book Delivery & Hardcopy Checkout
  */
 
 const CHECKOUT_CONFIG = {
@@ -13,16 +13,12 @@ const CHECKOUT_CONFIG = {
 
   // 1. Stripe Checkout Settings (Credit/Debit Card, Apple Pay, Google Pay)
   stripe: {
-    // Paste your Stripe Payment Link here (created in Stripe Dashboard -> Payment Links)
-    // Setup tip: Set "After payment" -> "Redirect to your website" -> https://your-site.vercel.app/pages/thank-you
     paymentLink: 'https://buy.stripe.com/your_stripe_payment_link_here',
     publishableKey: 'pk_live_your_key_here'
   },
 
   // 2. PayPal Checkout Settings
   paypal: {
-    // Paste your PayPal payment link, PayPal.me link, or PayPal button URL:
-    // Setup tip: Set return URL in PayPal to https://your-site.vercel.app/pages/thank-you
     paymentLink: 'https://www.paypal.com/checkoutnow?token=your_paypal_link_here',
     clientId: 'your_paypal_client_id_here'
   },
@@ -35,24 +31,23 @@ const CHECKOUT_CONFIG = {
  * Main Checkout Handler
  */
 function handleCheckout(orderData) {
-  // If Hardcopy is selected, prevent checkout and notify customer
-  if (orderData.variantTitle && orderData.variantTitle.toLowerCase().includes('hard')) {
-    alert('The Deluxe Printed Hardcopy edition is currently out of stock. Please select the E-Book edition for instant access.');
-    return;
-  }
-
+  const isHard = orderData.variantTitle && orderData.variantTitle.toLowerCase().includes('hard');
   console.log('[Checkout] Initiating checkout for:', orderData);
 
   try {
     localStorage.setItem('avada_last_order', JSON.stringify({
       productTitle: orderData.productTitle || '6 Books to Design Interiors & Exteriors',
-      variantTitle: orderData.variantTitle || 'E-Book Edition',
-      price: orderData.price || '49.00',
+      variantTitle: isHard ? 'Hardcopy Edition' : (orderData.variantTitle || 'E-Book Edition'),
+      price: orderData.price || (isHard ? '199.00' : '49.00'),
       timestamp: Date.now()
     }));
   } catch(e) {}
 
-  window.location.href = '/checkout';
+  if (isHard) {
+    window.location.href = '/hardcopy';
+  } else {
+    window.location.href = '/checkout';
+  }
 }
 
 function handleStripePayment(orderData) {
@@ -62,7 +57,7 @@ function handleStripePayment(orderData) {
   } else {
     // In dev / before link is configured: offer to redirect to Thank You page in test mode
     const proceed = confirm(
-      "Stripe Payment Link setup required in assets/js/checkout.js.\\n\\n" +
+      "Stripe Payment Link setup required in assets/js/checkout.js.\n\n" +
       "Would you like to simulate a successful purchase and preview the Instant E-Book Delivery & Thank You Page now?"
     );
     if (proceed) {
@@ -78,7 +73,7 @@ function handlePayPalPayment(orderData) {
   } else {
     // In dev / before link is configured: offer to redirect to Thank You page in test mode
     const proceed = confirm(
-      "PayPal Payment Link setup required in assets/js/checkout.js.\\n\\n" +
+      "PayPal Payment Link setup required in assets/js/checkout.js.\n\n" +
       "Would you like to simulate a successful PayPal purchase and preview the Instant E-Book Delivery & Thank You Page now?"
     );
     if (proceed) {
@@ -102,7 +97,7 @@ function showCheckoutModal(orderData) {
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
           </div>
           <h3>Select Payment Method</h3>
-          <p class="vcm-sub">Encrypted 256-Bit SSL Checkout • Instant Digital Access</p>
+          <p class="vcm-sub">Encrypted 256-Bit SSL Checkout</p>
         </div>
         
         <div class="vcm-summary">
@@ -147,7 +142,7 @@ function showCheckoutModal(orderData) {
         </div>
 
         <div class="vcm-guarantees">
-          <span>🔒 256-Bit Encryption</span> • <span>⚡ Instant E-Book Access</span> • <span>🛡️ 14-Day Guarantee</span>
+          <span>🔒 256-Bit Encryption</span> • <span>📦 Express Delivery</span> • <span>🛡️ 14-Day Guarantee</span>
         </div>
 
         <div class="vcm-test-link-wrap">
@@ -201,23 +196,23 @@ function injectModalStyles() {
       position: relative;
       background: #ffffff;
       border-radius: 20px;
-      max-width: 460px;
-      width: 92%;
-      padding: 30px 24px 24px 24px;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-      z-index: 10;
-      text-align: center;
-      animation: vcmFadeIn 0.2s ease-out;
+      padding: 28px;
+      max-width: 440px;
+      width: 90%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      animation: vcmFadeUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2;
       box-sizing: border-box;
+      text-align: left;
     }
-    @keyframes vcmFadeIn {
-      from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
+    @keyframes vcmFadeUp {
+      from { opacity: 0; transform: translateY(15px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
     .vcm-close {
       position: absolute;
-      top: 14px;
-      right: 14px;
+      top: 16px;
+      right: 16px;
       background: #f1f5f9;
       border: none;
       font-size: 20px;
@@ -229,66 +224,75 @@ function injectModalStyles() {
       align-items: center;
       justify-content: center;
       color: #64748b;
-      transition: background 0.15s;
+      transition: all 0.15s;
     }
     .vcm-close:hover {
       background: #e2e8f0;
       color: #0f172a;
     }
+    .vcm-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
     .vcm-icon-shield {
-      width: 44px;
-      height: 44px;
-      background: #fff7ed;
-      border-radius: 50%;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 10px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #fff7ed;
+      border: 1px solid #ffedd5;
+      margin-bottom: 12px;
     }
     .vcm-header h3 {
-      font-size: 21px;
+      margin: 0;
+      font-size: 20px;
       font-weight: 800;
       color: #0f172a;
-      margin: 0 0 6px 0;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
     }
     .vcm-sub {
-      font-size: 13px;
+      margin: 4px 0 0;
+      font-size: 12px;
       color: #64748b;
-      margin: 0 0 20px 0;
+      font-weight: 500;
     }
     .vcm-summary {
       background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 14px 18px;
+      border-radius: 12px;
+      padding: 14px 16px;
       margin-bottom: 20px;
-      text-align: left;
+      border: 1px solid #e2e8f0;
     }
     .vcm-row {
       display: flex;
       justify-content: space-between;
-      font-size: 13.5px;
-      margin-bottom: 6px;
+      align-items: center;
+      font-size: 13px;
       color: #475569;
+      margin-bottom: 6px;
+    }
+    .vcm-row:last-child {
+      margin-bottom: 0;
+    }
+    .vcm-row.vcm-total {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #cbd5e1;
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
     }
     .vcm-value {
       font-weight: 700;
       color: #0f172a;
     }
-    .vcm-total {
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px dashed #cbd5e1;
-      font-size: 16px;
-      font-weight: 800;
-      color: #0f172a;
-    }
     .vcm-payment-options {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 18px;
     }
     .vcm-pay-btn {
       width: 100%;
@@ -297,34 +301,40 @@ function injectModalStyles() {
       justify-content: space-between;
       padding: 14px 18px;
       border-radius: 14px;
-      border: 1.5px solid #e2e8f0;
-      background: #ffffff;
+      border: 1.5px solid transparent;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       text-align: left;
       box-sizing: border-box;
-    }
-    .vcm-pay-btn:hover {
-      border-color: #0f172a;
-      background: #f8fafc;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-    }
-    .vcm-stripe-btn:hover {
-      border-color: #ea580c;
-    }
-    .vcm-paypal-btn {
-      background: #fffdf5;
-      border-color: #fed7aa;
-    }
-    .vcm-paypal-btn:hover {
-      border-color: #0070ba;
-      background: #f0f9ff;
     }
     .vcm-pay-left {
       display: flex;
       align-items: center;
       gap: 12px;
+    }
+    .vcm-stripe-btn {
+      background: #0f172a;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+      border-color: #0f172a;
+    }
+    .vcm-stripe-btn:hover {
+      background: #1e293b;
+      border-color: #1e293b;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.22);
+    }
+    .vcm-paypal-btn {
+      background: #ffc439;
+      color: #003087;
+      border-color: #f5b722;
+      box-shadow: 0 4px 12px rgba(255, 196, 57, 0.25);
+    }
+    .vcm-paypal-btn:hover {
+      background: #ffbb1a;
+      border-color: #f5b722;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(255, 196, 57, 0.35);
     }
     .vcm-pp-badge {
       width: 24px;
@@ -340,57 +350,62 @@ function injectModalStyles() {
       font-style: italic;
     }
     .vcm-pay-title {
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 700;
-      color: #0f172a;
       line-height: 1.2;
+      color: inherit;
     }
-    .vcm-pay-sub {
-      font-size: 12px;
-      color: #64748b;
+    .vcm-stripe-btn .vcm-pay-sub {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+    .vcm-paypal-btn .vcm-pay-sub {
+      font-size: 11px;
+      color: #003087;
+      opacity: 0.8;
       margin-top: 2px;
     }
     .vcm-pay-arrow {
       font-size: 18px;
-      color: #94a3b8;
       font-weight: 700;
+      opacity: 0.7;
+      color: inherit;
     }
     .vcm-guarantees {
-      font-size: 11.5px;
+      text-align: center;
+      font-size: 11px;
       color: #64748b;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 6px;
+      margin-bottom: 12px;
+      font-weight: 500;
     }
     .vcm-test-link-wrap {
-      padding-top: 12px;
+      text-align: center;
       border-top: 1px solid #f1f5f9;
+      padding-top: 12px;
     }
     .vcm-test-link {
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11.5px;
       color: #ea580c;
       text-decoration: none;
-      transition: underline 0.15s;
+      font-weight: 600;
     }
     .vcm-test-link:hover {
       text-decoration: underline;
     }
 
     /* Active styling for sold-out Hardcopy swatch */
-    .luxury-swatch-card[data-swatch-soldout="true"].swatch--active {
+    .luxury-swatch-card[data-swatch-soldout="true"].swatch--active,
+    .luxury-swatch-card.swatch--active {
       border: 1.5px solid #09090b !important;
       background: #fafafa !important;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
     }
-    .luxury-swatch-card[data-swatch-soldout="true"].swatch--active .luxury-card-radio {
+    .luxury-swatch-card.swatch--active .luxury-card-radio {
       border-color: #09090b !important;
       background: #09090b !important;
     }
-    .luxury-swatch-card[data-swatch-soldout="true"].swatch--active .radio-dot {
+    .luxury-swatch-card.swatch--active .radio-dot {
       opacity: 1 !important;
       transform: scale(1) !important;
       background: #ffffff !important;
@@ -404,104 +419,88 @@ function injectModalStyles() {
 
 /**
  * Swatch State Manager:
- * Handles clicking on Hardcopy and changing Buy Now to Out Of Stock
+ * Handles switching between E-Book and Hardcopy editions:
+ * When Hardcopy is selected:
+ *  - Hide urgency countdown timer (.arch-pill-timer-wrap)
+ *  - Hide cut prices ($98.00 / $398.00)
+ *  - Hide sale/offer percentage badges (-50% OFF)
+ *  - Update main price display to $199.00
+ *  - Update sticky bar price to $199 (no cut price)
+ *  - Keep buttons fully clickable / in-stock
+ * When E-Book is selected:
+ *  - Restore countdown timer
+ *  - Show cut price ($98.00)
+ *  - Show offer badge (-50% OFF)
+ *  - Update main price display to $49.00
+ *  - Update sticky bar price to $49 (cut $98)
  */
-function updateOutOfStockState(isSoldOut, optionName) {
+function updateSwatchFormatState(isHardcopy, optionName) {
   const buyButtons = document.querySelectorAll('[data-buy-button], .button--buy-now, .product-form__buttons button');
   const stickyBtn = document.getElementById('archStickyBuyBtn');
-  const timerWrap = document.querySelector('.arch-pill-timer-wrap');
+  const timerWrap = document.querySelectorAll('.arch-pill-timer-wrap');
   const qtyInput = document.querySelector('.quantity--input');
 
   // 1. Update Main Buy Now Button
   buyButtons.forEach(btn => {
-    if (!btn.dataset.originalHtml) {
-      btn.dataset.originalHtml = btn.innerHTML;
+    btn.disabled = false;
+    btn.removeAttribute('aria-disabled');
+    btn.classList.remove('is-sold-out-btn');
+    if (btn.dataset.originalHtml) {
+      btn.innerHTML = btn.dataset.originalHtml;
     }
-
-    if (isSoldOut) {
-      btn.disabled = true;
-      btn.setAttribute('aria-disabled', 'true');
-      btn.classList.add('is-sold-out-btn');
-      btn.innerHTML = `<span data-button-text="" style="font-weight: 700; letter-spacing: 0.04em;">Out Of Stock</span>`;
-      btn.style.setProperty('background', '#64748b', 'important');
-      btn.style.setProperty('color', '#ffffff', 'important');
-      btn.style.setProperty('cursor', 'not-allowed', 'important');
-      btn.style.setProperty('opacity', '0.8', 'important');
-      btn.style.setProperty('pointer-events', 'none', 'important');
-      btn.style.setProperty('box-shadow', 'none', 'important');
-      btn.style.setProperty('transform', 'none', 'important');
-    } else {
-      btn.disabled = false;
-      btn.removeAttribute('aria-disabled');
-      btn.classList.remove('is-sold-out-btn');
-      if (btn.dataset.originalHtml) {
-        btn.innerHTML = btn.dataset.originalHtml;
-      }
-      btn.style.removeProperty('background');
-      btn.style.removeProperty('color');
-      btn.style.removeProperty('cursor');
-      btn.style.removeProperty('opacity');
-      btn.style.removeProperty('pointer-events');
-      btn.style.removeProperty('box-shadow');
-      btn.style.removeProperty('transform');
-    }
+    btn.style.removeProperty('background');
+    btn.style.removeProperty('color');
+    btn.style.removeProperty('cursor');
+    btn.style.removeProperty('opacity');
+    btn.style.removeProperty('pointer-events');
+    btn.style.removeProperty('box-shadow');
+    btn.style.removeProperty('transform');
   });
 
   // 2. Update Sticky Bottom Bar Button
   if (stickyBtn) {
-    if (!stickyBtn.dataset.originalHtml) {
-      stickyBtn.dataset.originalHtml = stickyBtn.innerHTML;
+    stickyBtn.disabled = false;
+    stickyBtn.removeAttribute('aria-disabled');
+    stickyBtn.classList.remove('is-sold-out-btn');
+    if (stickyBtn.dataset.originalHtml) {
+      stickyBtn.innerHTML = stickyBtn.dataset.originalHtml;
     }
+    stickyBtn.style.removeProperty('background');
+    stickyBtn.style.removeProperty('cursor');
+    stickyBtn.style.removeProperty('opacity');
+    stickyBtn.style.removeProperty('pointer-events');
+    stickyBtn.style.removeProperty('box-shadow');
 
-    const stickyText = stickyBtn.querySelector('.arch-sticky-btn__text');
     const stickyPriceActive = document.querySelector('.arch-sticky-price__active');
     const stickyPriceCut = document.querySelector('.arch-sticky-price__cut');
-    const stickyIcon = stickyBtn.querySelector('.arch-sticky-btn__icon');
     const stickyArrow = stickyBtn.querySelector('.arch-sticky-btn__arrow');
+    if (stickyArrow) stickyArrow.style.display = '';
 
-    if (isSoldOut) {
-      stickyBtn.disabled = true;
-      stickyBtn.setAttribute('aria-disabled', 'true');
-      stickyBtn.classList.add('is-sold-out-btn');
-      if (stickyText) stickyText.textContent = 'Out Of Stock';
-      if (stickyIcon) stickyIcon.style.opacity = '0.5';
-      if (stickyArrow) stickyArrow.style.display = 'none';
-
-      stickyBtn.style.setProperty('background', '#64748b', 'important');
-      stickyBtn.style.setProperty('cursor', 'not-allowed', 'important');
-      stickyBtn.style.setProperty('opacity', '0.8', 'important');
-      stickyBtn.style.setProperty('pointer-events', 'none', 'important');
-      stickyBtn.style.setProperty('box-shadow', 'none', 'important');
-
+    if (isHardcopy) {
       if (stickyPriceActive) stickyPriceActive.textContent = '$199';
-      if (stickyPriceCut) stickyPriceCut.style.display = 'none';
+      if (stickyPriceCut) stickyPriceCut.style.setProperty('display', 'none', 'important');
     } else {
-      stickyBtn.disabled = false;
-      stickyBtn.removeAttribute('aria-disabled');
-      stickyBtn.classList.remove('is-sold-out-btn');
-      if (stickyBtn.dataset.originalHtml) {
-        stickyBtn.innerHTML = stickyBtn.dataset.originalHtml;
-      }
-      stickyBtn.style.removeProperty('background');
-      stickyBtn.style.removeProperty('cursor');
-      stickyBtn.style.removeProperty('opacity');
-      stickyBtn.style.removeProperty('pointer-events');
-      stickyBtn.style.removeProperty('box-shadow');
-
       if (stickyPriceActive) stickyPriceActive.textContent = '$49';
-      if (stickyPriceCut) stickyPriceCut.style.display = '';
+      if (stickyPriceCut) {
+        stickyPriceCut.textContent = '$98';
+        stickyPriceCut.style.removeProperty('display');
+      }
     }
   }
 
-  // 3. Urgency Pill Timer
-  if (timerWrap) {
-    timerWrap.style.setProperty('display', isSoldOut ? 'none' : 'flex', 'important');
-  }
+  // 3. Urgency Pill Timer (Remove when Hardcopy is selected, show when E-Book is selected)
+  timerWrap.forEach(el => {
+    if (isHardcopy) {
+      el.style.setProperty('display', 'none', 'important');
+    } else {
+      el.style.removeProperty('display');
+    }
+  });
 
   // 4. Quantity Input
   if (qtyInput) {
-    qtyInput.style.opacity = isSoldOut ? '0.4' : '1';
-    qtyInput.style.pointerEvents = isSoldOut ? 'none' : 'auto';
+    qtyInput.style.opacity = '1';
+    qtyInput.style.pointerEvents = 'auto';
   }
 
   // 5. Main Price Displays
@@ -510,11 +509,11 @@ function updateOutOfStockState(isSoldOut, optionName) {
   const saleTags = document.querySelectorAll('[data-tag-sale], [data-tag-product], .tag--sale, .tag, .product__badge, .product__tag');
 
   mainPrices.forEach(p => {
-    p.textContent = isSoldOut ? '$199.00' : '$49.00';
+    p.textContent = isHardcopy ? '$199.00' : '$49.00';
   });
 
   salePrices.forEach(sp => {
-    if (isSoldOut) {
+    if (isHardcopy) {
       sp.style.setProperty('display', 'none', 'important');
     } else {
       sp.style.removeProperty('display');
@@ -523,12 +522,18 @@ function updateOutOfStockState(isSoldOut, optionName) {
   });
 
   saleTags.forEach(st => {
-    if (isSoldOut) {
+    if (isHardcopy) {
       st.style.setProperty('display', 'none', 'important');
     } else {
       st.style.removeProperty('display');
       st.classList.remove('hide');
     }
+  });
+
+  // 6. Update hidden variant inputs
+  const variantInputs = document.querySelectorAll('[data-bstr-variant-input], input[name="id"]');
+  variantInputs.forEach(inp => {
+    inp.value = isHardcopy ? '53067294572861' : '53066848436541';
   });
 }
 
@@ -543,12 +548,12 @@ function initSwatchSelector() {
     e.stopPropagation();
 
     const option = card.dataset.swatchOption || card.getAttribute('data-swatch-option') || 'E-Book';
-    const isHardcopy = option.toLowerCase().includes('hard') || card.dataset.swatchSoldout === 'true';
+    const isHardcopy = option.toLowerCase().includes('hard');
 
-    // Toggle active classes
+    // Toggle active classes across all swatch elements
     document.querySelectorAll('.luxury-swatch-card, [data-swatch-option]').forEach(c => {
       const cOpt = c.dataset.swatchOption || c.getAttribute('data-swatch-option');
-      if (cOpt === option) {
+      if (cOpt && cOpt.toLowerCase() === option.toLowerCase()) {
         c.classList.add('swatch--active');
         const dot = c.querySelector('.radio-dot');
         if (dot) {
@@ -570,8 +575,8 @@ function initSwatchSelector() {
       titleEl.textContent = ` - ${option}`;
     });
 
-    // Update Out Of Stock state
-    updateOutOfStockState(isHardcopy, option);
+    // Update prices, timer, and offer visibility
+    updateSwatchFormatState(isHardcopy, option);
   };
 
   document.querySelectorAll('.luxury-swatch-card, [data-swatch-option]').forEach(card => {
@@ -588,26 +593,22 @@ function initSwatchSelector() {
     }
   });
 
-  // Guard direct buy execution functions
+  // Direct buy execution functions
   const wrapBuyFunction = () => {
     if (window.executeDirectBuyNow) {
       window.executeDirectBuyNow = function(e, btn) {
         if (e) { e.preventDefault(); e.stopPropagation(); }
         const activeSwatch = document.querySelector('.luxury-swatch-card.swatch--active') || document.querySelector('.swatch--active') || document.querySelector('[data-swatch-option].selected');
         const variantTitle = activeSwatch ? (activeSwatch.dataset.swatchOption || activeSwatch.innerText.trim()) : 'E-Book';
-        if (variantTitle.toLowerCase().includes('hard') || (btn && (btn.disabled || btn.classList.contains('is-sold-out-btn') || btn.getAttribute('aria-disabled') === 'true'))) {
-          alert('The Deluxe Printed Hardcopy edition is currently out of stock. Please select the E-Book edition for instant access.');
-          return;
-        }
+        const isHard = variantTitle.toLowerCase().includes('hard');
+        
         const titleEl = document.querySelector('h1.product__title') || document.querySelector('h1');
-        const priceEl = document.querySelector('[data-product-price]') || document.querySelector('.product__price');
         const productTitle = titleEl ? titleEl.innerText.trim() : '6 Books to Design Interiors & Exteriors';
-        let priceText = priceEl ? priceEl.innerText.replace(/[^0-9.]/g, '') : '49.00';
-        if (!priceText) priceText = '49.00';
+        const priceText = isHard ? '199.00' : '49.00';
 
         handleCheckout({
           productTitle,
-          variantTitle,
+          variantTitle: isHard ? 'Hardcopy Edition' : 'E-Book Edition',
           price: priceText
         });
       };
@@ -617,19 +618,15 @@ function initSwatchSelector() {
       window.executeStickyBuyNow = function(btn) {
         const activeSwatch = document.querySelector('.luxury-swatch-card.swatch--active') || document.querySelector('.swatch--active') || document.querySelector('[data-swatch-option].selected');
         const variantTitle = activeSwatch ? (activeSwatch.dataset.swatchOption || activeSwatch.innerText.trim()) : 'E-Book';
-        if (variantTitle.toLowerCase().includes('hard') || (btn && (btn.disabled || btn.classList.contains('is-sold-out-btn') || btn.getAttribute('aria-disabled') === 'true'))) {
-          alert('The Deluxe Printed Hardcopy edition is currently out of stock. Please select the E-Book edition for instant access.');
-          return;
-        }
+        const isHard = variantTitle.toLowerCase().includes('hard');
+
         const titleEl = document.querySelector('h1.product__title') || document.querySelector('h1');
-        const priceEl = document.querySelector('[data-product-price]') || document.querySelector('.product__price');
         const productTitle = titleEl ? titleEl.innerText.trim() : '6 Books to Design Interiors & Exteriors';
-        let priceText = priceEl ? priceEl.innerText.replace(/[^0-9.]/g, '') : '49.00';
-        if (!priceText) priceText = '49.00';
+        const priceText = isHard ? '199.00' : '49.00';
 
         handleCheckout({
           productTitle,
-          variantTitle,
+          variantTitle: isHard ? 'Hardcopy Edition' : 'E-Book Edition',
           price: priceText
         });
       };
@@ -651,28 +648,18 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', (e) => {
         const activeSwatch = document.querySelector('.luxury-swatch-card.swatch--active') || document.querySelector('.swatch--active') || document.querySelector('[data-swatch-option].selected');
         const variantTitle = activeSwatch ? (activeSwatch.dataset.swatchOption || activeSwatch.innerText.trim()) : 'E-Book';
-        
-        if (variantTitle.toLowerCase().includes('hard') || btn.disabled || btn.classList.contains('is-sold-out-btn')) {
-          e.preventDefault();
-          e.stopPropagation();
-          alert('The Deluxe Printed Hardcopy edition is currently out of stock. Please select the E-Book edition for instant access.');
-          return;
-        }
+        const isHard = variantTitle.toLowerCase().includes('hard');
 
         e.preventDefault();
         e.stopPropagation();
 
         const titleEl = document.querySelector('h1.product__title') || document.querySelector('h1');
-        const priceEl = document.querySelector('[data-product-price]') || document.querySelector('.product__price');
-
         const productTitle = titleEl ? titleEl.innerText.trim() : '6 Books to Design Interiors & Exteriors';
-        
-        let priceText = priceEl ? priceEl.innerText.replace(/[^0-9.]/g, '') : '49.00';
-        if (!priceText) priceText = '49.00';
+        const priceText = isHard ? '199.00' : '49.00';
 
         handleCheckout({
           productTitle,
-          variantTitle,
+          variantTitle: isHard ? 'Hardcopy Edition' : 'E-Book Edition',
           price: priceText
         });
       });

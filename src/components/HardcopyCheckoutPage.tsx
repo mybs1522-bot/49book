@@ -50,8 +50,11 @@ export const HardcopyCheckoutPage: React.FC = () => {
     // --- STATE ---
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
     const [address, setAddress] = useState('');
+    const [apartment, setApartment] = useState('');
     const [city, setCity] = useState('');
+    const [stateProvince, setStateProvince] = useState('');
     const [country, setCountry] = useState('');
     const [zip, setZip] = useState('');
     const [emailError, setEmailError] = useState(false);
@@ -73,10 +76,29 @@ export const HardcopyCheckoutPage: React.FC = () => {
     const cardNumberRef = useRef<any>(null);
     const cardExpiryRef = useRef<any>(null);
     const cardCvcRef = useRef<any>(null);
-    const paymentRequestRef = useRef<any>(null);
+    const expressCheckoutRef = useRef<any>(null);
 
-    // --- ENTRANCE ANIMATION ---
-    useEffect(() => { requestAnimationFrame(() => setIsVisible(true)); }, []);
+    // --- ENTRANCE ANIMATION & 3DS REDIRECT HANDLING ---
+    useEffect(() => {
+        requestAnimationFrame(() => setIsVisible(true));
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('redirect_status') === 'succeeded' || params.get('success') === 'true') {
+            setViewState('SUCCESS');
+            const stripeId = params.get('payment_intent');
+            trackMetaEvent({
+                eventName: 'Purchase',
+                value: 199.00,
+                currency: 'USD',
+                content_name: 'Interior Design System - 6 Book Hardcopy Collection',
+                content_ids: ['interior-design-system-6-books-hardcopy'],
+                content_type: 'product',
+                order_id: stripeId || 'stripe-redirect'
+            });
+            setTimeout(() => {
+                window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc";
+            }, 2500);
+        }
+    }, []);
 
     // --- TIMER ---
     useEffect(() => {
@@ -108,6 +130,7 @@ export const HardcopyCheckoutPage: React.FC = () => {
             if (cardNumberRef.current) { try { cardNumberRef.current.destroy(); } catch (e) {} cardNumberRef.current = null; }
             if (cardExpiryRef.current) { try { cardExpiryRef.current.destroy(); } catch (e) {} cardExpiryRef.current = null; }
             if (cardCvcRef.current) { try { cardCvcRef.current.destroy(); } catch (e) {} cardCvcRef.current = null; }
+            if (expressCheckoutRef.current) { try { expressCheckoutRef.current.destroy(); } catch (e) {} expressCheckoutRef.current = null; }
         };
     }, []);
 
@@ -241,16 +264,33 @@ export const HardcopyCheckoutPage: React.FC = () => {
                 try {
                     const payerEmail = ev.billingDetails?.email || email || '';
                     const payerName = ev.billingDetails?.name || payerEmail.split('@')[0] || 'Customer';
+                    const fullShippingAddress = [
+                        name ? `Name: ${name}` : '',
+                        phone ? `Phone: ${phone}` : '',
+                        address,
+                        apartment ? `Apt/Suite: ${apartment}` : '',
+                        city,
+                        stateProvince,
+                        zip,
+                        country
+                    ].filter(Boolean).join(', ');
+
                     const res = await fetch(BACKEND_URL, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ items: [{ id: 'hardcopy-bundle' }], email: payerEmail, name: payerName, address: `${address}, ${city}, ${country} ${zip}` })
+                        body: JSON.stringify({
+                            items: [{ id: 'hardcopy-bundle' }],
+                            email: payerEmail,
+                            name: payerName,
+                            phone,
+                            address: fullShippingAddress
+                        })
                     });
                     const { clientSecret } = await res.json();
                     const { error, paymentIntent } = await stripe.confirmPayment({
                         elements: expressElements,
                         clientSecret,
-                        confirmParams: { return_url: window.location.origin + '/checkout-hardcopy?success=true' },
+                        confirmParams: { return_url: window.location.origin + '/hardcopy?success=true' },
                         redirect: 'if_required',
                     });
                     if (error) { setErrorMessage(error.message || 'Payment failed.'); }
@@ -268,7 +308,18 @@ export const HardcopyCheckoutPage: React.FC = () => {
                             content_type: 'product',
                             order_id: paymentIntent.id
                         });
-                        fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-mail", { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: payerEmail, name: payerName, orderId: paymentIntent.id, isHardcopy: true, address: `${address}, ${city}, ${country} ${zip}` }) }).catch(() => {});
+                        fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-mail", {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                email: payerEmail,
+                                name: payerName,
+                                phone,
+                                orderId: paymentIntent.id,
+                                isHardcopy: true,
+                                address: fullShippingAddress
+                            })
+                        }).catch(() => {});
                         setTimeout(() => { window.location.href = "https://drive.google.com/drive/folders/1cVcmiL-fo3o--aA-2YnXTO5UkF_3ERHc"; }, 2500);
                     }
                 } catch (err: any) { setErrorMessage(err.message || 'Payment failed.'); }
@@ -285,10 +336,11 @@ export const HardcopyCheckoutPage: React.FC = () => {
     const handlePaypalSubmit = (e: React.FormEvent) => {
         let hasError = false;
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setEmailError(true); hasError = true; }
+        if (!name.trim()) { setNameError(true); hasError = true; }
         if (!address.trim()) { setAddressError(true); hasError = true; }
         if (hasError) {
             e.preventDefault();
-            setErrorMessage("Please fill in your email and shipping address.");
+            setErrorMessage("Please fill in your name, email, and street address.");
             return;
         }
         if (!hasAddedPaymentInfo) {
@@ -309,8 +361,9 @@ export const HardcopyCheckoutPage: React.FC = () => {
     const handleCardPay = async () => {
         let hasError = false;
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setEmailError(true); hasError = true; }
+        if (!name.trim()) { setNameError(true); hasError = true; }
         if (!address.trim()) { setAddressError(true); hasError = true; }
-        if (hasError) { setErrorMessage("Please fill in your email and shipping address."); return; }
+        if (hasError) { setErrorMessage("Please fill in your name, email, and street address."); return; }
         if (!cardComplete.number || !cardComplete.expiry || !cardComplete.cvc) { setErrorMessage("Please complete your card details."); return; }
         if (!stripeRef.current || !cardNumberRef.current) {
             setErrorMessage("Payment gateway loading. Please wait a moment.");
@@ -321,11 +374,27 @@ export const HardcopyCheckoutPage: React.FC = () => {
 
         try {
             const customerName = name.trim() || email.split('@')[0] || 'Customer';
+            const fullShippingAddress = [
+                customerName ? `Name: ${customerName}` : '',
+                phone ? `Phone: ${phone}` : '',
+                address,
+                apartment ? `Apt/Suite: ${apartment}` : '',
+                city,
+                stateProvince,
+                zip,
+                country
+            ].filter(Boolean).join(', ');
 
             const res = await fetch(BACKEND_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ items: [{ id: 'hardcopy-bundle' }], email, name: customerName, address: `${address}, ${city}, ${country} ${zip}` })
+                body: JSON.stringify({
+                    items: [{ id: 'hardcopy-bundle' }],
+                    email,
+                    name: customerName,
+                    phone,
+                    address: fullShippingAddress
+                })
             });
             if (!res.ok) {
                 if (res.status === 404) throw new Error("Payment server unavailable. Please try PayPal.");
@@ -340,12 +409,14 @@ export const HardcopyCheckoutPage: React.FC = () => {
                     billing_details: {
                         name: customerName,
                         email,
+                        phone: phone || undefined,
                         address: {
-                            country: 'US',
-                            state: 'CA',
-                            city: city || 'Los Angeles',
-                            line1: address || '123 Main St',
-                            postal_code: zip || '90001',
+                            country: country || 'US',
+                            state: stateProvince || 'CA',
+                            city: city || 'City',
+                            line1: address || 'Street Address',
+                            line2: apartment || undefined,
+                            postal_code: zip || '00000',
                         },
                     },
                 },
@@ -370,7 +441,14 @@ export const HardcopyCheckoutPage: React.FC = () => {
                 fetch("https://dhufnozehayzjlsmnvdl.supabase.co/functions/v1/send-book-mail", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, name, orderId: result.paymentIntent.id, type: 'hardcopy', address: `${address}, ${city}, ${country} ${zip}` })
+                    body: JSON.stringify({
+                        email,
+                        name: customerName,
+                        phone,
+                        orderId: result.paymentIntent.id,
+                        type: 'hardcopy',
+                        address: fullShippingAddress
+                    })
                 }).catch(err => console.error("Email trigger failed:", err));
             }
         } catch (err: any) {
@@ -562,50 +640,7 @@ export const HardcopyCheckoutPage: React.FC = () => {
                                             </div>
                                         </div>
 
-                                        {/* Authentic Vector Barcode */}
-                                        <div className="mt-3.5 pt-3 border-t border-gray-100 flex flex-col items-center">
-                                            <svg className="h-6 sm:h-7 w-48 text-gray-800 max-w-full" viewBox="0 0 176 28" fill="currentColor">
-                                                <rect x="0" y="0" width="3" height="28"/>
-                                                <rect x="5" y="0" width="1.5" height="28"/>
-                                                <rect x="9" y="0" width="4" height="28"/>
-                                                <rect x="15" y="0" width="2" height="28"/>
-                                                <rect x="19" y="0" width="1.5" height="28"/>
-                                                <rect x="23" y="0" width="3.5" height="28"/>
-                                                <rect x="29" y="0" width="2" height="28"/>
-                                                <rect x="33" y="0" width="1" height="28"/>
-                                                <rect x="36" y="0" width="4" height="28"/>
-                                                <rect x="42" y="0" width="2" height="28"/>
-                                                <rect x="46" y="0" width="1.5" height="28"/>
-                                                <rect x="50" y="0" width="3" height="28"/>
-                                                <rect x="55" y="0" width="4" height="28"/>
-                                                <rect x="61" y="0" width="1" height="28"/>
-                                                <rect x="64" y="0" width="3" height="28"/>
-                                                <rect x="69" y="0" width="2" height="28"/>
-                                                <rect x="73" y="0" width="4" height="28"/>
-                                                <rect x="79" y="0" width="1.5" height="28"/>
-                                                <rect x="83" y="0" width="2" height="28"/>
-                                                <rect x="87" y="0" width="3.5" height="28"/>
-                                                <rect x="93" y="0" width="1" height="28"/>
-                                                <rect x="96" y="0" width="4" height="28"/>
-                                                <rect x="102" y="0" width="2" height="28"/>
-                                                <rect x="106" y="0" width="1.5" height="28"/>
-                                                <rect x="110" y="0" width="3" height="28"/>
-                                                <rect x="115" y="0" width="4" height="28"/>
-                                                <rect x="121" y="0" width="1.5" height="28"/>
-                                                <rect x="125" y="0" width="3" height="28"/>
-                                                <rect x="130" y="0" width="2" height="28"/>
-                                                <rect x="134" y="0" width="4" height="28"/>
-                                                <rect x="140" y="0" width="1" height="28"/>
-                                                <rect x="143" y="0" width="3.5" height="28"/>
-                                                <rect x="148" y="0" width="2" height="28"/>
-                                                <rect x="152" y="0" width="1.5" height="28"/>
-                                                <rect x="156" y="0" width="4" height="28"/>
-                                                <rect x="162" y="0" width="2" height="28"/>
-                                                <rect x="166" y="0" width="1.5" height="28"/>
-                                                <rect x="170" y="0" width="3" height="28"/>
-                                                <rect x="174" y="0" width="2" height="28"/>
-                                            </svg>
-                                        </div>
+                                        
                                     </div>
                                 </div>
 
@@ -643,60 +678,131 @@ export const HardcopyCheckoutPage: React.FC = () => {
 
                                 <div className="p-5 sm:p-6 space-y-4">
 
-                                    {/* Email */}
-                                    <div>
-                                        <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">Email address</label>
-                                        <input
-                                            type="email"
-                                            value={email}
-                                            onChange={(e) => { setEmail(e.target.value); setEmailError(false); setErrorMessage(null); }}
-                                            placeholder="you@example.com"
-                                            className={`block w-full px-4 py-3.5 bg-white border text-[15px] font-medium text-gray-950 rounded-xl transition-all focus:outline-none focus:ring-1 ${emailError
-                                                ? 'border-red-400 focus:ring-red-200 focus:border-red-500'
-                                                : 'border-gray-300 focus:ring-gray-950 focus:border-gray-950 hover:border-gray-400'
-                                                }`}
-                                        />
+                                    {/* Contact Information */}
+                                    <div className="space-y-3">
+                                        <div className="text-[11px] font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
+                                            <span>Contact Information</span>
+                                        </div>
+                                        <div>
+                                            <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">Full Name</label>
+                                            <input
+                                                type="text"
+                                                value={name}
+                                                onChange={(e) => { setName(e.target.value); setNameError(false); setErrorMessage(null); }}
+                                                placeholder="First and last name"
+                                                className={`block w-full px-4 py-3.5 bg-white border text-[15px] font-medium text-gray-950 rounded-xl transition-all focus:outline-none focus:ring-1 ${nameError
+                                                    ? 'border-red-400 focus:ring-red-200 focus:border-red-500'
+                                                    : 'border-gray-300 focus:ring-gray-950 focus:border-gray-950 hover:border-gray-400'
+                                                    }`}
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <div>
+                                                <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">Email address</label>
+                                                <input
+                                                    type="email"
+                                                    value={email}
+                                                    onChange={(e) => { setEmail(e.target.value); setEmailError(false); setErrorMessage(null); }}
+                                                    placeholder="you@example.com"
+                                                    className={`block w-full px-4 py-3.5 bg-white border text-[15px] font-medium text-gray-950 rounded-xl transition-all focus:outline-none focus:ring-1 ${emailError
+                                                        ? 'border-red-400 focus:ring-red-200 focus:border-red-500'
+                                                        : 'border-gray-300 focus:ring-gray-950 focus:border-gray-950 hover:border-gray-400'
+                                                        }`}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">Phone Number</label>
+                                                <input
+                                                    type="tel"
+                                                    value={phone}
+                                                    onChange={(e) => setPhone(e.target.value)}
+                                                    placeholder="+1 (555) 000-0000"
+                                                    className="block w-full px-4 py-3.5 bg-white border border-gray-300 text-[15px] font-medium text-gray-950 rounded-xl transition-all focus:outline-none focus:ring-1 focus:ring-gray-950 focus:border-gray-950 hover:border-gray-400"
+                                                />
+                                            </div>
+                                        </div>
+                                        <p className="text-[11px] text-gray-500 flex items-center gap-1.5">
+                                            <span>📦</span> Required for tracked express courier delivery & SMS dispatch updates
+                                        </p>
                                     </div>
 
-                                    {/* Shipping address */}
-                                    <div>
-                                        <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">Shipping address</label>
-                                        <div className="space-y-2">
+                                    <div className="h-px bg-gray-200 my-1" />
+
+                                    {/* Shipping Address */}
+                                    <div className="space-y-3">
+                                        <div className="text-[11px] font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
+                                            <span>Shipping Address</span>
+                                        </div>
+                                        <div>
+                                            <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">Street Address</label>
                                             <input
                                                 type="text"
                                                 value={address}
                                                 onChange={(e) => { setAddress(e.target.value); setAddressError(false); setErrorMessage(null); }}
-                                                placeholder="Street address"
+                                                placeholder="123 Design Studio Way"
                                                 className={`block w-full px-4 py-3.5 bg-white border text-[15px] font-medium text-gray-950 rounded-xl transition-all focus:outline-none focus:ring-1 ${addressError
                                                     ? 'border-red-400 focus:ring-red-200 focus:border-red-500'
                                                     : 'border-gray-300 focus:ring-gray-950 focus:border-gray-950 hover:border-gray-400'
                                                     }`}
                                             />
-                                            <div className="grid grid-cols-2 gap-2">
+                                        </div>
+                                        <div>
+                                            <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">Apartment, Suite, Unit <span className="text-gray-400 normal-case font-normal">(Optional)</span></label>
+                                            <input
+                                                type="text"
+                                                value={apartment}
+                                                onChange={(e) => setApartment(e.target.value)}
+                                                placeholder="Apt 4B, Floor 2"
+                                                className="block w-full px-4 py-3.5 bg-white border border-gray-300 text-[15px] font-medium text-gray-950 rounded-xl transition-all focus:outline-none focus:ring-1 focus:ring-gray-950 focus:border-gray-950 hover:border-gray-400"
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">City</label>
                                                 <input
                                                     type="text"
                                                     value={city}
                                                     onChange={(e) => setCity(e.target.value)}
-                                                    placeholder="City"
+                                                    placeholder="City / Metro"
                                                     className="block w-full px-4 py-3.5 bg-white border border-gray-300 text-[15px] font-medium text-gray-950 rounded-xl transition-all focus:outline-none focus:ring-1 focus:ring-gray-950 focus:border-gray-950 hover:border-gray-400"
                                                 />
+                                            </div>
+                                            <div>
+                                                <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">State / Province</label>
+                                                <input
+                                                    type="text"
+                                                    value={stateProvince}
+                                                    onChange={(e) => setStateProvince(e.target.value)}
+                                                    placeholder="State / Region"
+                                                    className="block w-full px-4 py-3.5 bg-white border border-gray-300 text-[15px] font-medium text-gray-950 rounded-xl transition-all focus:outline-none focus:ring-1 focus:ring-gray-950 focus:border-gray-950 hover:border-gray-400"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">ZIP / Postal Code</label>
+                                                <input
+                                                    type="text"
+                                                    value={zip}
+                                                    onChange={(e) => setZip(e.target.value)}
+                                                    placeholder="ZIP code"
+                                                    className="block w-full px-4 py-3.5 bg-white border border-gray-300 text-[15px] font-medium text-gray-950 rounded-xl transition-all focus:outline-none focus:ring-1 focus:ring-gray-950 focus:border-gray-950 hover:border-gray-400"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className="text-xs font-bold text-gray-950 mb-1.5 block tracking-wide uppercase">Country</label>
                                                 <input
                                                     type="text"
                                                     value={country}
                                                     onChange={(e) => setCountry(e.target.value)}
-                                                    placeholder="Country"
+                                                    placeholder="United States"
                                                     className="block w-full px-4 py-3.5 bg-white border border-gray-300 text-[15px] font-medium text-gray-950 rounded-xl transition-all focus:outline-none focus:ring-1 focus:ring-gray-950 focus:border-gray-950 hover:border-gray-400"
                                                 />
                                             </div>
-                                            <input
-                                                type="text"
-                                                value={zip}
-                                                onChange={(e) => setZip(e.target.value)}
-                                                placeholder="ZIP / Postal code"
-                                                className="block w-full px-4 py-3.5 bg-white border border-gray-300 text-[15px] font-medium text-gray-950 rounded-xl transition-all focus:outline-none focus:ring-1 focus:ring-gray-950 focus:border-gray-950 hover:border-gray-400"
-                                            />
                                         </div>
                                     </div>
+
+                                    <div className="h-px bg-gray-200 my-1" />
 
 
 
@@ -796,11 +902,7 @@ export const HardcopyCheckoutPage: React.FC = () => {
                                     </form>
                                     )}
 
-                                    {/* Footer */}
-                                    <div className="flex items-center justify-center gap-1.5 pt-2 text-xs text-gray-500 font-medium">
-                                        <span>Powered by</span>
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" className="h-4 object-contain" />
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>

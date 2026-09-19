@@ -543,52 +543,7 @@ export const CheckoutPage: React.FC = () => {
                                             </div>
                                         </div>
 
-                                        {/* Barcode Accent */}
-                                        <div className="mt-2.5 sm:mt-3.5 pt-2 sm:pt-3 border-t border-gray-200 flex flex-col items-center">
-                                            <svg className="w-36 sm:w-48 h-5 sm:h-6 opacity-75" viewBox="0 0 180 28" fill="currentColor">
-                                                <rect x="0" y="0" width="2" height="28"/>
-                                                <rect x="4" y="0" width="1" height="28"/>
-                                                <rect x="7" y="0" width="3" height="28"/>
-                                                <rect x="12" y="0" width="1.5" height="28"/>
-                                                <rect x="15" y="0" width="4" height="28"/>
-                                                <rect x="21" y="0" width="2" height="28"/>
-                                                <rect x="25" y="0" width="1" height="28"/>
-                                                <rect x="28" y="0" width="3.5" height="28"/>
-                                                <rect x="33" y="0" width="2" height="28"/>
-                                                <rect x="37" y="0" width="1.5" height="28"/>
-                                                <rect x="41" y="0" width="3" height="28"/>
-                                                <rect x="46" y="0" width="1" height="28"/>
-                                                <rect x="49" y="0" width="4" height="28"/>
-                                                <rect x="55" y="0" width="2" height="28"/>
-                                                <rect x="59" y="0" width="1.5" height="28"/>
-                                                <rect x="63" y="0" width="3" height="28"/>
-                                                <rect x="68" y="0" width="2" height="28"/>
-                                                <rect x="72" y="0" width="1" height="28"/>
-                                                <rect x="75" y="0" width="3.5" height="28"/>
-                                                <rect x="80" y="0" width="2" height="28"/>
-                                                <rect x="84" y="0" width="1.5" height="28"/>
-                                                <rect x="88" y="0" width="4" height="28"/>
-                                                <rect x="94" y="0" width="2" height="28"/>
-                                                <rect x="98" y="0" width="1" height="28"/>
-                                                <rect x="101" y="0" width="3" height="28"/>
-                                                <rect x="106" y="0" width="1.5" height="28"/>
-                                                <rect x="110" y="0" width="2" height="28"/>
-                                                <rect x="114" y="0" width="4" height="28"/>
-                                                <rect x="121" y="0" width="1.5" height="28"/>
-                                                <rect x="125" y="0" width="3" height="28"/>
-                                                <rect x="130" y="0" width="2" height="28"/>
-                                                <rect x="134" y="0" width="4" height="28"/>
-                                                <rect x="140" y="0" width="1" height="28"/>
-                                                <rect x="143" y="0" width="3.5" height="28"/>
-                                                <rect x="148" y="0" width="2" height="28"/>
-                                                <rect x="152" y="0" width="1.5" height="28"/>
-                                                <rect x="156" y="0" width="4" height="28"/>
-                                                <rect x="162" y="0" width="2" height="28"/>
-                                                <rect x="166" y="0" width="1.5" height="28"/>
-                                                <rect x="170" y="0" width="3" height="28"/>
-                                                <rect x="174" y="0" width="2" height="28"/>
-                                            </svg>
-                                        </div>
+                                        
                                     </div>
                                 </div>
 
@@ -742,11 +697,7 @@ export const CheckoutPage: React.FC = () => {
                                     </form>
                                     )}
 
-                                    {/* Footer */}
-                                    <div className="flex items-center justify-center gap-1.5 pt-2 text-xs text-gray-500 font-medium">
-                                        <span>Powered by</span>
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" className="h-4 object-contain" />
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>

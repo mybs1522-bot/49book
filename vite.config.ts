@@ -14,6 +14,8 @@ function cleanUrlsPlugin() {
 
         if (urlPath === '/checkout' || urlPath === '/checkout/') {
           req.url = '/checkout/index.html' + qs;
+        } else if (urlPath === '/hardcopy' || urlPath === '/hardcopy/' || urlPath === '/checkout-hardcopy' || urlPath === '/checkout-hardcopy/') {
+          req.url = '/hardcopy/index.html' + qs;
         } else if (urlPath === '/success' || urlPath === '/success/') {
           req.url = '/success/index.html' + qs;
         } else if (urlPath === '/thank-you' || urlPath === '/thank-you/') {
@@ -45,6 +47,7 @@ export default defineConfig({
       input: {
         main: path.resolve(__dirname, 'index.html'),
         checkout: path.resolve(__dirname, 'checkout/index.html'),
+        hardcopy: path.resolve(__dirname, 'hardcopy/index.html'),
         success: path.resolve(__dirname, 'success/index.html'),
         thankyou: path.resolve(__dirname, 'thank-you/index.html'),
         pagesThankYou: path.resolve(__dirname, 'pages/thank-you.html'),

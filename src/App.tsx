@@ -82,7 +82,12 @@ const App: React.FC = () => {
   }, [currentPath]);
 
   // Routing
-  if (currentPath === '/checkout-hardcopy' || currentPath.startsWith('/checkout-hardcopy')) return <HardcopyCheckoutPage />;
+  if (
+    currentPath === '/hardcopy' ||
+    currentPath.startsWith('/hardcopy') ||
+    currentPath === '/checkout-hardcopy' ||
+    currentPath.startsWith('/checkout-hardcopy')
+  ) return <HardcopyCheckoutPage />;
   if (currentPath === '/checkout' || currentPath.startsWith('/checkout')) return <CheckoutPage />;
   if (currentPath.startsWith('/success')) return <SuccessPage />;
 
@@ -111,8 +116,8 @@ const App: React.FC = () => {
       currency: 'USD'
     });
     window.scrollTo(0, 0);
-    window.history.pushState({}, '', '/checkout-hardcopy');
-    setCurrentPath('/checkout-hardcopy');
+    window.history.pushState({}, '', '/hardcopy');
+    setCurrentPath('/hardcopy');
   };
 
   return (

@@ -102,7 +102,69 @@ Shopify.SignInWithShop.User.recognized = false;</script>
   box-shadow: none;
 }
 
-      </style>
+      
+  /* Distinct Rating Box */
+  .product__review-stars {
+    display: flex !important;
+    justify-content: center !important;
+    text-align: center !important;
+    margin: 6px 0 10px 0 !important;
+  }
+  .book-editorial-rating-wrapper {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 999px !important;
+    padding: 5px 14px 5px 12px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .book-editorial-rating-wrapper:hover {
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08) !important;
+    transform: translateY(-1px);
+  }
+  .rating-stars-gold {
+    color: #f59e0b !important;
+    font-size: 13px !important;
+    letter-spacing: 0.5px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    line-height: 1 !important;
+  }
+  .rating-score-bold {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    line-height: 1 !important;
+  }
+  .rating-count-text {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    line-height: 1 !important;
+  }
+  .rating-dot-separator {
+    color: #cbd5e1 !important;
+    font-size: 10px !important;
+  }
+  .rating-bestseller-badge {
+    background: #fff7ed !important;
+    color: #ea580c !important;
+    border: 1px solid #fed7aa !important;
+    font-size: 9.5px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    padding: 2px 8px !important;
+    border-radius: 999px !important;
+    line-height: 1.2 !important;
+  }
+
+</style>
 
 <script id="shopify-cfh-end">window.performance && window.performance.mark && window.performance.mark('shopify.content_for_header.end');</script>
 
@@ -493,6 +555,23 @@ nav.breadcrumb {
   padding: 5px 14px;
   border-radius: 9999px;
   text-transform: none;
+  white-space: nowrap;
+  max-width: 100%;
+}
+@media (max-width: 480px) {
+  .eyebrow-pill {
+    font-size: 10px;
+    padding: 4px 10px;
+    gap: 6px;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 360px) {
+  .eyebrow-pill {
+    font-size: 8.8px;
+    padding: 3px 8px;
+    gap: 5px;
+  }
 }
 .eyebrow-dot {
   width: 6px;
@@ -709,100 +788,53 @@ shopify-payment-terms {
   line-height: 1.35;
 }
 
-/* Responsive Mobile Swatches (Side-by-Side: E-Book & Hardcopy) */
+/* Responsive Mobile Swatches (Stacked One Above One) */
 @media (max-width: 767px) {
   .luxury-swatches-grid {
     display: flex !important;
-    flex-direction: row !important;
-    align-items: stretch !important;
-    gap: 8px !important;
+    flex-direction: column !important;
+    gap: 10px !important;
     margin: 12px 0 16px 0 !important;
     width: 100% !important;
   }
   .luxury-swatch-card {
-    flex: 1 1 50% !important;
-    min-width: 0 !important;
-    padding: 10px 10px !important;
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    padding: 12px 14px !important;
     border-radius: 10px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  }
-  .luxury-swatch-card.swatch--active {
-    flex: 1.28 1 57% !important;
-    padding: 10px 10px !important;
-    border: 1.5px solid #09090b !important;
-    background: #ffffff !important;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04) !important;
-  }
-  .luxury-swatch-card:not(.swatch--active) {
-    flex: 0.82 1 43% !important;
-    background: #fafafa !important;
-    border: 1px solid #e2e8f0 !important;
   }
   .luxury-card-inner {
-    gap: 7px !important;
-    width: 100% !important;
+    display: flex !important;
     align-items: center !important;
-  }
-  .luxury-card-radio {
-    width: 14px !important;
-    height: 14px !important;
-    flex-shrink: 0 !important;
-    border-width: 1.5px !important;
-  }
-  .luxury-card-radio .radio-dot {
-    width: 4px !important;
-    height: 4px !important;
+    gap: 10px !important;
+    width: 100% !important;
   }
   .luxury-card-top-row {
     display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    justify-content: center !important;
-    gap: 1px !important;
-    margin-bottom: 0 !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 2px !important;
   }
   .luxury-card-title {
-    font-size: 13px !important;
+    font-size: 13.5px !important;
     font-weight: 700 !important;
-    line-height: 1.2 !important;
-    white-space: nowrap !important;
   }
   .luxury-card-price {
-    font-size: 13px !important;
+    font-size: 13.5px !important;
     font-weight: 700 !important;
-    line-height: 1.2 !important;
-    color: #09090b !important;
   }
-  .luxury-swatch-card:not(.swatch--active) .luxury-card-price {
-    color: #71717a !important;
-    font-weight: 500 !important;
-  }
-  /* Show subtitle and badge only on the selected card */
-  .luxury-swatch-card.swatch--active .luxury-card-subtitle {
+  .luxury-card-subtitle {
     display: block !important;
-    font-size: 9.5px !important;
-    line-height: 1.3 !important;
+    font-size: 10.5px !important;
+    line-height: 1.35 !important;
     color: #71717a !important;
-    margin-top: 3px !important;
-    font-weight: 450 !important;
   }
-  .luxury-swatch-card:not(.swatch--active) .luxury-card-subtitle {
-    display: none !important;
-  }
-  .luxury-swatch-card.swatch--active .luxury-card-badge {
+  .luxury-card-badge {
     display: block !important;
-    top: -7px !important;
-    right: 8px !important;
-    font-size: 7.5px !important;
-    padding: 1.5px 6px !important;
-    letter-spacing: 0.04em !important;
   }
-  .luxury-swatch-card:not(.swatch--active) .luxury-card-badge,
-  .luxury-swatch-card:not(.swatch--active) .luxury-soldout-tag {
-    display: none !important;
+  .luxury-soldout-tag {
+    display: inline-block !important;
   }
 }
 
@@ -1126,18 +1158,20 @@ shopify-payment-terms {
   padding: 0 !important;
 }
 .arch-image-top-bar__text {
-  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  font-size: 12.5px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.02em !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  line-height: 1.35 !important;
+  font-family: 'Caveat', cursive, sans-serif !important;
+  font-size: 19px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  color: #18181b !important;
+  -webkit-text-fill-color: #18181b !important;
+  line-height: 1.3 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 5px !important;
-  flex-wrap: wrap !important;
+  white-space: nowrap !important;
+  flex-wrap: nowrap !important;
+  max-width: 100% !important;
 }
 .arch-heart-emoji {
   display: inline-block !important;
@@ -1146,16 +1180,20 @@ shopify-payment-terms {
 }
 @media (max-width: 640px) {
   .arch-image-top-bar {
-    padding: 7px 10px !important;
-    margin: 0 0 8px 0 !important;
-    border-radius: 6px !important;
+    padding: 3px 6px !important;
+    margin-bottom: 6px !important;
   }
   .arch-image-top-bar__text {
-    font-size: 11.5px !important;
-    letter-spacing: 0.01em !important;
+    font-size: clamp(11.5px, 3.4vw, 15px) !important;
+    gap: 3px !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
   }
-  .arch-heart-emoji {
-    font-size: 12px !important;
+}
+@media (max-width: 360px) {
+  .arch-image-top-bar__text {
+    font-size: 10px !important;
+    gap: 2px !important;
   }
 }
 
@@ -1186,7 +1224,9 @@ shopify-payment-terms {
   align-items: center !important;
   justify-content: center !important;
   gap: 6px !important;
-  flex-wrap: wrap !important;
+  white-space: nowrap !important;
+  flex-wrap: nowrap !important;
+  max-width: 100% !important;
 }
 @media (max-width: 640px) {
   .arch-cta-badge-bar {
@@ -1194,8 +1234,16 @@ shopify-payment-terms {
     margin: 0 auto 6px auto !important;
   }
   .arch-cta-badge-bar__text {
-    font-size: 19px !important;
-    gap: 4px !important;
+    font-size: clamp(11.5px, 3.4vw, 15px) !important;
+    gap: 3px !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
+  }
+}
+@media (max-width: 360px) {
+  .arch-cta-badge-bar__text {
+    font-size: 10px !important;
+    gap: 2px !important;
   }
 }
 
@@ -1545,6 +1593,14 @@ body.is-digital-selected div.lp6-feature-item[data-hardcopy-delivery-item="true"
 /* Also hide any legacy Booster delivery blocks if hardcopy not selected */
 body:not(.is-hardcopy-selected) [id^="delivery__"],
 body.is-digital-selected [id^="delivery__"] {
+  display: none !important;
+}
+
+/* Hide timers and sticky buy bar when hardcopy is selected */
+body.is-hardcopy-selected #arch-sticky-buy-bar,
+body.is-hardcopy-selected .arch-sticky-timer,
+body.is-hardcopy-selected .arch-pill-label,
+body.is-hardcopy-selected .arch-pill-clock-wrap {
   display: none !important;
 }
 </style>
@@ -2922,7 +2978,7 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
           📦 What&#39;s Included in Your Purchase:
           
             • E-Book: Instant PDF download across all devices (Mobile, Tablet, Desktop, eReader) with lifetime updates.
-            • Hardcopy Edition: Deluxe printed collector&#39;s volume (Currently Out of Stock).
+            • Hardcopy Edition: Deluxe printed hardcover volume with free worldwide express delivery.
           
         
       
@@ -3008,32 +3064,52 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
     
     <div class="product-editorial-block">
       <h2 class="pe-headline-primary">
-        Avoid costly layout mistakes, Do's &amp; Don'ts, find practical dimensions, and turn design ideas into spaces that work.
+        A 2-inch mistake doesn't just ruin a layout. <span class="pe-headline-highlight">It costs thousands to fix.</span>
       </h2>
+      <p class="pe-subhead-tagline">
+        Never leave your space to guesswork. Arm yourself with exact clearances, proven rules, and professional standards before you order furniture or hire a single contractor.
+      </p>
 
-      <div class="pe-sketch-banner-wrap">
-        <img src="/images/four-design-pillars-sketch.png" alt="Space Planning, Tips Tricks &amp; Ideas, History of Architecture, Don'ts and Do's" class="pe-sketch-banner-img" loading="lazy">
+      <div class="pe-diagrams-grid">
+        <div class="pe-sketch-banner-wrap">
+          <img src="/images/four-design-pillars-sketch.png" alt="Space Planning, Tips Tricks &amp; Ideas, History of Architecture, Don'ts and Do's" class="pe-sketch-banner-img" loading="lazy">
+        </div>
+        <div class="pe-pocket-banner-wrap">
+          <img src="/images/hinged-vs-pocket-door.png" alt="Hinged Door vs Pocket Door Clearance Example" class="pe-pocket-banner-img" loading="lazy">
+        </div>
       </div>
 
       <div class="pe-statement-block">
         <h3 class="pe-statement-heading">
-          Handmade Diagrams. Real Dimensions. No Guesswork. <mark class="pe-mark-yellow">No Regrets.</mark>
+          Stop Guessing. <mark class="pe-mark-yellow">Design with Absolute Precision.</mark>
         </h3>
 
         <div class="pe-solution-card">
-          <p class="pe-solution-lead">
-            A home is the heart of your life—don't let one wrong decision turn your dream into daily frustration.
-          </p>
-          <p class="pe-solution-text">
-            <strong>These 6 step-by-step books</strong> <span class="pe-text-orange">guide you like a</span> <span class="pe-text-green">professional designer</span>.
-          </p>
+          <ul class="pe-solution-bullets">
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              <span class="pe-bullet-content"><strong>ZERO GUESSWORK</strong> — Exact dimensions, practical clearances &amp; foolproof layouts for every room.</span>
+            </li>
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              <span class="pe-bullet-content"><strong>AVOID EXPENSIVE REWORK</strong> — Catch costly contractor errors on paper, before they're built.</span>
+            </li>
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              <span class="pe-bullet-content"><strong>800+ HAND-DRAWN DIAGRAMS</strong> — No confusing jargon. Just crystal-clear visuals that instantly make sense.</span>
+            </li>
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              <span class="pe-bullet-content"><strong>COMPLETE DESIGN MASTERY</strong> — 6 definitive guides covering Kitchens, Living, Beds, Baths, Study &amp; Exteriors.</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
 
     <style>
     .product-editorial-block {
-      margin: 8px 0 18px 0;
+      margin: 10px 0 16px 0;
       text-align: center;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       box-sizing: border-box;
@@ -3043,74 +3119,70 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
       display: none !important;
     }
     .pe-headline-primary {
-      font-size: clamp(16.5px, 2.2vw, 22px);
+      font-size: clamp(16px, 2.2vw, 20.5px);
       font-weight: 800;
       color: #0f172a;
-      line-height: 1.4;
+      line-height: 1.35;
       letter-spacing: -0.02em;
-      margin: 0 auto 16px auto;
+      margin: 0 auto 6px auto;
       max-width: 580px;
     }
-    .pe-headline-light {
-      font-weight: 500;
-      color: #334155;
-    }
-    .pe-headline-books {
+    .pe-headline-highlight {
+      color: #b91c1c;
       font-weight: 900;
-      color: #0f172a;
     }
-    .pe-highlight-beige {
-      display: inline-block;
-      background: #fef08a;
-      color: #0f172a;
-      padding: 2px 10px;
-      border-radius: 6px;
-      margin-top: 4px;
+    .pe-subhead-tagline {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #475569;
+      margin: 0 auto 10px auto;
+      letter-spacing: -0.01em;
+      line-height: 1.45;
+      max-width: 540px;
     }
-    .pe-dash-indicator {
+    .pe-diagrams-grid {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
-      margin: 12px 0;
+      gap: 12px;
+      max-width: 500px;
+      margin: 0 auto 10px auto;
     }
-    .pe-dash {
-      display: inline-block;
-      width: 22px;
-      height: 4px;
-      border-radius: 999px;
+    .pe-sketch-banner-wrap {
+      flex: 1;
+      max-width: 250px;
     }
-    .pe-dash.dark {
-      background: #334155;
+    .pe-sketch-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
-    .pe-dash.green {
-      background: #10b981;
+    .pe-pocket-banner-wrap {
+      flex: 0 0 145px;
+      max-width: 155px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      padding: 3px;
     }
-    .pe-subhead-tagline {
-      font-size: 14px;
-      font-weight: 500;
-      color: #475569;
-      margin: 0 0 20px 0;
-      letter-spacing: -0.01em;
-      line-height: 1.5;
-    }
-    .pe-subhead-tagline strong {
-      font-size: 16px;
-      font-weight: 800;
-      color: #0f172a;
-      display: inline-block;
-      margin-bottom: 2px;
+    .pe-pocket-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 5px;
     }
     .pe-statement-block {
-      margin-top: 8px;
+      margin-top: 4px;
     }
     .pe-statement-heading {
-      font-size: clamp(16px, 1.8vw, 22px);
-      font-weight: 900;
+      font-size: clamp(15px, 1.85vw, 19px);
+      font-weight: 800;
       color: #0f172a;
       line-height: 1.35;
-      letter-spacing: -0.025em;
-      margin: 0 auto 12px auto;
+      letter-spacing: -0.02em;
+      margin: 0 auto 10px auto;
       white-space: normal;
       max-width: 100%;
       word-wrap: break-word;
@@ -3119,40 +3191,18 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
       display: inline-block;
       background: #facc15;
       color: #0f172a;
-      padding: 2px 10px;
-      border-radius: 6px;
+      padding: 1px 8px;
+      border-radius: 5px;
+      font-weight: 900;
     }
     .pe-solution-card {
       background: #fdfbf7;
       border: 1px solid #ede5d8;
       border-radius: 14px;
-      padding: 16px 18px;
+      padding: 14px 16px;
       max-width: 540px;
-      margin: 0 auto 14px auto;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-      text-align: left;
-    }
-    .pe-solution-lead {
-      font-size: 13.5px;
-      font-weight: 600;
-      color: #334155;
-      line-height: 1.5;
-      margin: 0 0 10px 0;
-      text-align: center;
-    }
-    .pe-solution-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
-      margin: 10px 0 12px 0;
-    }
-    .pe-solution-text {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 13.5px;
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.01em;
-      line-height: 1.4;
-      margin: 0 0 10px 0;
+      margin: 0 auto 10px auto;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
       text-align: left;
     }
     .pe-solution-bullets {
@@ -3161,15 +3211,15 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
       margin: 0;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 9px;
     }
     .pe-bullet-item {
       display: flex;
       align-items: flex-start;
-      gap: 9px;
+      gap: 10px;
       font-size: 13px;
       line-height: 1.45;
-      color: #475569;
+      color: #334155;
     }
     .pe-tick-badge {
       flex-shrink: 0;
@@ -3182,61 +3232,58 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
       align-items: center;
       justify-content: center;
       margin-top: 1px;
-      border: 1px solid rgba(16, 185, 129, 0.25);
+      border: 1px solid rgba(16, 185, 129, 0.3);
     }
     .pe-bullet-content {
       color: #334155;
+      font-size: 12.5px;
     }
     .pe-bullet-content strong {
       color: #0f172a;
-      font-weight: 700;
-    }
-    .pe-text-orange {
-      color: inherit;
-    }
-    .pe-text-green {
-      color: inherit;
+      font-weight: 800;
+      letter-spacing: -0.01em;
     }
     @media (max-width: 640px) {
       .pe-headline-primary {
-        font-size: clamp(14px, 4.3vw, 17px);
+        font-size: clamp(14.5px, 4.3vw, 17px);
         line-height: 1.35;
       }
-      .pe-highlight-beige {
-        font-size: clamp(13px, 3.9vw, 16px);
-        padding: 2px 8px;
-        white-space: nowrap;
+      .pe-subhead-tagline {
+        font-size: 12.5px;
+        line-height: 1.4;
+      }
+      .pe-diagrams-grid {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .pe-sketch-banner-wrap {
+        max-width: 220px;
+      }
+      .pe-pocket-banner-wrap {
+        flex: 0 0 auto;
+        max-width: 140px;
       }
       .pe-statement-heading {
-        font-size: clamp(9px, 2.85vw, 12.5px);
-        white-space: nowrap;
-      }
-      .pe-mark-yellow {
-        padding: 1px 5px;
-        border-radius: 4px;
+        font-size: clamp(13px, 3.8vw, 16px);
       }
       .pe-solution-card {
-        padding: 14px 14px;
-      }
-      .pe-solution-lead {
-        font-size: 13px;
-        line-height: 1.45;
-        margin: 0 0 8px 0;
-      }
-      .pe-solution-text {
-        font-size: 13px;
+        padding: 12px 12px;
       }
       .pe-bullet-item {
-        font-size: 12.5px;
+        font-size: 12px;
         gap: 8px;
+      }
+      .pe-bullet-content {
+        font-size: 12px;
       }
       .pe-tick-badge {
         width: 18px;
         height: 18px;
       }
       .pe-tick-badge svg {
-        width: 12px;
-        height: 12px;
+        width: 11px;
+        height: 11px;
       }
     }
     </style>
@@ -3258,17 +3305,18 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
     (function() {
       function updateDoubledCutPrice() {
         var activeSwatch = document.querySelector('.luxury-swatch-card.swatch--active, [data-swatch-option].swatch--active, [data-swatch-option].selected');
-        var isHardcopy = activeSwatch && (
-          (activeSwatch.dataset.swatchOption && activeSwatch.dataset.swatchOption.toLowerCase().includes('hard')) ||
-          activeSwatch.dataset.swatchSoldout === 'true'
-        );
+        var isHardcopy = activeSwatch && activeSwatch.dataset.swatchOption && activeSwatch.dataset.swatchOption.toLowerCase().includes('hard');
 
+        var timerEls = document.querySelectorAll('.arch-pill-timer-wrap');
         var priceEls = document.querySelectorAll('[data-product-price="10507180605757"]');
         var cutPriceEls = document.querySelectorAll('[data-product-price-sale="10507180605757"]');
         var tagEls = document.querySelectorAll('[data-tag-product="10507180605757"]');
         if (!priceEls.length) return;
 
         if (isHardcopy) {
+          timerEls.forEach(function(timer) {
+            timer.style.setProperty('display', 'none', 'important');
+          });
           cutPriceEls.forEach(function(cp) {
             cp.style.setProperty('display', 'none', 'important');
           });
@@ -3277,6 +3325,9 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
           });
           return;
         } else {
+          timerEls.forEach(function(timer) {
+            timer.style.removeProperty('display');
+          });
           cutPriceEls.forEach(function(cp) {
             cp.style.removeProperty('display');
           });
@@ -3383,7 +3434,7 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
 
 
 <noscript data-bstr-preselect="53066848436541" data-bstr-swatch="10507180605757" data-bstr-initd="true">
-{"53066848436541": {"sku": null, "available": true ,"id": 53066848436541, "price_raw": 4900, "sale_raw": 9800, "price": "$49.00", "sale": "$98.00", "options": ["E-Book"] },"53067294572861": {"sku": null, "available": false ,"id": 53067294572861, "price_raw": 19900, "sale_raw": 39800, "price": "$199.00", "sale": "$398.00", "options": ["Hardcopy"] }}
+{"53066848436541": {"sku": null, "available": true ,"id": 53066848436541, "price_raw": 4900, "sale_raw": 9800, "price": "$49.00", "sale": "$98.00", "options": ["E-Book"] },"53067294572861": {"sku": null, "available": true ,"id": 53067294572861, "price_raw": 19900, "sale_raw": 39800, "price": "$199.00", "sale": "$398.00", "options": ["Hardcopy"] }}
 </noscript>
 
 <div class="product__swatches">
@@ -3440,10 +3491,10 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
                     
                     
                     
-                        <div class="luxury-swatch-card" data-swatch-option="Hardcopy" data-swatch-index="10507180605757-0" data-swatch-soldout="true" data-booster-initd="true">
+                        <div class="luxury-swatch-card" data-swatch-option="Hardcopy" data-swatch-index="10507180605757-0" data-booster-initd="true">
                             
                                 
-                                    <div class="luxury-card-badge sold-out">OUT OF STOCK</div>
+                                    <div class="luxury-card-badge">★ DELUXE PRINT</div>
                                 
                             
                             <div class="luxury-card-inner">
@@ -3452,7 +3503,7 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
                                 </div>
                                 <div class="luxury-card-content">
                                     <div class="luxury-card-top-row">
-                                        <span class="luxury-card-title">Hardcopy <span class="luxury-soldout-tag">Out of Stock</span></span>
+                                        <span class="luxury-card-title">Hardcopy</span>
                                         
                                             <span class="luxury-card-price">$199.00</span>
                                         
@@ -3460,7 +3511,7 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
                                     <span class="luxury-card-subtitle">
                                         
                                             
-                                                📦 Deluxe Printed Edition (Currently Out of Stock)
+                                                📦 Deluxe Hardcover Edition · Free Worldwide Shipping
                                             
                                         
                                     </span>
@@ -4000,19 +4051,23 @@ Suitable for Beginners &amp;amp; Professionals: Explained with crystal-clear vis
       line-height: 1;
     }
     @media (max-width: 640px) {
-      .arch-image-top-bar {
-        padding: 7px 10px;
-        margin-bottom: 8px;
-        border-radius: 6px;
-      }
-      .arch-image-top-bar__text {
-        font-size: 11.5px;
-        letter-spacing: 0.01em;
-      }
-      .arch-heart-emoji {
-        font-size: 12px;
-      }
-    }
+  .arch-image-top-bar {
+    padding: 3px 6px !important;
+    margin-bottom: 6px !important;
+  }
+  .arch-image-top-bar__text {
+    font-size: clamp(11.5px, 3.4vw, 15px) !important;
+    gap: 3px !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
+  }
+}
+@media (max-width: 360px) {
+  .arch-image-top-bar__text {
+    font-size: 10px !important;
+    gap: 2px !important;
+  }
+}
   </style>
 </div>
 
@@ -4063,6 +4118,11 @@ font__family--title font__size--large
     white-space: nowrap !important;
   }
   @media (max-width: 768px) {
+    .product-luxury-eyebrow {
+      display: flex !important;
+      justify-content: center !important;
+      text-align: center !important;
+    }
     .product__title,
     .product-page__title,
     h1.product__title {
@@ -4071,6 +4131,7 @@ font__family--title font__size--large
       margin-bottom: 12px !important;
       overflow: visible !important;
       text-overflow: unset !important;
+      text-align: center !important;
     }
     .product__title-prefix {
       font-size: clamp(23px, 6.6vw, 28px) !important;
@@ -4081,6 +4142,7 @@ font__family--title font__size--large
       white-space: nowrap !important;
       letter-spacing: -0.02em !important;
       line-height: 1.15 !important;
+      text-align: center !important;
     }
     .product__title-highlight {
       font-size: clamp(26px, 7.5vw, 34px) !important;
@@ -4090,6 +4152,25 @@ font__family--title font__size--large
       letter-spacing: -0.035em !important;
       display: block !important;
       white-space: nowrap !important;
+      text-align: center !important;
+    }
+    .product__review-stars {
+      display: flex !important;
+      justify-content: center !important;
+      text-align: center !important;
+    }
+    .book-editorial-rating-wrapper {
+      margin-left: auto !important;
+      margin-right: auto !important;
+      justify-content: center !important;
+    }
+    .product-bundle-tagline-wrap {
+      text-align: center !important;
+    }
+    .product-editorial-tagline {
+      text-align: center !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
     }
   }
 </style>
@@ -4112,308 +4193,15 @@ font__family--title font__size--large
 </div>
 
 <div class="product-bundle-tagline-wrap">
-  <p class="product-editorial-tagline" style="font-size: clamp(14px, 2.2vw, 16px); font-weight: 600; color: #334155; margin: 0; line-height: 1.45;">
-    One Book each to Design <strong style="color: #0f172a; font-weight: 800;">Kitchens, Living Spaces, Bedrooms, Washrooms, Study &amp; Exteriors</strong>
+  <p class="product-editorial-headline" style="font-size: clamp(15px, 2.4vw, 18px); font-weight: 800; color: #0f172a; margin: 0 0 4px 0; line-height: 1.35; letter-spacing: -0.02em;">
+    Don't Let a Single Wrong Decision <span style="background: #fef08a; padding: 1px 6px; border-radius: 4px;">Ruin Your Dream Home.</span>
+  </p>
+  <p class="product-editorial-subhead" style="font-size: clamp(13px, 2vw, 14.5px); font-weight: 500; color: #475569; margin: 0; line-height: 1.45;">
+    The ultimate visual cheat sheet for homeowners. Real dimensions, foolproof clearances &amp; exact layouts for every space.
   </p>
 </div>
 
-    <style>.product__price--ppPrice .product__price.product__price--sale {
-        color: #ea580c;
-    }.product__price--ppPrice .product__price--old {
-        color: #8c918e;
-    }</style>
-    
-    <div class="product__price--holder product__price--ppPrice
-    font__family--base font__size--medium 
-    ">
-    
-    
-    <span data-product-price="10507180605757" class="product__price product__price--sale jsPrice">$49.00</span>
-    <span data-product-price-sale="10507180605757" class="product__price--old jsPrice">$98.00</span>
-    
-
-    <span data-tag-product="10507180605757" data-tag-type="percent" class="tag tag--sale">-50% OFF</span>
-    </div>
-
-    <script>
-    (function() {
-      function updateDoubledCutPrice() {
-        var activeSwatch = document.querySelector('.luxury-swatch-card.swatch--active, [data-swatch-option].swatch--active, [data-swatch-option].selected');
-        var isHardcopy = activeSwatch && (
-          (activeSwatch.dataset.swatchOption && activeSwatch.dataset.swatchOption.toLowerCase().includes('hard')) ||
-          activeSwatch.dataset.swatchSoldout === 'true'
-        );
-
-        var priceEls = document.querySelectorAll('[data-product-price="10507180605757"]');
-        var cutPriceEls = document.querySelectorAll('[data-product-price-sale="10507180605757"]');
-        var tagEls = document.querySelectorAll('[data-tag-product="10507180605757"]');
-        if (!priceEls.length) return;
-
-        if (isHardcopy) {
-          cutPriceEls.forEach(function(cp) {
-            cp.style.setProperty('display', 'none', 'important');
-          });
-          tagEls.forEach(function(tag) {
-            tag.style.setProperty('display', 'none', 'important');
-          });
-          return;
-        } else {
-          cutPriceEls.forEach(function(cp) {
-            cp.style.removeProperty('display');
-          });
-          tagEls.forEach(function(tag) {
-            tag.style.removeProperty('display');
-          });
-        }
-
-        if (!cutPriceEls.length) return;
-
-        priceEls.forEach(function(priceEl, index) {
-          var cutPriceEl = cutPriceEls[index] || cutPriceEls[0];
-          if (!cutPriceEl) return;
-          var priceText = priceEl.textContent.trim();
-          var match = priceText.match(/([^\d.,\s]*)\s*([\d.,]+)\s*([^\d.,\s]*)/);
-          if (match) {
-            var prefix = match[1] || '';
-            var numStr = match[2];
-            var suffix = match[3] || '';
-            
-            var cleanNumStr = numStr;
-            if (cleanNumStr.indexOf(',') !== -1 && cleanNumStr.indexOf('.') !== -1) {
-              if (cleanNumStr.lastIndexOf('.') > cleanNumStr.lastIndexOf(',')) {
-                cleanNumStr = cleanNumStr.replace(/,/g, '');
-              } else {
-                cleanNumStr = cleanNumStr.replace(/\./g, '').replace(',', '.');
-              }
-            } else if (cleanNumStr.indexOf(',') !== -1) {
-              var parts = cleanNumStr.split(',');
-              if (parts[1] && parts[1].length === 2) {
-                cleanNumStr = cleanNumStr.replace(',', '.');
-              } else {
-                cleanNumStr = cleanNumStr.replace(/,/g, '');
-              }
-            }
-            
-            var numVal = parseFloat(cleanNumStr);
-            if (!isNaN(numVal) && numVal > 0) {
-              var doubledVal = numVal * 2;
-              var hasDecimals = numStr.includes('.') || numStr.includes(',');
-              var decCount = hasDecimals ? (cleanNumStr.split('.')[1] ? cleanNumStr.split('.')[1].length : 2) : 0;
-              
-              var formattedDoubled;
-              if (numStr.includes(',') && !numStr.includes('.')) {
-                formattedDoubled = doubledVal.toFixed(decCount).replace('.', ',');
-              } else {
-                formattedDoubled = doubledVal.toLocaleString('en-US', {
-                  minimumFractionDigits: decCount,
-                  maximumFractionDigits: decCount
-                });
-              }
-              
-              var newCutPriceText = prefix + formattedDoubled + (suffix ? ' ' + suffix : '');
-              if (cutPriceEl.textContent.trim() !== newCutPriceText) {
-                cutPriceEl.textContent = newCutPriceText;
-              }
-              cutPriceEl.classList.remove('hide');
-            }
-          }
-        });
-
-        tagEls.forEach(function(tagEl) {
-          if (tagEl.dataset.tagType === 'percent' || !tagEl.dataset.tagType) {
-            if (tagEl.textContent.trim() !== '-50% OFF') {
-              tagEl.textContent = '-50% OFF';
-            }
-          }
-          tagEl.classList.remove('hide');
-        });
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', updateDoubledCutPrice);
-      } else {
-        updateDoubledCutPrice();
-      }
-      window.addEventListener('load', updateDoubledCutPrice);
-
-      ['booster:variant:select', 'booster:price:update', 'booster:swatch:update', 'booster:content:update'].forEach(function(evt) {
-        document.addEventListener(evt, function() { setTimeout(updateDoubledCutPrice, 10); });
-      });
-
-      var isUpdating = false;
-      var observer = new MutationObserver(function() {
-        if (isUpdating) return;
-        isUpdating = true;
-        updateDoubledCutPrice();
-        setTimeout(function() { isUpdating = false; }, 50);
-      });
-
-      document.querySelectorAll('[data-product-price="10507180605757"], [data-product-price-sale="10507180605757"]').forEach(function(el) {
-        observer.observe(el, { characterData: true, childList: true, subtree: true });
-      });
-    })();
-    </script>
-    
-    <noscript data-bstr-preselect="53066848436541" data-bstr-swatch="10507180605757" data-bstr-initd="true">
-{"53066848436541": {"sku": null, "available": true ,"id": 53066848436541, "price_raw": 4900, "sale_raw": 9800, "price": "$49.00", "sale": "$98.00", "options": ["E-Book"] },"53067294572861": {"sku": null, "available": false ,"id": 53067294572861, "price_raw": 19900, "sale_raw": 39800, "price": "$199.00", "sale": "$398.00", "options": ["Hardcopy"] }}
-</noscript>
-
-<div class="product__swatches">
-    
-    
-        
-        
-        
-        
-        
-        <div class="swatches__holder">
-        <h4 class="h-reset swatches__title">Format <span data-swatch-selected-name="10507180605757-0"> - E-Book</span></h4>
-        
-                
-                
-                <div class="luxury-swatches-grid">
-                
-                    
-                    
-                    
-                    
-                    
-                    
-                        <div class="luxury-swatch-card is-popular swatch--active" data-swatch-option="E-Book" data-swatch-index="10507180605757-0" data-booster-initd="true">
-                            
-                                <div class="luxury-card-badge">★ INSTANT ACCESS</div>
-                            
-                            <div class="luxury-card-inner">
-                                <div class="luxury-card-radio">
-                                    <span class="radio-dot"></span>
-                                </div>
-                                <div class="luxury-card-content">
-                                    <div class="luxury-card-top-row">
-                                        <span class="luxury-card-title">E-Book</span>
-                                        
-                                            <span class="luxury-card-price">$49.00</span>
-                                        
-                                    </div>
-                                    <span class="luxury-card-subtitle">
-                                        
-                                            
-                                                ⚡ Instant PDF Download · 800+ Pages · Lifetime Updates
-                                            
-                                        
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                
-                    
-                    
-                    
-                    
-                    
-                    
-                        <div class="luxury-swatch-card" data-swatch-option="Hardcopy" data-swatch-index="10507180605757-0" data-swatch-soldout="true" data-booster-initd="true">
-                            
-                                
-                                    <div class="luxury-card-badge sold-out">OUT OF STOCK</div>
-                                
-                            
-                            <div class="luxury-card-inner">
-                                <div class="luxury-card-radio">
-                                    <span class="radio-dot"></span>
-                                </div>
-                                <div class="luxury-card-content">
-                                    <div class="luxury-card-top-row">
-                                        <span class="luxury-card-title">Hardcopy <span class="luxury-soldout-tag">Out of Stock</span></span>
-                                        
-                                            <span class="luxury-card-price">$199.00</span>
-                                        
-                                    </div>
-                                    <span class="luxury-card-subtitle">
-                                        
-                                            
-                                                📦 Deluxe Printed Edition (Currently Out of Stock)
-                                            
-                                        
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                
-                </div>
-        
-        </div>
-    
-</div>
-
-<div class="product__atc ">
-    
-        <input style="display: none;" name="id" data-bstr-variant-input="10507180605757" value="53066848436541">
-
-        <!-- Transparent Pill Urgency Timer Just Above Buy Now Button -->
-        
-        
-        
-        
-        
-
-        <div class="arch-pill-timer-wrap">
-          <div class="arch-pill-timer">
-            <div class="arch-pill-price-group">
-              <span class="arch-pill-price-cut">$98</span>
-              <span class="arch-pill-price-active">$49</span>
-            </div>
-            <span class="arch-pill-label">OFFER ENDS IN:</span>
-            <div class="arch-pill-clock-wrap" aria-live="polite">
-              <span class="arch-pill-clock-unit"><strong id="atcPillHours">07</strong><small>H</small></span><!--
-              --><span class="arch-pill-clock-sep">:</span><!--
-              --><span class="arch-pill-clock-unit"><strong id="atcPillMinutes">37</strong><small>M</small></span><!--
-              --><span class="arch-pill-clock-sep">:</span><!--
-              --><span class="arch-pill-clock-unit"><strong id="atcPillSeconds">37</strong><small>S</small></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="product__atc-row">
-            <div class="quantity--input">
-                <button class="quantity--input__button quantity--input__incr" onclick="BoosterTheme.cart.quantityHandler(event, false, false)">-</button>
-                <input max="-3" class="quantity--input__input" value="1" data-qty-input="" type="number" name="quantity" min="1" aria-label="Quantity input"><!--
-                --><button class="quantity--input__button quantity--input__decr" onclick="BoosterTheme.cart.quantityHandler(event, true, false)">+</button>
-            </div>
-            
-
-
-
-
-
-
-
-
-<button data-buy-button="10507180605757" data-original-text="Buy Now" class="button button--addToCart button--primary 
-
-button--filled button--primary__filled
- button--buy-now " type="button" onclick="executeDirectBuyNow(event, this);">
-
-<svg class="buy-now-button-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px; flex-shrink: 0;">
-  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-  <line x1="3" y1="6" x2="21" y2="6"></line>
-  <path d="M16 10a4 4 0 0 1-8 0"></path>
-</svg>
-
-<span data-button-text="">Buy Now</span> 
-</button>
-        </div>
-        
-            
-            <div class="product__shoppay-installments" style="margin-top: 8px; margin-bottom: 2px; text-align: center; width: 100%;">
-              
-            </div>
-        
-    
-</div>
-
-  <!-- 6 Books Showcase with Zoom Ripple Animation -->
+    <!-- 6 Books Showcase with Zoom Ripple Animation -->
   <div class="top-rating-books-ripple-wrap">
     <div class="top-rating-books-track">
       <div class="top-rating-book-item" style="--ripple-delay: 0s;" onclick="scrollToCurriculum(0)">
@@ -4603,32 +4391,350 @@ button--filled button--primary__filled
 
     <div class="product-editorial-block">
       <h2 class="pe-headline-primary">
-        Avoid costly layout mistakes, Do's &amp; Don'ts, find practical dimensions, and turn design ideas into spaces that work.
+        A 2-inch mistake doesn't just ruin a layout. <span class="pe-headline-highlight">It costs thousands to fix.</span>
       </h2>
+      <p class="pe-subhead-tagline">
+        Never leave your space to guesswork. Arm yourself with exact clearances, proven rules, and professional standards before you order furniture or hire a single contractor.
+      </p>
 
-      <div class="pe-sketch-banner-wrap">
-        <img src="/images/four-design-pillars-sketch.png" alt="Space Planning, Tips Tricks & Ideas, History of Architecture, Don'ts and Do's" class="pe-sketch-banner-img" loading="lazy">
+      <div class="pe-diagrams-grid">
+        <div class="pe-sketch-banner-wrap">
+          <img src="/images/four-design-pillars-sketch.png" alt="Space Planning, Tips Tricks &amp; Ideas, History of Architecture, Don'ts and Do's" class="pe-sketch-banner-img" loading="lazy">
+        </div>
+        <div class="pe-pocket-banner-wrap">
+          <img src="/images/hinged-vs-pocket-door.png" alt="Hinged Door vs Pocket Door Clearance Example" class="pe-pocket-banner-img" loading="lazy">
+        </div>
       </div>
 
       <div class="pe-statement-block">
         <h3 class="pe-statement-heading">
-          Handmade Diagrams. Real Dimensions. No Guesswork. <mark class="pe-mark-yellow">No Regrets.</mark>
+          Stop Guessing. <mark class="pe-mark-yellow">Design with Absolute Precision.</mark>
         </h3>
 
         <div class="pe-solution-card">
-          <p class="pe-solution-lead">
-            A home is the heart of your life—don't let one wrong decision turn your dream into daily frustration.
-          </p>
-          <p class="pe-solution-text">
-            <strong>These 6 step-by-step books</strong> <span class="pe-text-orange">guide you like a</span> <span class="pe-text-green">professional designer</span>.
-          </p>
+          <ul class="pe-solution-bullets">
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              <span class="pe-bullet-content"><strong>ZERO GUESSWORK</strong> — Exact dimensions, practical clearances &amp; foolproof layouts for every room.</span>
+            </li>
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              <span class="pe-bullet-content"><strong>AVOID EXPENSIVE REWORK</strong> — Catch costly contractor errors on paper, before they're built.</span>
+            </li>
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              <span class="pe-bullet-content"><strong>800+ HAND-DRAWN DIAGRAMS</strong> — No confusing jargon. Just crystal-clear visuals that instantly make sense.</span>
+            </li>
+            <li class="pe-bullet-item">
+              <span class="pe-tick-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              <span class="pe-bullet-content"><strong>COMPLETE DESIGN MASTERY</strong> — 6 definitive guides covering Kitchens, Living, Beds, Baths, Study &amp; Exteriors.</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
 
+<style>.product__price--ppPrice .product__price.product__price--sale {
+        color: #ea580c;
+    }.product__price--ppPrice .product__price--old {
+        color: #8c918e;
+    }</style>
+    
+    <div class="product__price--holder product__price--ppPrice
+    font__family--base font__size--medium 
+    ">
+    
+    
+    <span data-product-price="10507180605757" class="product__price product__price--sale jsPrice">$49.00</span>
+    <span data-product-price-sale="10507180605757" class="product__price--old jsPrice">$98.00</span>
+    
+
+    <span data-tag-product="10507180605757" data-tag-type="percent" class="tag tag--sale">-50% OFF</span>
+    </div>
+
+    <script>
+    (function() {
+      function updateDoubledCutPrice() {
+        var activeSwatch = document.querySelector('.luxury-swatch-card.swatch--active, [data-swatch-option].swatch--active, [data-swatch-option].selected');
+        var isHardcopy = activeSwatch && (
+          (activeSwatch.dataset.swatchOption && activeSwatch.dataset.swatchOption.toLowerCase().includes('hard')) ||
+          activeSwatch.dataset.swatchSoldout === 'true'
+        );
+
+        var priceEls = document.querySelectorAll('[data-product-price="10507180605757"]');
+        var cutPriceEls = document.querySelectorAll('[data-product-price-sale="10507180605757"]');
+        var tagEls = document.querySelectorAll('[data-tag-product="10507180605757"]');
+        if (!priceEls.length) return;
+
+        if (isHardcopy) {
+          cutPriceEls.forEach(function(cp) {
+            cp.style.setProperty('display', 'none', 'important');
+          });
+          tagEls.forEach(function(tag) {
+            tag.style.setProperty('display', 'none', 'important');
+          });
+          return;
+        } else {
+          cutPriceEls.forEach(function(cp) {
+            cp.style.removeProperty('display');
+          });
+          tagEls.forEach(function(tag) {
+            tag.style.removeProperty('display');
+          });
+        }
+
+        if (!cutPriceEls.length) return;
+
+        priceEls.forEach(function(priceEl, index) {
+          var cutPriceEl = cutPriceEls[index] || cutPriceEls[0];
+          if (!cutPriceEl) return;
+          var priceText = priceEl.textContent.trim();
+          var match = priceText.match(/([^\d.,\s]*)\s*([\d.,]+)\s*([^\d.,\s]*)/);
+          if (match) {
+            var prefix = match[1] || '';
+            var numStr = match[2];
+            var suffix = match[3] || '';
+            
+            var cleanNumStr = numStr;
+            if (cleanNumStr.indexOf(',') !== -1 && cleanNumStr.indexOf('.') !== -1) {
+              if (cleanNumStr.lastIndexOf('.') > cleanNumStr.lastIndexOf(',')) {
+                cleanNumStr = cleanNumStr.replace(/,/g, '');
+              } else {
+                cleanNumStr = cleanNumStr.replace(/\./g, '').replace(',', '.');
+              }
+            } else if (cleanNumStr.indexOf(',') !== -1) {
+              var parts = cleanNumStr.split(',');
+              if (parts[1] && parts[1].length === 2) {
+                cleanNumStr = cleanNumStr.replace(',', '.');
+              } else {
+                cleanNumStr = cleanNumStr.replace(/,/g, '');
+              }
+            }
+            
+            var numVal = parseFloat(cleanNumStr);
+            if (!isNaN(numVal) && numVal > 0) {
+              var doubledVal = numVal * 2;
+              var hasDecimals = numStr.includes('.') || numStr.includes(',');
+              var decCount = hasDecimals ? (cleanNumStr.split('.')[1] ? cleanNumStr.split('.')[1].length : 2) : 0;
+              
+              var formattedDoubled;
+              if (numStr.includes(',') && !numStr.includes('.')) {
+                formattedDoubled = doubledVal.toFixed(decCount).replace('.', ',');
+              } else {
+                formattedDoubled = doubledVal.toLocaleString('en-US', {
+                  minimumFractionDigits: decCount,
+                  maximumFractionDigits: decCount
+                });
+              }
+              
+              var newCutPriceText = prefix + formattedDoubled + (suffix ? ' ' + suffix : '');
+              if (cutPriceEl.textContent.trim() !== newCutPriceText) {
+                cutPriceEl.textContent = newCutPriceText;
+              }
+              cutPriceEl.classList.remove('hide');
+            }
+          }
+        });
+
+        tagEls.forEach(function(tagEl) {
+          if (tagEl.dataset.tagType === 'percent' || !tagEl.dataset.tagType) {
+            if (tagEl.textContent.trim() !== '-50% OFF') {
+              tagEl.textContent = '-50% OFF';
+            }
+          }
+          tagEl.classList.remove('hide');
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateDoubledCutPrice);
+      } else {
+        updateDoubledCutPrice();
+      }
+      window.addEventListener('load', updateDoubledCutPrice);
+
+      ['booster:variant:select', 'booster:price:update', 'booster:swatch:update', 'booster:content:update'].forEach(function(evt) {
+        document.addEventListener(evt, function() { setTimeout(updateDoubledCutPrice, 10); });
+      });
+
+      var isUpdating = false;
+      var observer = new MutationObserver(function() {
+        if (isUpdating) return;
+        isUpdating = true;
+        updateDoubledCutPrice();
+        setTimeout(function() { isUpdating = false; }, 50);
+      });
+
+      document.querySelectorAll('[data-product-price="10507180605757"], [data-product-price-sale="10507180605757"]').forEach(function(el) {
+        observer.observe(el, { characterData: true, childList: true, subtree: true });
+      });
+    })();
+    </script>
+    
+    <noscript data-bstr-preselect="53066848436541" data-bstr-swatch="10507180605757" data-bstr-initd="true">
+{"53066848436541": {"sku": null, "available": true ,"id": 53066848436541, "price_raw": 4900, "sale_raw": 9800, "price": "$49.00", "sale": "$98.00", "options": ["E-Book"] },"53067294572861": {"sku": null, "available": true ,"id": 53067294572861, "price_raw": 19900, "sale_raw": 39800, "price": "$199.00", "sale": "$398.00", "options": ["Hardcopy"] }}
+</noscript>
+
+<div class="product__swatches">
+    
+    
+        
+        
+        
+        
+        
+        <div class="swatches__holder">
+        <h4 class="h-reset swatches__title">Format <span data-swatch-selected-name="10507180605757-0"> - E-Book</span></h4>
+        
+                
+                
+                <div class="luxury-swatches-grid">
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="luxury-swatch-card is-popular swatch--active" data-swatch-option="E-Book" data-swatch-index="10507180605757-0" data-booster-initd="true">
+                            
+                                <div class="luxury-card-badge">★ INSTANT ACCESS</div>
+                            
+                            <div class="luxury-card-inner">
+                                <div class="luxury-card-radio">
+                                    <span class="radio-dot"></span>
+                                </div>
+                                <div class="luxury-card-content">
+                                    <div class="luxury-card-top-row">
+                                        <span class="luxury-card-title">E-Book</span>
+                                        
+                                            <span class="luxury-card-price">$49.00</span>
+                                        
+                                    </div>
+                                    <span class="luxury-card-subtitle">
+                                        
+                                            
+                                                ⚡ Instant PDF Download · 800+ Pages · Lifetime Updates
+                                            
+                                        
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    
+                
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="luxury-swatch-card" data-swatch-option="Hardcopy" data-swatch-index="10507180605757-0" data-booster-initd="true">
+                            
+                                
+                                    <div class="luxury-card-badge">★ DELUXE PRINT</div>
+                                
+                            
+                            <div class="luxury-card-inner">
+                                <div class="luxury-card-radio">
+                                    <span class="radio-dot"></span>
+                                </div>
+                                <div class="luxury-card-content">
+                                    <div class="luxury-card-top-row">
+                                        <span class="luxury-card-title">Hardcopy</span>
+                                        
+                                            <span class="luxury-card-price">$199.00</span>
+                                        
+                                    </div>
+                                    <span class="luxury-card-subtitle">
+                                        
+                                            
+                                                📦 Deluxe Hardcover Edition · Free Worldwide Shipping
+                                            
+                                        
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    
+                
+                </div>
+        
+        </div>
+    
+</div>
+
+<div class="product__atc ">
+    
+        <input style="display: none;" name="id" data-bstr-variant-input="10507180605757" value="53066848436541">
+
+        <!-- Transparent Pill Urgency Timer Just Above Buy Now Button -->
+        
+        
+        
+        
+        
+
+        <div class="arch-pill-timer-wrap">
+          <div class="arch-pill-timer">
+            <div class="arch-pill-price-group">
+              <span class="arch-pill-price-cut">$98</span>
+              <span class="arch-pill-price-active">$49</span>
+            </div>
+            <span class="arch-pill-label">OFFER ENDS IN:</span>
+            <div class="arch-pill-clock-wrap" aria-live="polite">
+              <span class="arch-pill-clock-unit"><strong id="atcPillHours">07</strong><small>H</small></span><!--
+              --><span class="arch-pill-clock-sep">:</span><!--
+              --><span class="arch-pill-clock-unit"><strong id="atcPillMinutes">37</strong><small>M</small></span><!--
+              --><span class="arch-pill-clock-sep">:</span><!--
+              --><span class="arch-pill-clock-unit"><strong id="atcPillSeconds">37</strong><small>S</small></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="product__atc-row">
+            <div class="quantity--input">
+                <button class="quantity--input__button quantity--input__incr" onclick="BoosterTheme.cart.quantityHandler(event, false, false)">-</button>
+                <input max="-3" class="quantity--input__input" value="1" data-qty-input="" type="number" name="quantity" min="1" aria-label="Quantity input"><!--
+                --><button class="quantity--input__button quantity--input__decr" onclick="BoosterTheme.cart.quantityHandler(event, true, false)">+</button>
+            </div>
+            
+
+
+
+
+
+
+
+
+<button data-buy-button="10507180605757" data-original-text="Buy Now" class="button button--addToCart button--primary 
+
+button--filled button--primary__filled
+ button--buy-now " type="button" onclick="executeDirectBuyNow(event, this);">
+
+<svg class="buy-now-button-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right: 6px; flex-shrink: 0;">
+  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+  <line x1="3" y1="6" x2="21" y2="6"></line>
+  <path d="M16 10a4 4 0 0 1-8 0"></path>
+</svg>
+
+<span data-button-text="">Buy Now</span> 
+</button>
+        </div>
+        
+            
+            <div class="product__shoppay-installments" style="margin-top: 8px; margin-bottom: 2px; text-align: center; width: 100%;">
+              
+            </div>
+        
+    
+</div>
+
+
+
     <style>
     .product-editorial-block {
-      margin: 8px 0 18px 0;
+      margin: 10px 0 16px 0;
       text-align: center;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       box-sizing: border-box;
@@ -4638,94 +4744,70 @@ button--filled button--primary__filled
       display: none !important;
     }
     .pe-headline-primary {
-      font-size: clamp(16.5px, 2.2vw, 22px);
+      font-size: clamp(16px, 2.2vw, 20.5px);
       font-weight: 800;
       color: #0f172a;
-      line-height: 1.4;
+      line-height: 1.35;
       letter-spacing: -0.02em;
-      margin: 0 auto 12px auto;
+      margin: 0 auto 6px auto;
       max-width: 580px;
     }
-    .pe-sketch-banner-wrap {
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      margin: 8px auto 18px auto !important;
-      width: 100% !important;
-    }
-    .pe-sketch-banner-img {
-      max-width: 330px !important;
-      width: 100% !important;
-      height: auto !important;
-      display: block !important;
-      object-fit: contain !important;
-      border-radius: 6px !important;
-    }
-    @media (max-width: 480px) {
-      .pe-sketch-banner-img {
-        max-width: 275px !important;
-      }
-    }
-    .pe-headline-light {
-      font-weight: 500;
-      color: #334155;
-    }
-    .pe-headline-books {
+    .pe-headline-highlight {
+      color: #b91c1c;
       font-weight: 900;
-      color: #0f172a;
     }
-    .pe-highlight-beige {
-      display: inline-block;
-      background: #fef08a;
-      color: #0f172a;
-      padding: 2px 10px;
-      border-radius: 6px;
-      margin-top: 4px;
+    .pe-subhead-tagline {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #475569;
+      margin: 0 auto 10px auto;
+      letter-spacing: -0.01em;
+      line-height: 1.45;
+      max-width: 540px;
     }
-    .pe-dash-indicator {
+    .pe-diagrams-grid {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
-      margin: 12px 0;
+      gap: 12px;
+      max-width: 500px;
+      margin: 0 auto 10px auto;
     }
-    .pe-dash {
-      display: inline-block;
-      width: 22px;
-      height: 4px;
-      border-radius: 999px;
+    .pe-sketch-banner-wrap {
+      flex: 1;
+      max-width: 250px;
     }
-    .pe-dash.dark {
-      background: #334155;
+    .pe-sketch-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
-    .pe-dash.green {
-      background: #10b981;
+    .pe-pocket-banner-wrap {
+      flex: 0 0 145px;
+      max-width: 155px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      padding: 3px;
     }
-    .pe-subhead-tagline {
-      font-size: 14px;
-      font-weight: 500;
-      color: #475569;
-      margin: 0 0 20px 0;
-      letter-spacing: -0.01em;
-      line-height: 1.5;
-    }
-    .pe-subhead-tagline strong {
-      font-size: 16px;
-      font-weight: 800;
-      color: #0f172a;
-      display: inline-block;
-      margin-bottom: 2px;
+    .pe-pocket-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 5px;
     }
     .pe-statement-block {
-      margin-top: 8px;
+      margin-top: 4px;
     }
     .pe-statement-heading {
-      font-size: clamp(16px, 1.8vw, 22px);
-      font-weight: 900;
+      font-size: clamp(15px, 1.85vw, 19px);
+      font-weight: 800;
       color: #0f172a;
       line-height: 1.35;
-      letter-spacing: -0.025em;
-      margin: 0 auto 12px auto;
+      letter-spacing: -0.02em;
+      margin: 0 auto 10px auto;
       white-space: normal;
       max-width: 100%;
       word-wrap: break-word;
@@ -4734,44 +4816,35 @@ button--filled button--primary__filled
       display: inline-block;
       background: #facc15;
       color: #0f172a;
-      padding: 2px 10px;
-      border-radius: 6px;
+      padding: 1px 8px;
+      border-radius: 5px;
+      font-weight: 900;
     }
     .pe-solution-card {
-      background: #fdfcf8;
-      border: 1.5px solid #ede8df;
-      border-radius: 16px;
-      padding: 18px 22px;
-      max-width: 580px;
-      margin: 0 auto;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-      text-align: center;
+      background: #fdfbf7;
+      border: 1px solid #ede5d8;
+      border-radius: 14px;
+      padding: 14px 16px;
+      max-width: 540px;
+      margin: 0 auto 10px auto;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
+      text-align: left;
     }
-    .pe-solution-lead {
-      font-size: clamp(13px, 1.6vw, 15px);
-      font-weight: 500;
-      color: #334155;
-      line-height: 1.5;
-      margin: 0 0 10px 0;
-      text-align: center;
-    }
-    .pe-solution-text {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: clamp(15px, 2vw, 18px);
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.01em;
-      line-height: 1.45;
+    .pe-solution-bullets {
+      list-style: none;
+      padding: 0;
       margin: 0;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
     }
-    .pe-text-orange {
-      color: #ea580c !important;
-      font-weight: 800;
-    }
-    .pe-text-green {
-      color: #059669 !important;
-      font-weight: 800;
+    .pe-bullet-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #334155;
     }
     .pe-tick-badge {
       flex-shrink: 0;
@@ -4784,61 +4857,58 @@ button--filled button--primary__filled
       align-items: center;
       justify-content: center;
       margin-top: 1px;
-      border: 1px solid rgba(16, 185, 129, 0.25);
+      border: 1px solid rgba(16, 185, 129, 0.3);
     }
     .pe-bullet-content {
       color: #334155;
+      font-size: 12.5px;
     }
     .pe-bullet-content strong {
       color: #0f172a;
-      font-weight: 700;
-    }
-    .pe-text-orange {
-      color: inherit;
-    }
-    .pe-text-green {
-      color: inherit;
+      font-weight: 800;
+      letter-spacing: -0.01em;
     }
     @media (max-width: 640px) {
       .pe-headline-primary {
-        font-size: clamp(14px, 4.3vw, 17px);
+        font-size: clamp(14.5px, 4.3vw, 17px);
         line-height: 1.35;
       }
-      .pe-highlight-beige {
-        font-size: clamp(13px, 3.9vw, 16px);
-        padding: 2px 8px;
-        white-space: nowrap;
+      .pe-subhead-tagline {
+        font-size: 12.5px;
+        line-height: 1.4;
+      }
+      .pe-diagrams-grid {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .pe-sketch-banner-wrap {
+        max-width: 220px;
+      }
+      .pe-pocket-banner-wrap {
+        flex: 0 0 auto;
+        max-width: 140px;
       }
       .pe-statement-heading {
-        font-size: clamp(9px, 2.85vw, 12.5px);
-        white-space: nowrap;
-      }
-      .pe-mark-yellow {
-        padding: 1px 5px;
-        border-radius: 4px;
+        font-size: clamp(13px, 3.8vw, 16px);
       }
       .pe-solution-card {
-        padding: 14px 14px;
-      }
-      .pe-solution-lead {
-        font-size: 13px;
-        line-height: 1.45;
-        margin: 0 0 8px 0;
-      }
-      .pe-solution-text {
-        font-size: 13px;
+        padding: 12px 12px;
       }
       .pe-bullet-item {
-        font-size: 12.5px;
+        font-size: 12px;
         gap: 8px;
+      }
+      .pe-bullet-content {
+        font-size: 12px;
       }
       .pe-tick-badge {
         width: 18px;
         height: 18px;
       }
       .pe-tick-badge svg {
-        width: 12px;
-        height: 12px;
+        width: 11px;
+        height: 11px;
       }
     }
     </style>
@@ -5733,10 +5803,8 @@ window.executeDirectBuyNow = function(e, btn) {
   }
   const activeSwatch = document.querySelector('.luxury-swatch-card.swatch--active') || document.querySelector('.swatch--active') || document.querySelector('[data-swatch-option].selected');
   const variantTitle = activeSwatch ? (activeSwatch.dataset.swatchOption || activeSwatch.innerText.trim()) : 'E-Book';
-  if (variantTitle.toLowerCase().includes('hard') || (btn && (btn.disabled || btn.classList.contains('is-sold-out-btn') || btn.getAttribute('aria-disabled') === 'true'))) {
-    alert('The Deluxe Printed Hardcopy edition is currently out of stock. Please select the E-Book edition for instant access.');
-    return;
-  }
+  const isHard = variantTitle.toLowerCase().includes('hard');
+  
   if (!btn) btn = (e && e.currentTarget) ? e.currentTarget : document.querySelector('[data-buy-button]');
   if (btn) {
     btn.style.opacity = '0.85';
@@ -5744,7 +5812,7 @@ window.executeDirectBuyNow = function(e, btn) {
     const textSpan = btn.querySelector('[data-button-text]');
     if (textSpan) textSpan.textContent = 'Redirecting to Checkout...';
   }
-  window.location.href = '/checkout';
+  window.location.href = isHard ? '/hardcopy' : '/checkout';
 };
 
 /* Instant init for ATC Transparent Pill Urgency Timer */
@@ -8818,10 +8886,8 @@ details[open] .lp6-faq-chevron {
   window.executeStickyBuyNow = function(btn) {
     const activeSwatch = document.querySelector('.luxury-swatch-card.swatch--active') || document.querySelector('.swatch--active') || document.querySelector('[data-swatch-option].selected');
     const variantTitle = activeSwatch ? (activeSwatch.dataset.swatchOption || activeSwatch.innerText.trim()) : 'E-Book';
-    if (variantTitle.toLowerCase().includes('hard') || (btn && (btn.disabled || btn.classList.contains('is-sold-out-btn') || btn.getAttribute('aria-disabled') === 'true'))) {
-      alert('The Deluxe Printed Hardcopy edition is currently out of stock. Please select the E-Book edition for instant access.');
-      return;
-    }
+    const isHard = variantTitle.toLowerCase().includes('hard');
+    
     if (!btn) btn = document.getElementById('archStickyBuyBtn');
     if (btn) {
       btn.style.opacity = '0.85';
@@ -8829,7 +8895,7 @@ details[open] .lp6-faq-chevron {
       const textSpan = btn.querySelector('.arch-sticky-btn__text');
       if (textSpan) textSpan.textContent = 'Redirecting to Checkout...';
     }
-    window.location.href = '/checkout';
+    window.location.href = isHard ? '/hardcopy' : '/checkout';
   };
 
 })();
